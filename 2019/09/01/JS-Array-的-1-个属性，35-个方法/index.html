@@ -1,1041 +1,753 @@
 <!DOCTYPE html>
-<html  lang="en">
-<head>
-    <meta charset="utf-8" />
-
-<meta name="generator" content="Hexo 3.9.0" />
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-
-<title>Hexo</title>
-
-
-    <meta name="description" content="前言这周呢，彻底学习一下 Array 的所有方法。学习地址 MDN，里面还有各个函数实现的源码！数组作为 JavaScript 的一种类型，与 Number，Boolean，Null，Undefined，Object，Symbol  齐驱并驾。了解 Array 的所有方法，能帮助我们最快找到适合自己的函数。 Create an Array创建一个数组很简单，直接赋值，或者使用 [] 创建空数组 1">
+<html lang=en>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>Hexo</title>
+  <meta name="description" content="前言这周呢，彻底学习一下 Array 的所有方法。学习地址 MDN，里面还有各个函数实现的源码！数组作为 JavaScript 的一种类型，与 Number，Boolean，Null，Undefined，Object，Symbol  齐驱并驾。了解 Array 的所有方法，能帮助我们最快找到适合自己的函数。 Create an Array创建一个数组很简单，直接赋值，或者使用 [] 创建空数组 1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://yoursite.com/2019/09/01/JS-Array-的-1-个属性，35-个方法/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="前言这周呢，彻底学习一下 Array 的所有方法。学习地址 MDN，里面还有各个函数实现的源码！数组作为 JavaScript 的一种类型，与 Number，Boolean，Null，Undefined，Object，Symbol  齐驱并驾。了解 Array 的所有方法，能帮助我们最快找到适合自己的函数。 Create an Array创建一个数组很简单，直接赋值，或者使用 [] 创建空数组 1">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://yoursite.com/images/og_image.png">
 <meta property="og:updated_time" content="2019-09-01T12:05:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
 <meta name="twitter:description" content="前言这周呢，彻底学习一下 Array 的所有方法。学习地址 MDN，里面还有各个函数实现的源码！数组作为 JavaScript 的一种类型，与 Number，Boolean，Null，Undefined，Object，Symbol  齐驱并驾。了解 Array 的所有方法，能帮助我们最快找到适合自己的函数。 Create an Array创建一个数组很简单，直接赋值，或者使用 [] 创建空数组 1">
-<meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
-
-
-
-
-
-
-
-<link rel="icon" href="/images/favicon.svg">
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
-
-
-    
-    
-    
-    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
-    
-
-    
-    
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
-    
-
-    
-    
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
-
-
-    
-    
-    
-    
-
-<link rel="stylesheet" href="/css/back-to-top.css">
-
-
-    
-    
-
-    
-    
-    
-    
-
-    
-    
-<link rel="stylesheet" href="/css/progressbar.css">
-<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
-
-    
-    
-    
-
-
-<link rel="stylesheet" href="/css/style.css">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://yoursite.com/2019/09/01/JS-Array-的-1-个属性，35-个方法/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
 </head>
-<body class="is-3-column">
-    <nav class="navbar navbar-main">
-    <div class="container">
-        <div class="navbar-brand is-flex-center">
-            <a class="navbar-item navbar-logo" href="/">
-            
-                <img src="/images/logo.svg" alt="" height="28">
-            
-            </a>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">昵称</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shenzhen, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
         </div>
-        <div class="navbar-menu">
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
             
-            <div class="navbar-start">
-                
-                <a class="navbar-item"
-                href="/">Home</a>
-                
-                <a class="navbar-item"
-                href="/archives">Archives</a>
-                
-                <a class="navbar-item"
-                href="/categories">Categories</a>
-                
-                <a class="navbar-item"
-                href="/tags">Tags</a>
-                
-                <a class="navbar-item"
-                href="/about">About</a>
-                
-            </div>
+            <i class="icon icon-home-fill"></i>
             
-            <div class="navbar-end">
-                
-                    
-                    
-                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
-                        
-                        <i class="fab fa-github"></i>
-                        
-                    </a>
-                    
-                
-                
-                
-                <a class="navbar-item search" title="Search" href="javascript:;">
-                    <i class="fas fa-search"></i>
-                </a>
-                
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
             </div>
         </div>
     </div>
-</nav>
-    
-    <section class="section">
-        <div class="container">
-            <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-09-01T12:05:58.000Z">2019-09-01</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    19 minutes read (About 2806 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                
-            
-        </h1>
-        <div class="content">
-            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>这周呢，彻底学习一下 Array 的所有方法。学习地址 MDN，里面还有各个函数实现的源码！数组作为 JavaScript 的一种类型，与 Number，Boolean，Null，Undefined，Object，Symbol  齐驱并驾。了解 Array 的所有方法，能帮助我们最快找到适合自己的函数。</p>
-<h4 id="Create-an-Array"><a href="#Create-an-Array" class="headerlink" title="Create an Array"></a>Create an Array</h4><p>创建一个数组很简单，直接赋值，或者使用 <code>[]</code> 创建空数组</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var fruits = [&apos;Apple&apos;, &apos;Banana&apos;];</span><br><span class="line">console.log(fruits.length); // 2</span><br></pre></td></tr></table></figure>
+</div>
 
-<h4 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length#" target="_blank" rel="noopener"><strong>Properties</strong></a></h4><h5 id="Array-length"><a href="#Array-length" class="headerlink" title="Array.length"></a>Array.length</h5><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var clothing = [&apos;shoes&apos;, &apos;shirts&apos;, &apos;socks&apos;, &apos;sweaters&apos;];</span><br><span class="line"></span><br><span class="line">console.log(clothing.length);</span><br><span class="line">// expected output: 4</span><br><span class="line"></span><br><span class="line">var array = new Array(2)</span><br></pre></td></tr></table></figure>
+    
+      
+
+    
+      
+
+    
+      
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2019/09/01/test-my-site/" class="title">test_my_site</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-01T12:36:39.000Z" itemprop="datePublished">2019-09-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2019/09/01/hello-world/" class="title">Hello World</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-01T12:32:35.821Z" itemprop="datePublished">2019-09-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2019/09/01/JS-Array-的-1-个属性，35-个方法/" class="title">(no title)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-01T12:05:58.000Z" itemprop="datePublished">2019-09-01</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-JS-Array-的-1-个属性，35-个方法" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/09/01/JS-Array-的-1-个属性，35-个方法/" class="article-date">
+	  <time datetime="2019-09-01T12:05:58.000Z" itemprop="datePublished">2019-09-01</time>
+	</a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/09/01/JS-Array-的-1-个属性，35-个方法/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>这周呢，彻底学习一下 Array 的所有方法。学习地址 MDN，里面还有各个函数实现的源码！数组作为 JavaScript 的一种类型，与 Number，Boolean，Null，Undefined，Object，Symbol  齐驱并驾。了解 Array 的所有方法，能帮助我们最快找到适合自己的函数。</p>
+<h4 id="Create-an-Array"><a href="#Create-an-Array" class="headerlink" title="Create an Array"></a>Create an Array</h4><p>创建一个数组很简单，直接赋值，或者使用 <code>[]</code> 创建空数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var fruits = [&apos;Apple&apos;, &apos;Banana&apos;];</span><br><span class="line">console.log(fruits.length); // 2</span><br></pre></td></tr></table></figure>
+
+<h4 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length#" target="_blank" rel="noopener"><strong>Properties</strong></a></h4><h5 id="Array-length"><a href="#Array-length" class="headerlink" title="Array.length"></a>Array.length</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var clothing = [&apos;shoes&apos;, &apos;shirts&apos;, &apos;socks&apos;, &apos;sweaters&apos;];</span><br><span class="line"></span><br><span class="line">console.log(clothing.length);</span><br><span class="line">// expected output: 4</span><br><span class="line"></span><br><span class="line">var array = new Array(2)</span><br></pre></td></tr></table></figure>
 
 <h4 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#" target="_blank" rel="noopener"><strong>Methods</strong></a></h4><p>首先看一下 Array 的三个静态方法</p>
 <p>#####1. Array.from()<br><strong>Array.from()</strong> 方法从类似数组或可迭代的对象创建一个新的，浅拷贝的 Array 实例，或者从 {length: 3} 对象中创建固定长度的 undefined 数组</p>
 <blockquote>
 <p>Array.from(arrayLike[, mapFn[, thisArg]])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">console.log(Array.from(&apos;foo&apos;));</span><br><span class="line">// expected output: Array [&quot;f&quot;, &quot;o&quot;, &quot;o&quot;]</span><br><span class="line"></span><br><span class="line">console.log(Array.from([1, 2, 3], x =&gt; x + x));</span><br><span class="line">// expected output: Array [2, 4, 6]</span><br><span class="line"></span><br><span class="line">console.log(Array.from(&#123;length: 3&#125;));</span><br><span class="line">// expected output: Array [undefined, undefined, undefined]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">console.log(Array.from(&apos;foo&apos;));</span><br><span class="line">// expected output: Array [&quot;f&quot;, &quot;o&quot;, &quot;o&quot;]</span><br><span class="line"></span><br><span class="line">console.log(Array.from([1, 2, 3], x =&gt; x + x));</span><br><span class="line">// expected output: Array [2, 4, 6]</span><br><span class="line"></span><br><span class="line">console.log(Array.from(&#123;length: 3&#125;));</span><br><span class="line">// expected output: Array [undefined, undefined, undefined]</span><br></pre></td></tr></table></figure>
 
 <h5 id="2-Array-isArray"><a href="#2-Array-isArray" class="headerlink" title="2. Array.isArray()"></a>2. Array.isArray()</h5><p><strong>Array.isArray()</strong> 方法确定传递的值是否为 Array，由于 typeof Array = ‘object’ ，所以判断是否是一个数组使用 isArray 才可以</p>
 <blockquote>
 <p>Array.isArray(value)</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Array.isArray([1, 2, 3]);  // true</span><br><span class="line">Array.isArray(&#123;foo: 123&#125;); // false</span><br><span class="line">Array.isArray(&apos;foobar&apos;);   // false</span><br><span class="line">Array.isArray(undefined);  // false</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Array.isArray([1, 2, 3]);  // true</span><br><span class="line">Array.isArray(&#123;foo: 123&#125;); // false</span><br><span class="line">Array.isArray(&apos;foobar&apos;);   // false</span><br><span class="line">Array.isArray(undefined);  // false</span><br></pre></td></tr></table></figure>
 
 <h5 id="3-Array-of"><a href="#3-Array-of" class="headerlink" title="3. Array.of()"></a>3. Array.of()</h5><p><strong>Array.of()</strong> 方法从可变数量的参数创建一个新的Array实例，无论参数的数量或类型如何<br>注意它与构造函数的不同之处</p>
 <blockquote>
 <p>Array.of(element0[, element1[, …[, elementN]]])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Array.of(7);       // [7] </span><br><span class="line">Array.of(1, 2, 3); // [1, 2, 3]</span><br><span class="line"></span><br><span class="line">Array(7);          // array of 7 empty slots</span><br><span class="line">Array(1, 2, 3);    // [1, 2, 3]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Array.of(7);       // [7] </span><br><span class="line">Array.of(1, 2, 3); // [1, 2, 3]</span><br><span class="line"></span><br><span class="line">Array(7);          // array of 7 empty slots</span><br><span class="line">Array(1, 2, 3);    // [1, 2, 3]</span><br></pre></td></tr></table></figure>
 
 <p>接下来看 Array 的对象方法</p>
 <h5 id="4-Array-prototype-concat"><a href="#4-Array-prototype-concat" class="headerlink" title="4. Array.prototype.concat()"></a>4. Array.prototype.concat()</h5><p><strong>concat()</strong> 方法用于合并两个或多个数组。 此方法不会更改现有数组，而是返回一个新数组</p>
 <blockquote>
 <p>var new_array = old_array.concat([value1[, value2[, …[, valueN]]]])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</span><br><span class="line">var array2 = [&apos;d&apos;, &apos;e&apos;, &apos;f&apos;];</span><br><span class="line"></span><br><span class="line">console.log(array1.concat(array2));</span><br><span class="line">// expected output: Array [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</span><br><span class="line">var array2 = [&apos;d&apos;, &apos;e&apos;, &apos;f&apos;];</span><br><span class="line"></span><br><span class="line">console.log(array1.concat(array2));</span><br><span class="line">// expected output: Array [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;]</span><br></pre></td></tr></table></figure>
 
 <h5 id="5-Array-prototype-copyWithin"><a href="#5-Array-prototype-copyWithin" class="headerlink" title="5. Array.prototype.copyWithin()"></a>5. Array.prototype.copyWithin()</h5><p><strong>copyWithin()</strong> 方法浅析将数组的一部分复制到同一数组中的另一个位置，并返回它而不修改其长度</p>
 <blockquote>
 <p>arr.copyWithin(target[, start[, end]])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;, &apos;e&apos;];</span><br><span class="line"></span><br><span class="line">// copy to index 0 the element at index 3</span><br><span class="line">console.log(array1.copyWithin(0, 3, 4));</span><br><span class="line">// expected output: Array [&quot;d&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]</span><br><span class="line"></span><br><span class="line">// copy to index 1 all elements from index 3 to the end</span><br><span class="line">console.log(array1.copyWithin(1, 3));</span><br><span class="line">// expected output: Array [&quot;d&quot;, &quot;d&quot;, &quot;e&quot;, &quot;d&quot;, &quot;e&quot;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;, &apos;e&apos;];</span><br><span class="line"></span><br><span class="line">// copy to index 0 the element at index 3</span><br><span class="line">console.log(array1.copyWithin(0, 3, 4));</span><br><span class="line">// expected output: Array [&quot;d&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]</span><br><span class="line"></span><br><span class="line">// copy to index 1 all elements from index 3 to the end</span><br><span class="line">console.log(array1.copyWithin(1, 3));</span><br><span class="line">// expected output: Array [&quot;d&quot;, &quot;d&quot;, &quot;e&quot;, &quot;d&quot;, &quot;e&quot;]</span><br></pre></td></tr></table></figure>
 
 <h5 id="6-Array-prototype-entries"><a href="#6-Array-prototype-entries" class="headerlink" title="6. Array.prototype.entries()"></a>6. Array.prototype.entries()</h5><p><strong>entries()</strong> 方法返回一个新的Array Iterator对象，该对象包含数组中每个索引的键/值对。</p>
 <blockquote>
 <p>array.entries()</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</span><br><span class="line"></span><br><span class="line">var iterator1 = array1.entries();</span><br><span class="line"></span><br><span class="line">console.log(iterator1.next().value);</span><br><span class="line">// expected output: Array [0, &quot;a&quot;]</span><br><span class="line"></span><br><span class="line">console.log(iterator1.next().value);</span><br><span class="line">// expected output: Array [1, &quot;b&quot;]</span><br><span class="line"></span><br><span class="line">// 使用 for of 遍历</span><br><span class="line">var a = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</span><br><span class="line">var iterator = a.entries();</span><br><span class="line"></span><br><span class="line">for (let e of iterator) &#123;</span><br><span class="line">  console.log(e);</span><br><span class="line">&#125;</span><br><span class="line">// [0, &apos;a&apos;]</span><br><span class="line">// [1, &apos;b&apos;]</span><br><span class="line">// [2, &apos;c&apos;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</span><br><span class="line"></span><br><span class="line">var iterator1 = array1.entries();</span><br><span class="line"></span><br><span class="line">console.log(iterator1.next().value);</span><br><span class="line">// expected output: Array [0, &quot;a&quot;]</span><br><span class="line"></span><br><span class="line">console.log(iterator1.next().value);</span><br><span class="line">// expected output: Array [1, &quot;b&quot;]</span><br><span class="line"></span><br><span class="line">// 使用 for of 遍历</span><br><span class="line">var a = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</span><br><span class="line">var iterator = a.entries();</span><br><span class="line"></span><br><span class="line">for (let e of iterator) &#123;</span><br><span class="line">  console.log(e);</span><br><span class="line">&#125;</span><br><span class="line">// [0, &apos;a&apos;]</span><br><span class="line">// [1, &apos;b&apos;]</span><br><span class="line">// [2, &apos;c&apos;]</span><br></pre></td></tr></table></figure>
 
 <h5 id="7-Array-prototype-every"><a href="#7-Array-prototype-every" class="headerlink" title="7. Array.prototype.every()"></a>7. Array.prototype.every()</h5><p><strong>every()</strong> 方法测试数组中的所有元素是否都通过了由提供的函数实现的测试。 它返回一个布尔值</p>
 <blockquote>
 <p>arr.every(callback(element[, index[, array]])[, thisArg])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function isBelowThreshold(currentValue) &#123;</span><br><span class="line">  return currentValue &lt; 40;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var array1 = [1, 30, 39, 29, 10, 13];</span><br><span class="line"></span><br><span class="line">console.log(array1.every(isBelowThreshold));</span><br><span class="line">// expected output: true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function isBelowThreshold(currentValue) &#123;</span><br><span class="line">  return currentValue &lt; 40;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var array1 = [1, 30, 39, 29, 10, 13];</span><br><span class="line"></span><br><span class="line">console.log(array1.every(isBelowThreshold));</span><br><span class="line">// expected output: true</span><br></pre></td></tr></table></figure>
 
 <h5 id="8-Array-prototype-fill"><a href="#8-Array-prototype-fill" class="headerlink" title="8. Array.prototype.fill()"></a>8. Array.prototype.fill()</h5><p><strong>fill()</strong> 方法使用静态值从开始索引（默认为零）到结束索引（默认数组长度）填充（修改）数组的所有元素。 它返回修改后的数组，原数组会改变～</p>
 <blockquote>
 <p>arr.fill(value[, start[, end]])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> var array1 = [1, 2, 3, 4];</span><br><span class="line"></span><br><span class="line">// fill with 0 from position 2 until position 4</span><br><span class="line">console.log(array1.fill(0, 2, 4));</span><br><span class="line">// expected output: [1, 2, 0, 0]</span><br><span class="line"></span><br><span class="line">// fill with 5 from position 1</span><br><span class="line">console.log(array1.fill(5, 1));</span><br><span class="line">// expected output: [1, 5, 5, 5]</span><br><span class="line"></span><br><span class="line">console.log(array1.fill(6));</span><br><span class="line">// expected output: [6, 6, 6, 6]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> var array1 = [1, 2, 3, 4];</span><br><span class="line"></span><br><span class="line">// fill with 0 from position 2 until position 4</span><br><span class="line">console.log(array1.fill(0, 2, 4));</span><br><span class="line">// expected output: [1, 2, 0, 0]</span><br><span class="line"></span><br><span class="line">// fill with 5 from position 1</span><br><span class="line">console.log(array1.fill(5, 1));</span><br><span class="line">// expected output: [1, 5, 5, 5]</span><br><span class="line"></span><br><span class="line">console.log(array1.fill(6));</span><br><span class="line">// expected output: [6, 6, 6, 6]</span><br></pre></td></tr></table></figure>
 
 <h5 id="9-Array-prototype-filter"><a href="#9-Array-prototype-filter" class="headerlink" title="9.  Array.prototype.filter()"></a>9.  Array.prototype.filter()</h5><p><strong>filter()</strong> 方法创建一个新数组，其中包含所有传递由提供的函数实现的测试的元素</p>
 <blockquote>
 <p>var newArray = arr.filter(callback(element[, index[, array]])[, thisArg])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var words = [&apos;spray&apos;, &apos;limit&apos;, &apos;elite&apos;, &apos;exuberant&apos;, &apos;destruction&apos;, &apos;present&apos;];</span><br><span class="line"></span><br><span class="line">const result = words.filter(word =&gt; word.length &gt; 6);</span><br><span class="line"></span><br><span class="line">console.log(result);</span><br><span class="line">// expected output: Array [&quot;exuberant&quot;, &quot;destruction&quot;, &quot;present&quot;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var words = [&apos;spray&apos;, &apos;limit&apos;, &apos;elite&apos;, &apos;exuberant&apos;, &apos;destruction&apos;, &apos;present&apos;];</span><br><span class="line"></span><br><span class="line">const result = words.filter(word =&gt; word.length &gt; 6);</span><br><span class="line"></span><br><span class="line">console.log(result);</span><br><span class="line">// expected output: Array [&quot;exuberant&quot;, &quot;destruction&quot;, &quot;present&quot;]</span><br></pre></td></tr></table></figure>
 
 <h5 id="10-Array-prototype-find"><a href="#10-Array-prototype-find" class="headerlink" title="10. Array.prototype.find()"></a>10. Array.prototype.find()</h5><p><strong>find()</strong> 方法返回数组中第一个满足提供的测试函数的元素的值。 否则返回undefined</p>
 <blockquote>
 <p>arr.find(callback(element[, index[, array]])[, thisArg])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [5, 12, 8, 130, 44];</span><br><span class="line"></span><br><span class="line">var found = array1.find(function(element) &#123;</span><br><span class="line">  return element &gt; 10;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(found);</span><br><span class="line">// expected output: 12</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [5, 12, 8, 130, 44];</span><br><span class="line"></span><br><span class="line">var found = array1.find(function(element) &#123;</span><br><span class="line">  return element &gt; 10;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(found);</span><br><span class="line">// expected output: 12</span><br></pre></td></tr></table></figure>
 
 <h5 id="11-Array-prototype-findIndex"><a href="#11-Array-prototype-findIndex" class="headerlink" title="11. Array.prototype.findIndex()"></a>11. Array.prototype.findIndex()</h5><p><strong>findIndex()</strong> 方法返回数组中第一个满足提供的测试函数的元素的索引。 否则，它返回-1，表示没有元素通过测试</p>
 <blockquote>
 <p>arr.findIndex(callback(element[, index[, array]])[, thisArg])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [5, 12, 8, 130, 44];</span><br><span class="line"></span><br><span class="line">function isLargeNumber(element) &#123;</span><br><span class="line">  return element &gt; 13;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(array1.findIndex(isLargeNumber));</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [5, 12, 8, 130, 44];</span><br><span class="line"></span><br><span class="line">function isLargeNumber(element) &#123;</span><br><span class="line">  return element &gt; 13;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(array1.findIndex(isLargeNumber));</span><br></pre></td></tr></table></figure>
 
 <h5 id="12-Array-prototype-flat"><a href="#12-Array-prototype-flat" class="headerlink" title="12. Array.prototype.flat()"></a>12. Array.prototype.flat()</h5><p><strong>flat()</strong> 方法创建一个新数组，所有子数组元素以递归方式连接到指定的深度。</p>
 <blockquote>
 <p>var newArray = arr.flat([depth]);</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var arr1 = [1, 2, [3, 4]];</span><br><span class="line">arr1.flat(); </span><br><span class="line">// [1, 2, 3, 4]</span><br><span class="line"></span><br><span class="line">var arr2 = [1, 2, [3, 4, [5, 6]]];</span><br><span class="line">arr2.flat();</span><br><span class="line">// [1, 2, 3, 4, [5, 6]]</span><br><span class="line"></span><br><span class="line">var arr3 = [1, 2, [3, 4, [5, 6]]];</span><br><span class="line">arr3.flat(2);</span><br><span class="line">// [1, 2, 3, 4, 5, 6]</span><br><span class="line"></span><br><span class="line">var arr4 = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];</span><br><span class="line">arr4.flat(Infinity);</span><br><span class="line">// [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var arr1 = [1, 2, [3, 4]];</span><br><span class="line">arr1.flat(); </span><br><span class="line">// [1, 2, 3, 4]</span><br><span class="line"></span><br><span class="line">var arr2 = [1, 2, [3, 4, [5, 6]]];</span><br><span class="line">arr2.flat();</span><br><span class="line">// [1, 2, 3, 4, [5, 6]]</span><br><span class="line"></span><br><span class="line">var arr3 = [1, 2, [3, 4, [5, 6]]];</span><br><span class="line">arr3.flat(2);</span><br><span class="line">// [1, 2, 3, 4, 5, 6]</span><br><span class="line"></span><br><span class="line">var arr4 = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];</span><br><span class="line">arr4.flat(Infinity);</span><br><span class="line">// [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</span><br></pre></td></tr></table></figure>
 
 <h5 id="13-Array-prototype-flatMap"><a href="#13-Array-prototype-flatMap" class="headerlink" title="13. Array.prototype.flatMap()"></a>13. Array.prototype.flatMap()</h5><p><strong>flatMap()</strong> 方法首先使用映射函数映射每个元素，然后将结果展平为新数组。 它与map（）后跟深度为1的flat（）相同，但flatMap（）通常非常有用，因为将两者合并到一个方法中效率稍高</p>
 <blockquote>
 <p>var new_array = arr.flatMap(function callback(currentValue[, index[, array]]) {<br>    // return element for new_array<br>}[, thisArg])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let arr1 = [&quot;it&apos;s Sunny in&quot;, &quot;&quot;, &quot;California&quot;];</span><br><span class="line"></span><br><span class="line">arr1.map(x =&gt; x.split(&quot; &quot;));</span><br><span class="line">// [[&quot;it&apos;s&quot;,&quot;Sunny&quot;,&quot;in&quot;],[&quot;&quot;],[&quot;California&quot;]]</span><br><span class="line"></span><br><span class="line">arr1.flatMap(x =&gt; x.split(&quot; &quot;));</span><br><span class="line">// [&quot;it&apos;s&quot;,&quot;Sunny&quot;,&quot;in&quot;, &quot;&quot;, &quot;California&quot;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let arr1 = [&quot;it&apos;s Sunny in&quot;, &quot;&quot;, &quot;California&quot;];</span><br><span class="line"></span><br><span class="line">arr1.map(x =&gt; x.split(&quot; &quot;));</span><br><span class="line">// [[&quot;it&apos;s&quot;,&quot;Sunny&quot;,&quot;in&quot;],[&quot;&quot;],[&quot;California&quot;]]</span><br><span class="line"></span><br><span class="line">arr1.flatMap(x =&gt; x.split(&quot; &quot;));</span><br><span class="line">// [&quot;it&apos;s&quot;,&quot;Sunny&quot;,&quot;in&quot;, &quot;&quot;, &quot;California&quot;]</span><br></pre></td></tr></table></figure>
 
 <h5 id="14-Array-prototype-forEach"><a href="#14-Array-prototype-forEach" class="headerlink" title="14. Array.prototype.forEach()"></a>14. Array.prototype.forEach()</h5><p><strong>forEach()</strong> 方法为每个数组元素执行一次提供的函数</p>
 <blockquote>
 <p>arr.forEach(callback(currentValue [, index [, array]])[, thisArg]);</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</span><br><span class="line"></span><br><span class="line">array1.forEach(function(element) &#123;</span><br><span class="line">  console.log(element);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// expected output: &quot;a&quot;</span><br><span class="line">// expected output: &quot;b&quot;</span><br><span class="line">// expected output: &quot;c&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</span><br><span class="line"></span><br><span class="line">array1.forEach(function(element) &#123;</span><br><span class="line">  console.log(element);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// expected output: &quot;a&quot;</span><br><span class="line">// expected output: &quot;b&quot;</span><br><span class="line">// expected output: &quot;c&quot;</span><br></pre></td></tr></table></figure>
 
 <h5 id="15-Array-prototype-includes"><a href="#15-Array-prototype-includes" class="headerlink" title="15. Array.prototype.includes()"></a>15. Array.prototype.includes()</h5><p><strong>includes()</strong> 方法确定数组是否在其条目中包含某个值，并在适当时返回true或false</p>
 <blockquote>
 <p>arr.includes(valueToFind[, fromIndex])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [1, 2, 3];</span><br><span class="line"></span><br><span class="line">console.log(array1.includes(2));</span><br><span class="line">// expected output: true</span><br><span class="line"></span><br><span class="line">var pets = [&apos;cat&apos;, &apos;dog&apos;, &apos;bat&apos;];</span><br><span class="line"></span><br><span class="line">console.log(pets.includes(&apos;cat&apos;));</span><br><span class="line">// expected output: true</span><br><span class="line"></span><br><span class="line">console.log(pets.includes(&apos;at&apos;));</span><br><span class="line">// expected output: false</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [1, 2, 3];</span><br><span class="line"></span><br><span class="line">console.log(array1.includes(2));</span><br><span class="line">// expected output: true</span><br><span class="line"></span><br><span class="line">var pets = [&apos;cat&apos;, &apos;dog&apos;, &apos;bat&apos;];</span><br><span class="line"></span><br><span class="line">console.log(pets.includes(&apos;cat&apos;));</span><br><span class="line">// expected output: true</span><br><span class="line"></span><br><span class="line">console.log(pets.includes(&apos;at&apos;));</span><br><span class="line">// expected output: false</span><br></pre></td></tr></table></figure>
 
 <h5 id="16-Array-prototype-indexOf"><a href="#16-Array-prototype-indexOf" class="headerlink" title="16. Array.prototype.indexOf()"></a>16. Array.prototype.indexOf()</h5><p><strong>indexOf()</strong> 方法返回可在数组中找到给定元素的第一个索引，如果不存在则返回-1</p>
 <blockquote>
 <p>arr.indexOf(searchElement[, fromIndex])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var beasts = [&apos;ant&apos;, &apos;bison&apos;, &apos;camel&apos;, &apos;duck&apos;, &apos;bison&apos;];</span><br><span class="line"></span><br><span class="line">console.log(beasts.indexOf(&apos;bison&apos;));</span><br><span class="line">// expected output: 1</span><br><span class="line"></span><br><span class="line">// start from index 2</span><br><span class="line">console.log(beasts.indexOf(&apos;bison&apos;, 2));</span><br><span class="line">// expected output: 4</span><br><span class="line"></span><br><span class="line">console.log(beasts.indexOf(&apos;giraffe&apos;));</span><br><span class="line">// expected output: -1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var beasts = [&apos;ant&apos;, &apos;bison&apos;, &apos;camel&apos;, &apos;duck&apos;, &apos;bison&apos;];</span><br><span class="line"></span><br><span class="line">console.log(beasts.indexOf(&apos;bison&apos;));</span><br><span class="line">// expected output: 1</span><br><span class="line"></span><br><span class="line">// start from index 2</span><br><span class="line">console.log(beasts.indexOf(&apos;bison&apos;, 2));</span><br><span class="line">// expected output: 4</span><br><span class="line"></span><br><span class="line">console.log(beasts.indexOf(&apos;giraffe&apos;));</span><br><span class="line">// expected output: -1</span><br></pre></td></tr></table></figure>
 
 <h5 id="17-Array-prototype-join"><a href="#17-Array-prototype-join" class="headerlink" title="17. Array.prototype.join()"></a>17. Array.prototype.join()</h5><p><strong>join()</strong> 方法通过连接数组（或类数组对象）中的所有元素（用逗号或指定的分隔符字符串分隔）来创建并返回一个新字符串。 如果数组只有一个项目，那么将返回该项目而不使用分隔符</p>
 <blockquote>
 <p>arr.join([separator])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ar elements = [&apos;Fire&apos;, &apos;Air&apos;, &apos;Water&apos;];</span><br><span class="line"></span><br><span class="line">console.log(elements.join());</span><br><span class="line">// expected output: &quot;Fire,Air,Water&quot;</span><br><span class="line"></span><br><span class="line">console.log(elements.join(&apos;&apos;));</span><br><span class="line">// expected output: &quot;FireAirWater&quot;</span><br><span class="line"></span><br><span class="line">console.log(elements.join(&apos;-&apos;));</span><br><span class="line">// expected output: &quot;Fire-Air-Water&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ar elements = [&apos;Fire&apos;, &apos;Air&apos;, &apos;Water&apos;];</span><br><span class="line"></span><br><span class="line">console.log(elements.join());</span><br><span class="line">// expected output: &quot;Fire,Air,Water&quot;</span><br><span class="line"></span><br><span class="line">console.log(elements.join(&apos;&apos;));</span><br><span class="line">// expected output: &quot;FireAirWater&quot;</span><br><span class="line"></span><br><span class="line">console.log(elements.join(&apos;-&apos;));</span><br><span class="line">// expected output: &quot;Fire-Air-Water&quot;</span><br></pre></td></tr></table></figure>
 
 <h5 id="18-Array-prototype-keys"><a href="#18-Array-prototype-keys" class="headerlink" title="18. Array.prototype.keys()"></a>18. Array.prototype.keys()</h5><p><strong>keys()</strong> 方法返回一个新的Array Iterator对象，该对象包含数组中每个索引的键</p>
 <blockquote>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</span><br><span class="line">var iterator = array1.keys(); </span><br><span class="line">  </span><br><span class="line">for (let key of iterator) &#123;</span><br><span class="line">  console.log(key); // expected output: 0 1 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</span><br><span class="line">var iterator = array1.keys(); </span><br><span class="line">  </span><br><span class="line">for (let key of iterator) &#123;</span><br><span class="line">  console.log(key); // expected output: 0 1 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h5 id="19-Array-prototype-lastIndexOf"><a href="#19-Array-prototype-lastIndexOf" class="headerlink" title="19. Array.prototype.lastIndexOf()"></a>19. Array.prototype.lastIndexOf()</h5><p><strong>lastIndexOf()</strong> 方法返回可在数组中找到给定元素的最后一个索引，如果不存在则返回-1。 从fromIndex开始向后搜索数组</p>
 <blockquote>
 <p>arr.lastIndexOf(searchElement[, fromIndex])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var animals = [&apos;Dodo&apos;, &apos;Tiger&apos;, &apos;Penguin&apos;, &apos;Dodo&apos;];</span><br><span class="line"></span><br><span class="line">console.log(animals.lastIndexOf(&apos;Dodo&apos;));</span><br><span class="line">// expected output: 3</span><br><span class="line"></span><br><span class="line">console.log(animals.lastIndexOf(&apos;Penguin&apos;, 1));</span><br><span class="line">// expected output: -1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var animals = [&apos;Dodo&apos;, &apos;Tiger&apos;, &apos;Penguin&apos;, &apos;Dodo&apos;];</span><br><span class="line"></span><br><span class="line">console.log(animals.lastIndexOf(&apos;Dodo&apos;));</span><br><span class="line">// expected output: 3</span><br><span class="line"></span><br><span class="line">console.log(animals.lastIndexOf(&apos;Penguin&apos;, 1));</span><br><span class="line">// expected output: -1</span><br></pre></td></tr></table></figure>
 
 <h5 id="20-Array-prototype-map"><a href="#20-Array-prototype-map" class="headerlink" title="20. Array.prototype.map()"></a>20. Array.prototype.map()</h5><p><strong>map()</strong> 方法创建一个新数组，其结果是在调用数组中的每个元素上调用提供的函数</p>
 <blockquote>
 <p>var new_array = arr.map(function callback(currentValue[, index[, array]]) {<br>    // Return element for new_array<br>}[, thisArg])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [1, 4, 9, 16];</span><br><span class="line"></span><br><span class="line">// pass a function to map</span><br><span class="line">const map1 = array1.map(x =&gt; x * 2);</span><br><span class="line"></span><br><span class="line">console.log(map1);</span><br><span class="line">// expected output: Array [2, 8, 18, 32]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [1, 4, 9, 16];</span><br><span class="line"></span><br><span class="line">// pass a function to map</span><br><span class="line">const map1 = array1.map(x =&gt; x * 2);</span><br><span class="line"></span><br><span class="line">console.log(map1);</span><br><span class="line">// expected output: Array [2, 8, 18, 32]</span><br></pre></td></tr></table></figure>
 
 <h5 id="21-Array-prototype-pop"><a href="#21-Array-prototype-pop" class="headerlink" title="21. Array.prototype.pop()"></a>21. Array.prototype.pop()</h5><p><strong>pop()</strong> 方法从数组中删除最后一个元素并返回该元素。 此方法更改数组的长度。</p>
 <blockquote>
 <p>arr.pop()</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var plants = [&apos;broccoli&apos;, &apos;cauliflower&apos;, &apos;cabbage&apos;, &apos;kale&apos;, &apos;tomato&apos;];</span><br><span class="line"></span><br><span class="line">console.log(plants.pop());</span><br><span class="line">// expected output: &quot;tomato&quot;</span><br><span class="line"></span><br><span class="line">console.log(plants);</span><br><span class="line">// expected output: Array [&quot;broccoli&quot;, &quot;cauliflower&quot;, &quot;cabbage&quot;, &quot;kale&quot;]</span><br><span class="line"></span><br><span class="line">plants.pop();</span><br><span class="line"></span><br><span class="line">console.log(plants);</span><br><span class="line">// expected output: Array [&quot;broccoli&quot;, &quot;cauliflower&quot;, &quot;cabbage&quot;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var plants = [&apos;broccoli&apos;, &apos;cauliflower&apos;, &apos;cabbage&apos;, &apos;kale&apos;, &apos;tomato&apos;];</span><br><span class="line"></span><br><span class="line">console.log(plants.pop());</span><br><span class="line">// expected output: &quot;tomato&quot;</span><br><span class="line"></span><br><span class="line">console.log(plants);</span><br><span class="line">// expected output: Array [&quot;broccoli&quot;, &quot;cauliflower&quot;, &quot;cabbage&quot;, &quot;kale&quot;]</span><br><span class="line"></span><br><span class="line">plants.pop();</span><br><span class="line"></span><br><span class="line">console.log(plants);</span><br><span class="line">// expected output: Array [&quot;broccoli&quot;, &quot;cauliflower&quot;, &quot;cabbage&quot;]</span><br></pre></td></tr></table></figure>
 
 <h5 id="22-Array-prototype-push"><a href="#22-Array-prototype-push" class="headerlink" title="22. Array.prototype.push()"></a>22. Array.prototype.push()</h5><p><strong>push()</strong> 方法将一个或多个元素添加到数组的末尾，并返回数组的新长度</p>
 <blockquote>
 <p>arr.push(element1[, …[, elementN]])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var animals = [&apos;pigs&apos;, &apos;goats&apos;, &apos;sheep&apos;];</span><br><span class="line"></span><br><span class="line">console.log(animals.push(&apos;cows&apos;));</span><br><span class="line">// expected output: 4</span><br><span class="line"></span><br><span class="line">console.log(animals);</span><br><span class="line">// expected output: Array [&quot;pigs&quot;, &quot;goats&quot;, &quot;sheep&quot;, &quot;cows&quot;]</span><br><span class="line"></span><br><span class="line">animals.push(&apos;chickens&apos;);</span><br><span class="line"></span><br><span class="line">console.log(animals);</span><br><span class="line">// expected output: Array [&quot;pigs&quot;, &quot;goats&quot;, &quot;sheep&quot;, &quot;cows&quot;, &quot;chickens&quot;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var animals = [&apos;pigs&apos;, &apos;goats&apos;, &apos;sheep&apos;];</span><br><span class="line"></span><br><span class="line">console.log(animals.push(&apos;cows&apos;));</span><br><span class="line">// expected output: 4</span><br><span class="line"></span><br><span class="line">console.log(animals);</span><br><span class="line">// expected output: Array [&quot;pigs&quot;, &quot;goats&quot;, &quot;sheep&quot;, &quot;cows&quot;]</span><br><span class="line"></span><br><span class="line">animals.push(&apos;chickens&apos;);</span><br><span class="line"></span><br><span class="line">console.log(animals);</span><br><span class="line">// expected output: Array [&quot;pigs&quot;, &quot;goats&quot;, &quot;sheep&quot;, &quot;cows&quot;, &quot;chickens&quot;]</span><br></pre></td></tr></table></figure>
 
 <h5 id="23-Array-prototype-reduce"><a href="#23-Array-prototype-reduce" class="headerlink" title="23. Array.prototype.reduce()"></a>23. Array.prototype.reduce()</h5><p><strong>reduce()</strong> 方法在数组的每个元素上执行reducer函数（您提供），从而产生单个输出值</p>
 <blockquote>
 <p>arr.reduce(callback(accumulator, currentValue[, index[, array]])[, initialValue])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const array1 = [1, 2, 3, 4];</span><br><span class="line">const reducer = (accumulator, currentValue) =&gt; accumulator + currentValue;</span><br><span class="line"></span><br><span class="line">// 1 + 2 + 3 + 4</span><br><span class="line">console.log(array1.reduce(reducer));</span><br><span class="line">// expected output: 10</span><br><span class="line"></span><br><span class="line">// 5 + 1 + 2 + 3 + 4</span><br><span class="line">console.log(array1.reduce(reducer, 5));</span><br><span class="line">// expected output: 15</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const array1 = [1, 2, 3, 4];</span><br><span class="line">const reducer = (accumulator, currentValue) =&gt; accumulator + currentValue;</span><br><span class="line"></span><br><span class="line">// 1 + 2 + 3 + 4</span><br><span class="line">console.log(array1.reduce(reducer));</span><br><span class="line">// expected output: 10</span><br><span class="line"></span><br><span class="line">// 5 + 1 + 2 + 3 + 4</span><br><span class="line">console.log(array1.reduce(reducer, 5));</span><br><span class="line">// expected output: 15</span><br></pre></td></tr></table></figure>
 
 <h5 id="24-Array-prototype-reduceRight"><a href="#24-Array-prototype-reduceRight" class="headerlink" title="24. Array.prototype.reduceRight()"></a>24. Array.prototype.reduceRight()</h5><p><strong>reduceRight()</strong> 方法对累加器和数组的每个值（从右到左）应用函数以将其减少为单个值</p>
 <blockquote>
 <p>arr.reduceRight(callback(accumulator, currentValue[, index[, array]])[, initialValue])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const array1 = [[0, 1], [2, 3], [4, 5]].reduceRight(</span><br><span class="line">  (accumulator, currentValue) =&gt; accumulator.concat(currentValue)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">console.log(array1);</span><br><span class="line">// expected output: Array [4, 5, 2, 3, 0, 1]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const array1 = [[0, 1], [2, 3], [4, 5]].reduceRight(</span><br><span class="line">  (accumulator, currentValue) =&gt; accumulator.concat(currentValue)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">console.log(array1);</span><br><span class="line">// expected output: Array [4, 5, 2, 3, 0, 1]</span><br></pre></td></tr></table></figure>
 
 <h5 id="25-Array-prototype-reverse"><a href="#25-Array-prototype-reverse" class="headerlink" title="25. Array.prototype.reverse()"></a>25. Array.prototype.reverse()</h5><p><strong>reverse()</strong> 方法将数组反转到位。 第一个数组元素成为最后一个，最后一个数组元素成为第一个</p>
 <blockquote>
 <p>a.reverse()</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [&apos;one&apos;, &apos;two&apos;, &apos;three&apos;];</span><br><span class="line">console.log(&apos;array1: &apos;, array1);</span><br><span class="line">// expected output: Array [&apos;one&apos;, &apos;two&apos;, &apos;three&apos;]</span><br><span class="line"></span><br><span class="line">var reversed = array1.reverse(); </span><br><span class="line">console.log(&apos;reversed: &apos;, reversed);</span><br><span class="line">// expected output: Array [&apos;three&apos;, &apos;two&apos;, &apos;one&apos;]</span><br><span class="line"></span><br><span class="line">/* Careful: reverse is destructive. It also changes</span><br><span class="line">the original array */ </span><br><span class="line">console.log(&apos;array1: &apos;, array1);</span><br><span class="line">// expected output: Array [&apos;three&apos;, &apos;two&apos;, &apos;one&apos;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [&apos;one&apos;, &apos;two&apos;, &apos;three&apos;];</span><br><span class="line">console.log(&apos;array1: &apos;, array1);</span><br><span class="line">// expected output: Array [&apos;one&apos;, &apos;two&apos;, &apos;three&apos;]</span><br><span class="line"></span><br><span class="line">var reversed = array1.reverse(); </span><br><span class="line">console.log(&apos;reversed: &apos;, reversed);</span><br><span class="line">// expected output: Array [&apos;three&apos;, &apos;two&apos;, &apos;one&apos;]</span><br><span class="line"></span><br><span class="line">/* Careful: reverse is destructive. It also changes</span><br><span class="line">the original array */ </span><br><span class="line">console.log(&apos;array1: &apos;, array1);</span><br><span class="line">// expected output: Array [&apos;three&apos;, &apos;two&apos;, &apos;one&apos;]</span><br></pre></td></tr></table></figure>
 
 <h5 id="26-Array-prototype-shift"><a href="#26-Array-prototype-shift" class="headerlink" title="26. Array.prototype.shift()"></a>26. Array.prototype.shift()</h5><p><strong>shift()</strong> 方法从数组中删除第一个元素并返回已删除的元素。 此方法更改数组的长度</p>
 <blockquote>
 <p>arr.shift()</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [1, 2, 3];</span><br><span class="line"></span><br><span class="line">var firstElement = array1.shift();</span><br><span class="line"></span><br><span class="line">console.log(array1);</span><br><span class="line">// expected output: Array [2, 3]</span><br><span class="line"></span><br><span class="line">console.log(firstElement);</span><br><span class="line">// expected output: 1</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [1, 2, 3];</span><br><span class="line"></span><br><span class="line">var firstElement = array1.shift();</span><br><span class="line"></span><br><span class="line">console.log(array1);</span><br><span class="line">// expected output: Array [2, 3]</span><br><span class="line"></span><br><span class="line">console.log(firstElement);</span><br><span class="line">// expected output: 1</span><br></pre></td></tr></table></figure>
 
 <h5 id="27-Array-prototype-slice"><a href="#27-Array-prototype-slice" class="headerlink" title="27. Array.prototype.slice()"></a>27. Array.prototype.slice()</h5><p><strong>slice()</strong> 方法将数组的一部分的浅表副本返回到从头到尾选择的新数组对象（不包括结尾），其中begin和end表示该数组中项的索引。 原始数组不会被修改</p>
 <blockquote>
 <p>arr.slice([begin[, end]])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var animals = [&apos;ant&apos;, &apos;bison&apos;, &apos;camel&apos;, &apos;duck&apos;, &apos;elephant&apos;];</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(2));</span><br><span class="line">// expected output: Array [&quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(2, 4));</span><br><span class="line">// expected output: Array [&quot;camel&quot;, &quot;duck&quot;]</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(1, 5));</span><br><span class="line">// expected output: Array [&quot;bison&quot;, &quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var animals = [&apos;ant&apos;, &apos;bison&apos;, &apos;camel&apos;, &apos;duck&apos;, &apos;elephant&apos;];</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(2));</span><br><span class="line">// expected output: Array [&quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(2, 4));</span><br><span class="line">// expected output: Array [&quot;camel&quot;, &quot;duck&quot;]</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(1, 5));</span><br><span class="line">// expected output: Array [&quot;bison&quot;, &quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]</span><br></pre></td></tr></table></figure>
 
 <h5 id="28-Array-prototype-some"><a href="#28-Array-prototype-some" class="headerlink" title="28. # Array.prototype.some()"></a>28. # Array.prototype.some()</h5><p><strong>some()</strong> 方法测试数组中是否至少有一个元素通过了由提供的函数实现的测试。 它返回一个布尔值</p>
 <blockquote>
 <p>arr.some(callback(element[, index[, array]])[, thisArg])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var array = [1, 2, 3, 4, 5];</span><br><span class="line"></span><br><span class="line">var even = function(element) &#123;</span><br><span class="line">  // checks whether an element is even</span><br><span class="line">  return element % 2 === 0;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">console.log(array.some(even));</span><br><span class="line">// expected output: true</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var array = [1, 2, 3, 4, 5];</span><br><span class="line"></span><br><span class="line">var even = function(element) &#123;</span><br><span class="line">  // checks whether an element is even</span><br><span class="line">  return element % 2 === 0;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">console.log(array.some(even));</span><br><span class="line">// expected output: true</span><br></pre></td></tr></table></figure>
 
 <h5 id="29-Array-prototype-sort"><a href="#29-Array-prototype-sort" class="headerlink" title="29. Array.prototype.sort()"></a>29. Array.prototype.sort()</h5><p><strong>sort()</strong> 方法对数组中的元素进行排序并返回已排序的数组。 默认排序顺序是在将元素转换为字符串，然后比较它们的UTF-16代码单元值序列时构建的。</p>
 <p>由于取决于实现，因此无法保证排序的时间和空间复杂性。</p>
 <blockquote>
 <p>arr.sort([compareFunction])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var months = [&apos;March&apos;, &apos;Jan&apos;, &apos;Feb&apos;, &apos;Dec&apos;];</span><br><span class="line">months.sort();</span><br><span class="line">console.log(months);</span><br><span class="line">// expected output: Array [&quot;Dec&quot;, &quot;Feb&quot;, &quot;Jan&quot;, &quot;March&quot;]</span><br><span class="line"></span><br><span class="line">var array1 = [1, 30, 4, 21, 100000];</span><br><span class="line">array1.sort();</span><br><span class="line">console.log(array1);</span><br><span class="line">// expected output: Array [1, 100000, 21, 30, 4]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var months = [&apos;March&apos;, &apos;Jan&apos;, &apos;Feb&apos;, &apos;Dec&apos;];</span><br><span class="line">months.sort();</span><br><span class="line">console.log(months);</span><br><span class="line">// expected output: Array [&quot;Dec&quot;, &quot;Feb&quot;, &quot;Jan&quot;, &quot;March&quot;]</span><br><span class="line"></span><br><span class="line">var array1 = [1, 30, 4, 21, 100000];</span><br><span class="line">array1.sort();</span><br><span class="line">console.log(array1);</span><br><span class="line">// expected output: Array [1, 100000, 21, 30, 4]</span><br></pre></td></tr></table></figure>
 
 <h5 id="30-Array-prototype-splice"><a href="#30-Array-prototype-splice" class="headerlink" title="30. Array.prototype.splice()"></a>30. Array.prototype.splice()</h5><p><strong>splice()</strong> 方法通过删除或替换现有元素和/或在适当位置添加新元素来更改数组的内容</p>
 <blockquote>
 <p>var arrDeletedItems = array.splice(start[, deleteCount[, item1[, item2[, …]]]])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var months = [&apos;Jan&apos;, &apos;March&apos;, &apos;April&apos;, &apos;June&apos;];</span><br><span class="line">months.splice(1, 0, &apos;Feb&apos;);</span><br><span class="line">// inserts at index 1</span><br><span class="line">console.log(months);</span><br><span class="line">// expected output: Array [&apos;Jan&apos;, &apos;Feb&apos;, &apos;March&apos;, &apos;April&apos;, &apos;June&apos;]</span><br><span class="line"></span><br><span class="line">months.splice(4, 1, &apos;May&apos;);</span><br><span class="line">// replaces 1 element at index 4</span><br><span class="line">console.log(months);</span><br><span class="line">// expected output: Array [&apos;Jan&apos;, &apos;Feb&apos;, &apos;March&apos;, &apos;April&apos;, &apos;May&apos;]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var months = [&apos;Jan&apos;, &apos;March&apos;, &apos;April&apos;, &apos;June&apos;];</span><br><span class="line">months.splice(1, 0, &apos;Feb&apos;);</span><br><span class="line">// inserts at index 1</span><br><span class="line">console.log(months);</span><br><span class="line">// expected output: Array [&apos;Jan&apos;, &apos;Feb&apos;, &apos;March&apos;, &apos;April&apos;, &apos;June&apos;]</span><br><span class="line"></span><br><span class="line">months.splice(4, 1, &apos;May&apos;);</span><br><span class="line">// replaces 1 element at index 4</span><br><span class="line">console.log(months);</span><br><span class="line">// expected output: Array [&apos;Jan&apos;, &apos;Feb&apos;, &apos;March&apos;, &apos;April&apos;, &apos;May&apos;]</span><br></pre></td></tr></table></figure>
 
 <h5 id="31-Array-prototype-unshift"><a href="#31-Array-prototype-unshift" class="headerlink" title="31. Array.prototype.unshift()"></a>31. Array.prototype.unshift()</h5><p><strong>unshift()</strong> 方法将一个或多个元素添加到数组的开头并返回数组的新长度</p>
 <blockquote>
 <p>arr.unshift(element1[, …[, elementN]])</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [1, 2, 3];</span><br><span class="line"></span><br><span class="line">console.log(array1.unshift(4, 5));</span><br><span class="line">// expected output: 5</span><br><span class="line"></span><br><span class="line">console.log(array1);</span><br><span class="line">// expected output: Array [4, 5, 1, 2, 3]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [1, 2, 3];</span><br><span class="line"></span><br><span class="line">console.log(array1.unshift(4, 5));</span><br><span class="line">// expected output: 5</span><br><span class="line"></span><br><span class="line">console.log(array1);</span><br><span class="line">// expected output: Array [4, 5, 1, 2, 3]</span><br></pre></td></tr></table></figure>
 
 <h5 id="32-Array-prototype-values"><a href="#32-Array-prototype-values" class="headerlink" title="32. Array.prototype.values()"></a>32. Array.prototype.values()</h5><p><strong>values()</strong> 方法返回一个新的Array Iterator对象，该对象包含数组中每个索引的值</p>
 <blockquote>
 <p>arr.values()</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const array1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</span><br><span class="line">const iterator = array1.values();</span><br><span class="line"></span><br><span class="line">for (const value of iterator) &#123;</span><br><span class="line">  console.log(value); // expected output: &quot;a&quot; &quot;b&quot; &quot;c&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const array1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</span><br><span class="line">const iterator = array1.values();</span><br><span class="line"></span><br><span class="line">for (const value of iterator) &#123;</span><br><span class="line">  console.log(value); // expected output: &quot;a&quot; &quot;b&quot; &quot;c&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h5 id="33-Array-prototype-toLocaleString"><a href="#33-Array-prototype-toLocaleString" class="headerlink" title="33. Array.prototype.toLocaleString()"></a>33. Array.prototype.toLocaleString()</h5><p><strong>toLocaleString()</strong> 方法返回表示数组元素的字符串。 使用toLocaleString方法将元素转换为字符串，并且这些字符串由特定于语言环境的字符串（例如逗号“，”）分隔</p>
 <blockquote>
 <p>arr.toLocaleString([locales[, options]]);</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [1, &apos;a&apos;, new Date(&apos;21 Dec 1997 14:12:00 UTC&apos;)];</span><br><span class="line">var localeString = array1.toLocaleString(&apos;en&apos;, &#123;timeZone: &quot;UTC&quot;&#125;);</span><br><span class="line"></span><br><span class="line">console.log(localeString);</span><br><span class="line">// expected output: &quot;1,a,12/21/1997, 2:12:00 PM&quot;,</span><br><span class="line">// This assumes &quot;en&quot; locale and UTC timezone - your results may vary</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [1, &apos;a&apos;, new Date(&apos;21 Dec 1997 14:12:00 UTC&apos;)];</span><br><span class="line">var localeString = array1.toLocaleString(&apos;en&apos;, &#123;timeZone: &quot;UTC&quot;&#125;);</span><br><span class="line"></span><br><span class="line">console.log(localeString);</span><br><span class="line">// expected output: &quot;1,a,12/21/1997, 2:12:00 PM&quot;,</span><br><span class="line">// This assumes &quot;en&quot; locale and UTC timezone - your results may vary</span><br></pre></td></tr></table></figure>
 
 <h5 id="34-Array-prototype-toString"><a href="#34-Array-prototype-toString" class="headerlink" title="34. Array.prototype.toString()"></a>34. Array.prototype.toString()</h5><p><strong>toString()</strong> 方法返回表示指定数组及其元素的字符串</p>
 <blockquote>
 <p>arr.toString()</p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [1, 2, &apos;a&apos;, &apos;1a&apos;];</span><br><span class="line"></span><br><span class="line">console.log(array1.toString());</span><br><span class="line">// expected output: &quot;1,2,a,1a&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var array1 = [1, 2, &apos;a&apos;, &apos;1a&apos;];</span><br><span class="line"></span><br><span class="line">console.log(array1.toString());</span><br><span class="line">// expected output: &quot;1,2,a,1a&quot;</span><br></pre></td></tr></table></figure>
 
 <h5 id="35-Array-prototype-iterator"><a href="#35-Array-prototype-iterator" class="headerlink" title="35. Array.prototype@@iterator"></a>35. Array.prototype<a href>@@iterator</a></h5><p><strong>@@iterator</strong> 属性的初始值与values（）属性的初始值是相同的函数对象。</p>
 <blockquote>
 <p>arr<a href>Symbol.iterator</a></p>
 </blockquote>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var arr = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;, &apos;e&apos;];</span><br><span class="line">var eArr = arr[Symbol.iterator]();</span><br><span class="line">// your browser must support for..of loop</span><br><span class="line">// and let-scoped variables in for loops</span><br><span class="line">// const and var could also be used</span><br><span class="line">for (let letter of eArr) &#123;</span><br><span class="line">  console.log(letter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var arr = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;, &apos;e&apos;];</span><br><span class="line">var eArr = arr[Symbol.iterator]();</span><br><span class="line">// your browser must support for..of loop</span><br><span class="line">// and let-scoped variables in for loops</span><br><span class="line">// const and var could also be used</span><br><span class="line">for (let letter of eArr) &#123;</span><br><span class="line">  console.log(letter);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
-        </div>
-        
-        
-        
+      
     </div>
-</div>
-
-
-
-<div class="card">
-    <div class="card-content">
-        <h3 class="menu-label has-text-centered">Like this article? Support the author with</h3>
-        <div class="buttons is-centered">
-            
-                
-<div class="notification is-danger">
-    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
-</div>
-
-                
-                
-<div class="notification is-danger">
-    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
-</div>
-
-                
-                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
-
-<div class="notification is-danger">
-    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
-</div>
-
-                
-                
-<div class="notification is-danger">
-    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
-</div>
-
-                
-        </div>
-    </div>
-</div>
-
-
-
-<div class="card card-transparent">
-    <div class="level post-navigation is-flex-wrap is-mobile">
-        
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/09/01/hello-world/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Hello World</span>
-            </a>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-</div>
-                
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
     
-        
-<div class="card widget">
-    <div class="card-content">
-        <nav class="level">
-            <div class="level-item has-text-centered" style="flex-shrink: 1">
-                <div>
-                    
-                        <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="Your name">
-                    
-                    
-                    <p class="is-size-4 is-block">
-                        Your name
-                    </p>
-                    
-                    
-                    <p class="is-size-6 is-block">
-                        Your title
-                    </p>
-                    
-                    
-                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
-                        <i class="fas fa-map-marker-alt has-mr-7"></i>
-                        <span>Your location</span>
-                    </p>
-                    
-                </div>
-            </div>
-        </nav>
-        <nav class="level is-mobile">
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        Posts
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        3
-                    </p>
-                </div>
-            </div>
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        Categories
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        0
-                    </p>
-                </div>
-            </div>
-            <div class="level-item has-text-centered is-marginless">
-                <div>
-                    <p class="heading">
-                        Tags
-                    </p>
-                    <p class="title has-text-weight-normal">
-                        0
-                    </p>
-                </div>
-            </div>
-        </nav>
-        <div class="level">
-            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank">
-                Follow</a>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            
-            <a class="level-item button is-white is-marginless" target="_blank"
-                title="Github" href="https://github.com/ppoffice">
-                
-                <i class="fab fa-github"></i>
-                
-            </a>
-            
-            <a class="level-item button is-white is-marginless" target="_blank"
-                title="Facebook" href="https://facebook.com">
-                
-                <i class="fab fa-facebook"></i>
-                
-            </a>
-            
-            <a class="level-item button is-white is-marginless" target="_blank"
-                title="Twitter" href="https://twitter.com">
-                
-                <i class="fab fa-twitter"></i>
-                
-            </a>
-            
-            <a class="level-item button is-white is-marginless" target="_blank"
-                title="Dribbble" href="https://dribbble.com">
-                
-                <i class="fab fa-dribbble"></i>
-                
-            </a>
-            
-            <a class="level-item button is-white is-marginless" target="_blank"
-                title="RSS" href="/">
-                
-                <i class="fas fa-rss"></i>
-                
-            </a>
-            
-        </div>
-        
-    </div>
-</div>
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://yoursite.com/2019/09/01/JS-Array-的-1-个属性，35-个方法/" title="" target="_blank" rel="external">http://yoursite.com/2019/09/01/JS-Array-的-1-个属性，35-个方法/</a>
+    </li>
     
-        
-    
-        
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
 
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Links
-        </h3>
-        <ul class="menu-list">
-        
-            <li>
-                <a class="level is-mobile" href="https://hexo.io" target="_blank">
-                    <span class="level-left">
-                        <span class="level-item">Hexo</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">hexo.io</span>
-                    </span>
-                </a>
-            </li>
-        
-            <li>
-                <a class="level is-mobile" href="https://github.com/ppoffice" target="_blank">
-                    <span class="level-left">
-                        <span class="level-item">PPOffice</span>
-                    </span>
-                    <span class="level-right">
-                        <span class="level-item tag">github.com</span>
-                    </span>
-                </a>
-            </li>
-        
-        </ul>
-        </div>
-    </div>
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">昵称</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
 </div>
 
 
+    </div>
+  </article>
+  
     
-        
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Categories
-            </h3>
-            <ul class="menu-list">
-            
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/09/01/hello-world/" title="Hello World"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
             </ul>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
-    
-        
-    
-    
-        <div class="column-right-shadow is-hidden-widescreen ">
-        
-            
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Recent
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2019/09/01/test-my-site/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="test_my_site">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-01T12:36:39.000Z">2019-09-01</time></div>
-                    <a href="/2019/09/01/test-my-site/" class="title has-link-black-ter is-size-6 has-text-weight-normal">test_my_site</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/09/01/hello-world/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Hello World">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-01T12:32:35.821Z">2019-09-01</time></div>
-                    <a href="/2019/09/01/hello-world/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hello World</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/09/01/JS-Array-的-1-个属性，35-个方法/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-01T12:05:58.000Z">2019-09-01</time></div>
-                    <a href="/2019/09/01/JS-Array-的-1-个属性，35-个方法/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-
-        
-            <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Archives
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/09/">
-                <span class="level-start">
-                    <span class="level-item">September 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">3</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-        
-            <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Tags
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-            </div>
-        </div>
-    </div>
-</div>
-        
-        </div>
-    
-</div>
-
-                
 
 
 
+</main>
 
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
         
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Recent
-        </h3>
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
         
-        <article class="media">
-            
-            <a href="/2019/09/01/test-my-site/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="test_my_site">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-01T12:36:39.000Z">2019-09-01</time></div>
-                    <a href="/2019/09/01/test-my-site/" class="title has-link-black-ter is-size-6 has-text-weight-normal">test_my_site</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
+        <li><a href="https://twitter.com/iwebued" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
         
-        <article class="media">
-            
-            <a href="/2019/09/01/hello-world/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Hello World">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-01T12:32:35.821Z">2019-09-01</time></div>
-                    <a href="/2019/09/01/hello-world/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hello World</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
+        <li><a href="https://www.behance.net/cofess" target="_blank" title="Behance" data-toggle=tooltip data-placement=top><i class="icon icon-behance"></i></a></li>
         
-        <article class="media">
-            
-            <a href="/2019/09/01/JS-Array-的-1-个属性，35-个方法/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-01T12:05:58.000Z">2019-09-01</time></div>
-                    <a href="/2019/09/01/JS-Array-的-1-个属性，35-个方法/" class="title has-link-black-ter is-size-6 has-text-weight-normal"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
         
-    </div>
-</div>
+    </ul>
 
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Archives
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/09/">
-                <span class="level-start">
-                    <span class="level-item">September 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">3</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Tags
-            </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-            </div>
-        </div>
-    </div>
-</div>
-    
-    
-</div>
-
-            </div>
-        </div>
-    </section>
-    <footer class="footer">
-    <div class="container">
-        <div class="level">
-            <div class="level-start has-text-centered-mobile">
-                <a class="footer-logo is-block has-mb-6" href="/">
-                
-                    <img src="/images/logo.svg" alt="" height="28">
-                
-                </a>
-                <p class="is-size-7">
-                &copy; 2019 John Doe&nbsp;
-                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
-                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
-                
-                </p>
-            </div>
-            <div class="level-end">
-            
-                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
-                
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
-                        
-                        <i class="fab fa-creative-commons"></i>
-                        
-                    </a>
-                </p>
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
-                        
-                        <i class="fab fa-creative-commons-by"></i>
-                        
-                    </a>
-                </p>
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
-                        
-                        <i class="fab fa-github"></i>
-                        
-                    </a>
-                </p>
-                
-                </div>
-            
-            </div>
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
         </div>
     </div>
 </footer>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
-<script>moment.locale("en");</script>
-
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 <script>
-var IcarusThemeSettings = {
-    article: {
-        highlight: {
-            clipboard: true,
-            fold: 'unfolded'
-        }
-    }
-};
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 </script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
-
-
-
-    
-    
-    
-    <script src="/js/animation.js"></script>
-    
-
-    
-    
-    
-    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
-    <script src="/js/gallery.js" defer></script>
-    
-
-    
-    
-
-<div id="outdated">
-    <h6>Your browser is out-of-date!</h6>
-    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
-            my browser now </a></p>
-    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        outdatedBrowser({
-            bgColor: '#f25648',
-            color: '#ffffff',
-            lowerThan: 'flex'
-        });
-    });
-</script>
-
-
-    
-    
-<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    MathJax.Hub.Config({
-        'HTML-CSS': {
-            matchFontHeight: false
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
         },
-        SVG: {
-            matchFontHeight: false
-        },
-        CommonHTML: {
-            matchFontHeight: false
-        },
-        tex2jax: {
-            inlineMath: [
-                ['$','$'],
-                ['\\(','\\)']
-            ]
-        }
-    });
-});
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
 </script>
-
-    
-    
-
-<a id="back-to-top" title="Back to Top" href="javascript:;">
-    <i class="fas fa-chevron-up"></i>
-</a>
-<script src="/js/back-to-top.js" defer></script>
+<script src="/js/insight.js"></script>
 
 
-    
-    
-
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
 
 
-<script src="/js/main.js" defer></script>
 
+   
+
+
+
+
+   
     
-    <div class="searchbox ins-search">
-    <div class="searchbox-container ins-search-container">
-        <div class="searchbox-input-wrapper">
-            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
-            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="searchbox-result-wrapper ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-    (function (window) {
-        var INSIGHT_CONFIG = {
-            TRANSLATION: {
-                POSTS: 'Posts',
-                PAGES: 'Pages',
-                CATEGORIES: 'Categories',
-                TAGS: 'Tags',
-                UNTITLED: '(Untitled)',
-            },
-            CONTENT_URL: '/content.json',
-        };
-        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-    })(window);
-</script>
-<script src="/js/insight.js" defer></script>
-<link rel="stylesheet" href="/css/search.css">
-<link rel="stylesheet" href="/css/insight.css">
-    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
 </body>
 </html>
