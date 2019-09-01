@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="https://wzes.github.io/"/>
   <updated>2019-09-01T12:36:39.995Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>https://wzes.github.io/</id>
   
   <author>
     <name>John Doe</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>test_my_site</title>
-    <link href="http://yoursite.com/2019/09/01/test-my-site/"/>
-    <id>http://yoursite.com/2019/09/01/test-my-site/</id>
+    <link href="https://wzes.github.io/2019/09/01/test-my-site/"/>
+    <id>https://wzes.github.io/2019/09/01/test-my-site/</id>
     <published>2019-09-01T12:36:39.000Z</published>
     <updated>2019-09-01T12:36:39.995Z</updated>
     
@@ -32,8 +32,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http://yoursite.com/2019/09/01/hello-world/"/>
-    <id>http://yoursite.com/2019/09/01/hello-world/</id>
+    <link href="https://wzes.github.io/2019/09/01/hello-world/"/>
+    <id>https://wzes.github.io/2019/09/01/hello-world/</id>
     <published>2019-09-01T12:32:35.821Z</published>
     <updated>2019-09-01T12:32:35.821Z</updated>
     
@@ -53,8 +53,8 @@
   
   <entry>
     <title></title>
-    <link href="http://yoursite.com/2019/09/01/JS-Array-%E7%9A%84-1-%E4%B8%AA%E5%B1%9E%E6%80%A7%EF%BC%8C35-%E4%B8%AA%E6%96%B9%E6%B3%95/"/>
-    <id>http://yoursite.com/2019/09/01/JS-Array-的-1-个属性，35-个方法/</id>
+    <link href="https://wzes.github.io/2019/09/01/JS-Array-%E7%9A%84-1-%E4%B8%AA%E5%B1%9E%E6%80%A7%EF%BC%8C35-%E4%B8%AA%E6%96%B9%E6%B3%95/"/>
+    <id>https://wzes.github.io/2019/09/01/JS-Array-的-1-个属性，35-个方法/</id>
     <published>2019-09-01T12:05:58.000Z</published>
     <updated>2019-09-01T12:05:58.000Z</updated>
     
