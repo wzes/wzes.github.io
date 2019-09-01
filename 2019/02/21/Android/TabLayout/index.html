@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>Android TabLayout 源码解析 | Xuantang Cun 的博客</title>
+  <meta name="description" content="Android TabLayout">
+<meta name="keywords" content="Android,TabLayout">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android TabLayout 源码解析">
+<meta property="og:url" content="https://wzes.github.io/2019/02/21/Android/TabLayout/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Android TabLayout">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7117641-d36e4e9cef4c41bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7117641-a4c409810ec18439.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-09-01T14:41:43.100Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android TabLayout 源码解析">
+<meta name="twitter:description" content="Android TabLayout">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7117641-d36e4e9cef4c41bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wzes.github.io/2019/02/21/Android/TabLayout/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wzes" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎加入美团点评的大家庭～～内推找18001997427（微信 备注Github）</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Java/">Java</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">7</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Array/">Array</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Babel/">Babel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/">DOM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Koa/">Koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lazyload/">Lazyload</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/">Node</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/">Redux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewPager/">ViewPager</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Android/" style="font-size: 13.75px;">Android</a> <a href="/tags/Array/" style="font-size: 13px;">Array</a> <a href="/tags/Babel/" style="font-size: 13px;">Babel</a> <a href="/tags/DOM/" style="font-size: 13px;">DOM</a> <a href="/tags/HTML/" style="font-size: 13px;">HTML</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 13.5px;">JavaScript</a> <a href="/tags/Koa/" style="font-size: 13px;">Koa</a> <a href="/tags/Lazyload/" style="font-size: 13px;">Lazyload</a> <a href="/tags/Node/" style="font-size: 13.25px;">Node</a> <a href="/tags/React/" style="font-size: 13.25px;">React</a> <a href="/tags/Redux/" style="font-size: 13px;">Redux</a> <a href="/tags/TabLayout/" style="font-size: 13px;">TabLayout</a> <a href="/tags/ViewPager/" style="font-size: 13px;">ViewPager</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/09/01/JavaScript/JavaScript Array/" class="title">JavaScript Array 的 1 个属性，35 个方法</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-01T07:30:16.000Z" itemprop="datePublished">2019-09-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/25/JavaScript/Redux V0.2.1/" class="title">React Redux v0.2.1 源码学习</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-25T11:30:16.000Z" itemprop="datePublished">2019-08-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/18/JavaScript/KoaJs/" class="title">Node KoaJs 源码解析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-18T10:56:00.000Z" itemprop="datePublished">2019-08-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/11/Android/一个滑动组件的原理浅析/" class="title">Android 一个滑动组件的原理浅析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-11T06:47:16.000Z" itemprop="datePublished">2019-08-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/04/JavaScript/Babel Loader/" class="title">JavaScript Babel-Loader 自定义入门</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-04T05:42:00.000Z" itemprop="datePublished">2019-08-04</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Android/TabLayout" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android TabLayout 源码解析
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/02/21/Android/TabLayout/" class="article-date">
+	  <time datetime="2019-02-21T07:36:00.000Z" itemprop="datePublished">2019-02-21</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/Android/">Android</a>, <a class="article-tag-link" href="/tags/TabLayout/">TabLayout</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/02/21/Android/TabLayout/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.5k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 13(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h3>
+<p>很久很久没写过源码解析了，不是自己没有看了，只是没有记录了，却发现不记录的话，似懂非懂，时间久了就忘得差不多了，用到了还是得再学一遍，忍住提笔一篇 TabLayout 源码学习。</p>
+<h3 id="hello-world"><a class="markdownIt-Anchor" href="#hello-world"></a> Hello World</h3>
+<h5 id="依赖"><a class="markdownIt-Anchor" href="#依赖"></a> 依赖</h5>
+<p>添加 support design 包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">implementation &apos;com.android.support:design:27.1.1&apos;</span><br></pre></td></tr></table></figure>
+<h5 id="xml"><a class="markdownIt-Anchor" href="#xml"></a> xml</h5>
+<p>添加一个 TabLayout 就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;android.support.constraint.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    tools:context=&quot;.TabLayoutActivity&quot;&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;android.support.design.widget.TabLayout</span><br><span class="line">        android:id=&quot;@+id/tab_layout&quot;</span><br><span class="line">        android:layout_width=&quot;match_parent&quot;</span><br><span class="line">        android:layout_height=&quot;wrap_content&quot;/&gt;</span><br><span class="line">&lt;/android.support.constraint.ConstraintLayout&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="mainactivityjava"><a class="markdownIt-Anchor" href="#mainactivityjava"></a> MainActivity.java</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import android.support.design.widget.TabLayout;</span><br><span class="line">import android.support.v7.app.AppCompatActivity;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line"></span><br><span class="line">public class TabLayoutActivity extends AppCompatActivity &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_tab_layout);</span><br><span class="line"></span><br><span class="line">        TabLayout mTabLayout = findViewById(R.id.tab_layout);</span><br><span class="line">        // 添加 tab item</span><br><span class="line">        mTabLayout.addTab(mTabLayout.newTab().setText(&quot;TAB1&quot;));</span><br><span class="line">        mTabLayout.addTab(mTabLayout.newTab().setText(&quot;TAB2&quot;));</span><br><span class="line">        mTabLayout.addTab(mTabLayout.newTab().setText(&quot;TAB3&quot;));</span><br><span class="line">        mTabLayout.addTab(mTabLayout.newTab().setText(&quot;TAB4&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="效果"><a class="markdownIt-Anchor" href="#效果"></a> 效果</h5>
+<p><img src="https://upload-images.jianshu.io/upload_images/7117641-d36e4e9cef4c41bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Screenshot_1550732046.png"></p>
+<h3 id="源码学习"><a class="markdownIt-Anchor" href="#源码学习"></a> 源码学习</h3>
+<p>其实，实现这样一个布局并不难，让我们来看看里面所有的内容</p>
+<h4 id="前世今生"><a class="markdownIt-Anchor" href="#前世今生"></a> 前世今生</h4>
+<p>继承自 HorizontalScrollView 因为他支持滚动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public class TabLayout extends HorizontalScrollView</span><br></pre></td></tr></table></figure>
+<p>TabLayout 支持两种模式，一种是固定的，一种是可滚动的（tab 太多，一屏显示不下，可使用这种模式，否则默认为平分）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Scrollable tabs display a subset of tabs at any given moment, and can contain longer tab</span><br><span class="line"> * labels and a larger number of tabs. They are best used for browsing contexts in touch</span><br><span class="line"> * interfaces when users don’t need to directly compare the tab labels.</span><br><span class="line"> *</span><br><span class="line"> * @see #setTabMode(int)</span><br><span class="line"> * @see #getTabMode()</span><br><span class="line"> */</span><br><span class="line">public static final int MODE_SCROLLABLE = 0;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Fixed tabs display all tabs concurrently and are best used with content that benefits from</span><br><span class="line"> * quick pivots between tabs. The maximum number of tabs is limited by the view’s width.</span><br><span class="line"> * Fixed tabs have equal width, based on the widest tab label.</span><br><span class="line"> *</span><br><span class="line"> * @see #setTabMode(int)</span><br><span class="line"> * @see #getTabMode()</span><br><span class="line"> */</span><br><span class="line">public static final int MODE_FIXED = 1;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @hide</span><br><span class="line"> */</span><br><span class="line">@RestrictTo(LIBRARY_GROUP)</span><br><span class="line">@IntDef(value = &#123;MODE_SCROLLABLE, MODE_FIXED&#125;)</span><br><span class="line">@Retention(RetentionPolicy.SOURCE)</span><br><span class="line">public @interface Mode &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>Tab 的位置有两种，一种是居中，一种是平分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Gravity used to fill the &#123;@link TabLayout&#125; as much as possible. This option only takes effect</span><br><span class="line"> * when used with &#123;@link #MODE_FIXED&#125;.</span><br><span class="line"> *</span><br><span class="line"> * @see #setTabGravity(int)</span><br><span class="line"> * @see #getTabGravity()</span><br><span class="line"> */</span><br><span class="line">public static final int GRAVITY_FILL = 0;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Gravity used to lay out the tabs in the center of the &#123;@link TabLayout&#125;.</span><br><span class="line"> *</span><br><span class="line"> * @see #setTabGravity(int)</span><br><span class="line"> * @see #getTabGravity()</span><br><span class="line"> */</span><br><span class="line">public static final int GRAVITY_CENTER = 1;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @hide</span><br><span class="line"> */</span><br><span class="line">@RestrictTo(LIBRARY_GROUP)</span><br><span class="line">@IntDef(flag = true, value = &#123;GRAVITY_FILL, GRAVITY_CENTER&#125;)</span><br><span class="line">@Retention(RetentionPolicy.SOURCE)</span><br><span class="line">public @interface TabGravity &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>居中模式</strong><br>
+<img src="https://upload-images.jianshu.io/upload_images/7117641-a4c409810ec18439.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="屏幕快照 2019-02-21 下午3.07.13.png"></p>
+<h4 id="创建-tab"><a class="markdownIt-Anchor" href="#创建-tab"></a> 创建 Tab</h4>
+<p>使用代码创建 Tab</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public Tab newTab() &#123;</span><br><span class="line">    Tab tab = sTabPool.acquire();</span><br><span class="line">    if (tab == null) &#123;</span><br><span class="line">        tab = new Tab();</span><br><span class="line">    &#125;</span><br><span class="line">    tab.mParent = this;</span><br><span class="line">    tab.mView = createTabView(tab);</span><br><span class="line">    return tab;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Tab 还使用了 Pool，还是挺细心的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private static final Pools.Pool&lt;Tab&gt; sTabPool = new Pools.SynchronizedPool&lt;&gt;(16);</span><br></pre></td></tr></table></figure>
+<h5 id="可滑动的指示条形图"><a class="markdownIt-Anchor" href="#可滑动的指示条形图"></a> 可滑动的指示条形图</h5>
+<p>自定义 ViewGroup</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private class SlidingTabStrip extends LinearLayout</span><br></pre></td></tr></table></figure>
+<h5 id="onmeasure"><a class="markdownIt-Anchor" href="#onmeasure"></a> onMeasure</h5>
+<p>如果设置了 MODE_FIXED 和 GRAVITY_CENTER 则需要重新测量，目的就是让居中，每个 ITEM 的宽度都是一样的，而且等于最大的一个，如果一屏放得下则需要重新设置每个 ITEM 的大小，并且重新测量。如果发不下，那么侧设置GRAVITY_FILL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">        protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) &#123;</span><br><span class="line">            super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">            if (MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.EXACTLY) &#123;</span><br><span class="line">                // HorizontalScrollView will first measure use with UNSPECIFIED, and then with</span><br><span class="line">                // EXACTLY. Ignore the first call since anything we do will be overwritten anyway</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            // 重新测量</span><br><span class="line">            if (mMode == MODE_FIXED &amp;&amp; mTabGravity == GRAVITY_CENTER) &#123;</span><br><span class="line">                final int count = getChildCount();</span><br><span class="line"></span><br><span class="line">                // First we&apos;ll find the widest tab</span><br><span class="line">                int largestTabWidth = 0;</span><br><span class="line">                for (int i = 0, z = count; i &lt; z; i++) &#123;</span><br><span class="line">                    View child = getChildAt(i);</span><br><span class="line">                    if (child.getVisibility() == VISIBLE) &#123;</span><br><span class="line">                        largestTabWidth = Math.max(largestTabWidth, child.getMeasuredWidth());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                if (largestTabWidth &lt;= 0) &#123;</span><br><span class="line">                    // If we don&apos;t have a largest child yet, skip until the next measure pass</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">                // 间隔</span><br><span class="line">                final int gutter = dpToPx(FIXED_WRAP_GUTTER_MIN);</span><br><span class="line">                boolean remeasure = false;</span><br><span class="line">                // 一屏放得下</span><br><span class="line">                if (largestTabWidth * count &lt;= getMeasuredWidth() - gutter * 2) &#123;</span><br><span class="line">                    // If the tabs fit within our width minus gutters, we will set all tabs to have  </span><br><span class="line">                    // the same width</span><br><span class="line">                    for (int i = 0; i &lt; count; i++) &#123;</span><br><span class="line">                        final LinearLayout.LayoutParams lp =</span><br><span class="line">                                (LayoutParams) getChildAt(i).getLayoutParams();</span><br><span class="line">                        if (lp.width != largestTabWidth || lp.weight != 0) &#123;</span><br><span class="line">                            lp.width = largestTabWidth;</span><br><span class="line">                            lp.weight = 0;</span><br><span class="line">                            remeasure = true;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    // If the tabs will wrap to be larger than the width minus gutters, we need</span><br><span class="line">                    // to switch to GRAVITY_FILL</span><br><span class="line">                    mTabGravity = GRAVITY_FILL;</span><br><span class="line">                    updateTabViews(false);</span><br><span class="line">                    remeasure = true;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                if (remeasure) &#123;</span><br><span class="line">                    // Now re-measure after our changes</span><br><span class="line">                    super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="如何实现动画"><a class="markdownIt-Anchor" href="#如何实现动画"></a> 如何实现动画？</h4>
+<p>通过移动 IndicatorView</p>
+<h5 id="onlayout"><a class="markdownIt-Anchor" href="#onlayout"></a> onLayout</h5>
+<p>mIndicatorAnimator 是动画辅助类，在 onLayout 中，非空而且正在运行则看取消，然后调用 animateIndicatorToPosition，动画调用，否则直接设置位置，不支持动画</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Override                                                                               </span><br><span class="line">protected void onLayout(boolean changed, int l, int t, int r, int b) &#123;                  </span><br><span class="line">    super.onLayout(changed, l, t, r, b);                                                </span><br><span class="line">                                                                                        </span><br><span class="line">    if (mIndicatorAnimator != null &amp;&amp; mIndicatorAnimator.isRunning()) &#123;                 </span><br><span class="line">        // If we&apos;re currently running an animation, lets cancel it and start a          </span><br><span class="line">        // new animation with the remaining duration                                    </span><br><span class="line">        mIndicatorAnimator.cancel();                                                    </span><br><span class="line">        final long duration = mIndicatorAnimator.getDuration();                         </span><br><span class="line">        animateIndicatorToPosition(mSelectedPosition,                                   </span><br><span class="line">                Math.round((1f - mIndicatorAnimator.getAnimatedFraction()) * duration));</span><br><span class="line">    &#125; else &#123;                                                                            </span><br><span class="line">        // If we&apos;ve been layed out, update the indicator position                       </span><br><span class="line">        updateIndicatorPosition();                                                      </span><br><span class="line">    &#125;                                                                                   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>updateIndicatorPosition 首先获取选中的 View，然后看 mSelectionOffset 是否大于零，说明发生滚动，则需要重新计算新位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">private void updateIndicatorPosition() &#123;                                       </span><br><span class="line">    final View selectedTitle = getChildAt(mSelectedPosition);                  </span><br><span class="line">    int left, right;                                                           </span><br><span class="line">                                                                               </span><br><span class="line">    if (selectedTitle != null &amp;&amp; selectedTitle.getWidth() &gt; 0) &#123;               </span><br><span class="line">        left = selectedTitle.getLeft();                                        </span><br><span class="line">        right = selectedTitle.getRight();                                      </span><br><span class="line">                                                                               </span><br><span class="line">        if (mSelectionOffset &gt; 0f &amp;&amp; mSelectedPosition &lt; getChildCount() - 1) &#123;</span><br><span class="line">            // Draw the selection partway between the tabs                     </span><br><span class="line">            View nextTitle = getChildAt(mSelectedPosition + 1);                </span><br><span class="line">            left = (int) (mSelectionOffset * nextTitle.getLeft() +             </span><br><span class="line">                    (1.0f - mSelectionOffset) * left);                         </span><br><span class="line">            right = (int) (mSelectionOffset * nextTitle.getRight() +           </span><br><span class="line">                    (1.0f - mSelectionOffset) * right);                        </span><br><span class="line">        &#125;                                                                      </span><br><span class="line">    &#125; else &#123;                                                                   </span><br><span class="line">        left = right = -1;                                                     </span><br><span class="line">    &#125;                                                                          </span><br><span class="line">                                                                               </span><br><span class="line">    setIndicatorPosition(left, right);                                         </span><br><span class="line">&#125; </span><br><span class="line">// mIndicatorLeft 和 mIndicatorRight 控制了线的起始位置</span><br><span class="line">void setIndicatorPosition(int left, int right) &#123;                </span><br><span class="line">    if (left != mIndicatorLeft || right != mIndicatorRight) &#123;   </span><br><span class="line">        // If the indicator&apos;s left/right has changed, invalidate</span><br><span class="line">        mIndicatorLeft = left;                                  </span><br><span class="line">        mIndicatorRight = right;                                </span><br><span class="line">        ViewCompat.postInvalidateOnAnimation(this);             </span><br><span class="line">    &#125;                                                           </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>移动动画，移动间隔大的话，并不会从当前位置直接移动，而是跳跃一段距离再移动，通过 startLeft 和 startRight 控制，并且使用 ValueAnimator 来实现动画<br>
+这个不错，同意了 fraction 0-1 ，通过函数计算进度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setIndicatorPosition(                                           </span><br><span class="line">        AnimationUtils.lerp(startLeft, targetLeft, fraction),   </span><br><span class="line">        AnimationUtils.lerp(startRight, targetRight, fraction));</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">void animateIndicatorToPosition(final int position, int duration) &#123;              </span><br><span class="line">    if (mIndicatorAnimator != null &amp;&amp; mIndicatorAnimator.isRunning()) &#123;          </span><br><span class="line">        mIndicatorAnimator.cancel();                                             </span><br><span class="line">    &#125;                                                                            </span><br><span class="line">                                                                                 </span><br><span class="line">    final boolean isRtl = ViewCompat.getLayoutDirection(this)                    </span><br><span class="line">            == ViewCompat.LAYOUT_DIRECTION_RTL;                                  </span><br><span class="line">                                                                                 </span><br><span class="line">    final View targetView = getChildAt(position);                                </span><br><span class="line">    if (targetView == null) &#123;                                                    </span><br><span class="line">        // If we don&apos;t have a view, just update the position now and return      </span><br><span class="line">        updateIndicatorPosition();                                               </span><br><span class="line">        return;                                                                  </span><br><span class="line">    &#125;                                                                            </span><br><span class="line">                                                                                 </span><br><span class="line">    final int targetLeft = targetView.getLeft();                                 </span><br><span class="line">    final int targetRight = targetView.getRight();                               </span><br><span class="line">    final int startLeft;                                                         </span><br><span class="line">    final int startRight;                                                        </span><br><span class="line">                                                                                 </span><br><span class="line">    if (Math.abs(position - mSelectedPosition) &lt;= 1) &#123;                           </span><br><span class="line">        // If the views are adjacent, we&apos;ll animate from edge-to-edge            </span><br><span class="line">        startLeft = mIndicatorLeft;                                              </span><br><span class="line">        startRight = mIndicatorRight;                                            </span><br><span class="line">    &#125; else &#123;                                                                     </span><br><span class="line">        // Else, we&apos;ll just grow from the nearest edge                           </span><br><span class="line">        final int offset = dpToPx(MOTION_NON_ADJACENT_OFFSET);                   </span><br><span class="line">        if (position &lt; mSelectedPosition) &#123;                                      </span><br><span class="line">            // We&apos;re going end-to-start                                          </span><br><span class="line">            if (isRtl) &#123;                                                         </span><br><span class="line">                startLeft = startRight = targetLeft - offset;                    </span><br><span class="line">            &#125; else &#123;                                                             </span><br><span class="line">                startLeft = startRight = targetRight + offset;                   </span><br><span class="line">            &#125;                                                                    </span><br><span class="line">        &#125; else &#123;                                                                 </span><br><span class="line">            // We&apos;re going start-to-end                                          </span><br><span class="line">            if (isRtl) &#123;                                                         </span><br><span class="line">                startLeft = startRight = targetRight + offset;                   </span><br><span class="line">            &#125; else &#123;                                                             </span><br><span class="line">                startLeft = startRight = targetLeft - offset;                    </span><br><span class="line">            &#125;                                                                    </span><br><span class="line">        &#125;                                                                        </span><br><span class="line">    &#125;                                                                            </span><br><span class="line">    // 开始移动位置                                                                             </span><br><span class="line">    if (startLeft != targetLeft || startRight != targetRight) &#123;                  </span><br><span class="line">        ValueAnimator animator = mIndicatorAnimator = new ValueAnimator();       </span><br><span class="line">        animator.setInterpolator(AnimationUtils.FAST_OUT_SLOW_IN_INTERPOLATOR);  </span><br><span class="line">        animator.setDuration(duration);                                          </span><br><span class="line">        animator.setFloatValues(0, 1);                                           </span><br><span class="line">        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;  </span><br><span class="line">            @Override                                                            </span><br><span class="line">            public void onAnimationUpdate(ValueAnimator animator) &#123;              </span><br><span class="line">                final float fraction = animator.getAnimatedFraction();           </span><br><span class="line">                setIndicatorPosition(                                            </span><br><span class="line">                        AnimationUtils.lerp(startLeft, targetLeft, fraction),    </span><br><span class="line">                        AnimationUtils.lerp(startRight, targetRight, fraction)); </span><br><span class="line">            &#125;                                                                    </span><br><span class="line">        &#125;);                                                                      </span><br><span class="line">        animator.addListener(new AnimatorListenerAdapter() &#123;                     </span><br><span class="line">            @Override                                                            </span><br><span class="line">            public void onAnimationEnd(Animator animator) &#123;                      </span><br><span class="line">                mSelectedPosition = position;                                    </span><br><span class="line">                mSelectionOffset = 0f;                                           </span><br><span class="line">            &#125;                                                                    </span><br><span class="line">        &#125;);                                                                      </span><br><span class="line">        animator.start();                                                        </span><br><span class="line">    &#125;                                                                            </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>onDraw 很简单</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Override                                                                          </span><br><span class="line">public void draw(Canvas canvas) &#123;                                                  </span><br><span class="line">    super.draw(canvas);                                                            </span><br><span class="line">                                                                                   </span><br><span class="line">    // Thick colored underline below the current selection                         </span><br><span class="line">    if (mIndicatorLeft &gt;= 0 &amp;&amp; mIndicatorRight &gt; mIndicatorLeft) &#123;                 </span><br><span class="line">        canvas.drawRect(mIndicatorLeft, getHeight() - mSelectedIndicatorHeight,    </span><br><span class="line">                mIndicatorRight, getHeight(), mSelectedIndicatorPaint);            </span><br><span class="line">    &#125;                                                                              </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="tabview"><a class="markdownIt-Anchor" href="#tabview"></a> TabView</h4>
+<p>接下来再看看上面的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class TabView extends LinearLayout &#123;</span><br><span class="line">      private Tab mTab;                  </span><br><span class="line">      private TextView mTextView;        </span><br><span class="line">      private ImageView mIconView;       </span><br><span class="line">                                         </span><br><span class="line">      private View mCustomView;          </span><br><span class="line">      private TextView mCustomTextView;  </span><br><span class="line">      private ImageView mCustomIconView; </span><br><span class="line">                                         </span><br><span class="line">      private int mDefaultMaxLines = 2;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如何实现监听的，对每个 TabView 设置点击事件，重写了 performClick，其中调用 mTab.select，mTab 拥有 TabLayout 的引用，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">@Override                                               </span><br><span class="line">public boolean performClick() &#123;                         </span><br><span class="line">    final boolean handled = super.performClick();       </span><br><span class="line">                                                        </span><br><span class="line">    if (mTab != null) &#123;                                 </span><br><span class="line">        if (!handled) &#123;                                 </span><br><span class="line">            playSoundEffect(SoundEffectConstants.CLICK);</span><br><span class="line">        &#125;                                               </span><br><span class="line">        mTab.select();                                  </span><br><span class="line">        return true;                                    </span><br><span class="line">    &#125; else &#123;                                            </span><br><span class="line">        return handled;                                 </span><br><span class="line">    &#125;                                                   </span><br><span class="line">&#125;                                                       </span><br><span class="line">/**                                                                             </span><br><span class="line"> * Select this tab. Only valid if the tab has been added to the action bar.     </span><br><span class="line"> */                                                                             </span><br><span class="line">public void select() &#123;                                                          </span><br><span class="line">    if (mParent == null) &#123;                                                      </span><br><span class="line">        throw new IllegalArgumentException(&quot;Tab not attached to a TabLayout&quot;);  </span><br><span class="line">    &#125;                                                                           </span><br><span class="line">    mParent.selectTab(this);                                                    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>tabLayout 回调事件，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">void selectTab(Tab tab) &#123;                                                              </span><br><span class="line">    selectTab(tab, true);                                                              </span><br><span class="line">&#125;                                                                                      </span><br><span class="line">                                                                                       </span><br><span class="line">void selectTab(final Tab tab, boolean updateIndicator) &#123;                               </span><br><span class="line">    final Tab currentTab = mSelectedTab;                                               </span><br><span class="line">                                                                                       </span><br><span class="line">    if (currentTab == tab) &#123;                                                           </span><br><span class="line">        if (currentTab != null) &#123;                                                      </span><br><span class="line">            dispatchTabReselected(tab);                                                </span><br><span class="line">            animateToTab(tab.getPosition());                                           </span><br><span class="line">        &#125;                                                                              </span><br><span class="line">    &#125; else &#123;                                                                           </span><br><span class="line">        final int newPosition = tab != null ? tab.getPosition() : Tab.INVALID_POSITION;</span><br><span class="line">        if (updateIndicator) &#123;                                                         </span><br><span class="line">            if ((currentTab == null || currentTab.getPosition() == Tab.INVALID_POSITION</span><br><span class="line">                    &amp;&amp; newPosition != Tab.INVALID_POSITION) &#123;                          </span><br><span class="line">                // If we don&apos;t currently have a tab, just draw the indicator           </span><br><span class="line">                setScrollPosition(newPosition, 0f, true);                              </span><br><span class="line">            &#125; else &#123;                                                                   </span><br><span class="line">                animateToTab(newPosition);                                             </span><br><span class="line">            &#125;                                                                          </span><br><span class="line">            if (newPosition != Tab.INVALID_POSITION) &#123;                                 </span><br><span class="line">                setSelectedTabView(newPosition);                                       </span><br><span class="line">            &#125;                                                                          </span><br><span class="line">        &#125;                                                                              </span><br><span class="line">        if (currentTab != null) &#123;                                                      </span><br><span class="line">            dispatchTabUnselected(currentTab);                                         </span><br><span class="line">        &#125;                                                                              </span><br><span class="line">        mSelectedTab = tab;                                                            </span><br><span class="line">        if (tab != null) &#123;                                                             </span><br><span class="line">            dispatchTabSelected(tab);                                                  </span><br><span class="line">        &#125;                                                                              </span><br><span class="line">    &#125;                                                                                  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>移动 Tab，动画</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">private void animateToTab(int newPosition) &#123;                                        </span><br><span class="line">    if (newPosition == Tab.INVALID_POSITION) &#123;                                      </span><br><span class="line">        return;                                                                     </span><br><span class="line">    &#125;                                                                               </span><br><span class="line">                                                                                    </span><br><span class="line">    if (getWindowToken() == null || !ViewCompat.isLaidOut(this)                     </span><br><span class="line">            || mTabStrip.childrenNeedLayout()) &#123;                                    </span><br><span class="line">        // If we don&apos;t have a window token, or we haven&apos;t been laid out yet just dra</span><br><span class="line">        // position now                                                             </span><br><span class="line">        setScrollPosition(newPosition, 0f, true);                                   </span><br><span class="line">        return;                                                                     </span><br><span class="line">    &#125;                                                                               </span><br><span class="line">                                                                                    </span><br><span class="line">    final int startScrollX = getScrollX();                                          </span><br><span class="line">    final int targetScrollX = calculateScrollXForTab(newPosition, 0);               </span><br><span class="line">                                                                                    </span><br><span class="line">    if (startScrollX != targetScrollX) &#123;                                            </span><br><span class="line">        ensureScrollAnimator();                                                     </span><br><span class="line">                                                                                    </span><br><span class="line">        mScrollAnimator.setIntValues(startScrollX, targetScrollX);                  </span><br><span class="line">        mScrollAnimator.start();                                                    </span><br><span class="line">    &#125;                                                                               </span><br><span class="line">                                                                                    </span><br><span class="line">    // Now animate the indicator                                                    </span><br><span class="line">    mTabStrip.animateIndicatorToPosition(newPosition, ANIMATION_DURATION);          </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>计算移动的距离，让选中的 tab 位于中间位置，由于 Android ScrollView 默认不会滚动超出边界，所以如果到达边界也不会继续滚动了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">private int calculateScrollXForTab(int position, float positionOffset) &#123;                                  </span><br><span class="line">    if (mMode == MODE_SCROLLABLE) &#123;                                                                       </span><br><span class="line">        final View selectedChild = mTabStrip.getChildAt(position);                                        </span><br><span class="line">        final View nextChild = position + 1 &lt; mTabStrip.getChildCount()                                   </span><br><span class="line">                ? mTabStrip.getChildAt(position + 1)                                                      </span><br><span class="line">                : null;                                                                                   </span><br><span class="line">        final int selectedWidth = selectedChild != null ? selectedChild.getWidth() : 0;                   </span><br><span class="line">        final int nextWidth = nextChild != null ? nextChild.getWidth() : 0;                               </span><br><span class="line">                                                                                                          </span><br><span class="line">        // base scroll amount: places center of tab in center of parent                                   </span><br><span class="line">        int scrollBase = selectedChild.getLeft() + (selectedWidth / 2) - (getWidth() / 2);                </span><br><span class="line">        // offset amount: fraction of the distance between centers of tabs                                </span><br><span class="line">        int scrollOffset = (int) ((selectedWidth + nextWidth) * 0.5f * positionOffset);                   </span><br><span class="line">                                                                                                          </span><br><span class="line">        return (ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_LTR)                   </span><br><span class="line">                ? scrollBase + scrollOffset                                                               </span><br><span class="line">                : scrollBase - scrollOffset;                                                              </span><br><span class="line">    &#125;                                                                                                     </span><br><span class="line">    return 0;                                                                                             </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="viewpager"><a class="markdownIt-Anchor" href="#viewpager"></a> ViewPager</h4>
+<p>其实很简单，就是给 ViewPager 添加一个 OnPageChangeListener 就行了，代码也很简单，在 onPageScrolled 中改变 指示条 的位置，在 onPageSelected 中改变 选中状态</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">public static class TabLayoutOnPageChangeListener implements ViewPager.OnPageChangeListener &#123;</span><br><span class="line">    private final WeakReference&lt;TabLayout&gt; mTabLayoutRef;</span><br><span class="line">    private int mPreviousScrollState;</span><br><span class="line">    private int mScrollState;</span><br><span class="line"></span><br><span class="line">    public TabLayoutOnPageChangeListener(TabLayout tabLayout) &#123;</span><br><span class="line">        mTabLayoutRef = new WeakReference&lt;&gt;(tabLayout);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onPageScrollStateChanged(final int state) &#123;</span><br><span class="line">        mPreviousScrollState = mScrollState;</span><br><span class="line">        mScrollState = state;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onPageScrolled(final int position, final float positionOffset,</span><br><span class="line">            final int positionOffsetPixels) &#123;</span><br><span class="line">        final TabLayout tabLayout = mTabLayoutRef.get();</span><br><span class="line">        if (tabLayout != null) &#123;</span><br><span class="line">            // Only update the text selection if we&apos;re not settling, or we are settling after</span><br><span class="line">            // being dragged</span><br><span class="line">            final boolean updateText = mScrollState != SCROLL_STATE_SETTLING ||</span><br><span class="line">                    mPreviousScrollState == SCROLL_STATE_DRAGGING;</span><br><span class="line">            // Update the indicator if we&apos;re not settling after being idle. This is caused</span><br><span class="line">            // from a setCurrentItem() call and will be handled by an animation from</span><br><span class="line">            // onPageSelected() instead.</span><br><span class="line">            final boolean updateIndicator = !(mScrollState == SCROLL_STATE_SETTLING</span><br><span class="line">                    &amp;&amp; mPreviousScrollState == SCROLL_STATE_IDLE);</span><br><span class="line">            tabLayout.setScrollPosition(position, positionOffset, updateText, updateIndicator);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onPageSelected(final int position) &#123;</span><br><span class="line">        final TabLayout tabLayout = mTabLayoutRef.get();</span><br><span class="line">        if (tabLayout != null &amp;&amp; tabLayout.getSelectedTabPosition() != position</span><br><span class="line">                &amp;&amp; position &lt; tabLayout.getTabCount()) &#123;</span><br><span class="line">            // Select the tab, only updating the indicator if we&apos;re not being dragged/settled</span><br><span class="line">            // (since onPageScrolled will handle that).</span><br><span class="line">            final boolean updateIndicator = mScrollState == SCROLL_STATE_IDLE</span><br><span class="line">                    || (mScrollState == SCROLL_STATE_SETTLING</span><br><span class="line">                    &amp;&amp; mPreviousScrollState == SCROLL_STATE_IDLE);</span><br><span class="line">            tabLayout.selectTab(tabLayout.getTabAt(position), updateIndicator);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void reset() &#123;</span><br><span class="line">        mPreviousScrollState = mScrollState = SCROLL_STATE_IDLE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="小结"><a class="markdownIt-Anchor" href="#小结"></a> 小结</h5>
+<p>基本上看完了，但对于一些细节，滚动边界问题还没有深刻的理解，只知道大概的逻辑</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wzes.github.io/2019/02/21/Android/TabLayout/" title="Android TabLayout 源码解析" target="_blank" rel="external">https://wzes.github.io/2019/02/21/Android/TabLayout/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wzes" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wzes" target="_blank"><span class="text-dark">爨</span><small class="ml-1x">美团点评 Android 开发</small></a></h3>
+        <div>一只会 FE 的 Android 工程师～</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/07/05/Android/PageTransformer/" title="Android PageTransformer 源码解析"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/10/12/Android/Android Recycview Devider/" title="Android Recycview 分割线"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'Iv1.446a8880ab469e45',
+    clientSecret: '06f5e0c171bd464017a20a8002e7322ac897238c',
+    repo: 'https://github.com/wzes/wzes.github.io',
+    owner: 'wzes',
+    admin: ['wzes'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

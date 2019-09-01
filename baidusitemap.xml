@@ -1,25 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://wzes.github.io/2019/09/01/JavaScript%20Array/</loc>
+    <loc>https://wzes.github.io/2018/09/30/Book%20Notes/Effective%20Java3%20%E4%BB%8B%E7%BB%8D/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://wzes.github.io/2019/07/13/Webpack/</loc>
+    <loc>https://wzes.github.io/2018/08/21/Java/Java8%20CopyOnWriteArrayList%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://wzes.github.io/2019/07/20/Swipe-js-ios/</loc>
+    <loc>https://wzes.github.io/2018/09/06/Backend/BloomFilter&Hyperloglog%20%E5%8E%BB%E9%87%8D&%E7%BB%9F%E8%AE%A1/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://wzes.github.io/2019/07/28/React%20Lazyload/</loc>
+    <loc>https://wzes.github.io/2018/09/06/Backend/Geohash&Haversine%20%E9%99%84%E8%BF%91%E5%8A%9F%E8%83%BD/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://wzes.github.io/2019/08/04/Babel%20Loader/</loc>
+    <loc>https://wzes.github.io/2018/08/20/Java/Java8%20%E5%85%B3%E4%BA%8E%E6%9C%80%E4%BD%B3%E7%BA%BF%E7%A8%8B%E6%95%B0/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://wzes.github.io/2019/08/18/KoaJs/</loc>
+    <loc>https://wzes.github.io/2018/09/17/Java/Java8%20Unsafe%20%E8%A7%A3%E5%BC%80%E4%BD%A0%E7%A5%9E%E7%A7%98%E7%9A%84%E9%9D%A2%E7%BA%B1/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>  <url>
-    <loc>https://wzes.github.io/2019/08/25/Redux%20V0.2.1/</loc>
+    <loc>https://wzes.github.io/2018/08/27/Java/Java8%20HashMap%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/09/13/Java/Java8%20ArrayList&LinkedList%20%E8%A6%81%E7%82%B9/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/09/12/Java/Java8%20ArrayDeque%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/08/26/Java/Java8%20InvocationHandler%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/08/14/Java/Java8%20LinkedBlockingQueue%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/08/10/Java/Java8%20PriorityQueue%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/08/20/Java/Java8%20ThreadLocal%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/08/12/Android/AsyncTask/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2019/08/11/Android/%E4%B8%80%E4%B8%AA%E6%BB%91%E5%8A%A8%E7%BB%84%E4%BB%B6%E7%9A%84%E5%8E%9F%E7%90%86%E6%B5%85%E6%9E%90/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2019/07/05/Android/PageTransformer/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2019/07/13/JavaScript/Webpack/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2019/07/20/JavaScript/Swipe-js-ios/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2019/08/25/JavaScript/Redux%20V0.2.1/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2019/08/18/JavaScript/KoaJs/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2019/08/04/JavaScript/Babel%20Loader/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/08/17/Android/HandlerThread/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/09/06/Android/IntentService/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/08/23/Android/OkHttp3/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/08/15/Android/Handler/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/08/19/Android/EventBus/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/08/24/Android/DiskLruCache/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/07/26/Android/LruCache/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/07/26/Android/SparseArray/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/10/12/Android/Android%20Recycview%20Devider/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/07/05/Android/Android-repositories/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2018/09/05/Android/Android%20Rxjava/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2019/02/21/Android/TabLayout/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2019/09/01/JavaScript/JavaScript%20Array/</loc>
+    <lastmod>2019-09-01</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2019/07/28/JavaScript/React%20Lazyload/</loc>
     <lastmod>2019-09-01</lastmod>
   </url>
 </urlset>
