@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>Effective Java2 读书笔记78条 | Xuantang Cun 的博客</title>
+  <meta name="description" content="Java">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Effective Java2 读书笔记78条">
+<meta property="og:url" content="https://wzes.github.io/2018/08/30/Book Notes/Effective-Java-2-读书笔记-78条/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Java">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-01T15:31:55.461Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Effective Java2 读书笔记78条">
+<meta name="twitter:description" content="Java">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wzes.github.io/2018/08/30/Book Notes/Effective-Java-2-读书笔记-78条/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wzes" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎加入美团点评的大家庭～～内推找18001997427（微信 备注Github）</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Java/">Java</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTTP/">HTTP</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQLite/">SQLite</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Array/">Array</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Babel/">Babel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/">DOM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Koa/">Koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lazyload/">Lazyload</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/">Node</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/">Redux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewPager/">ViewPager</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Android/" style="font-size: 13.75px;">Android</a> <a href="/tags/Array/" style="font-size: 13px;">Array</a> <a href="/tags/Babel/" style="font-size: 13px;">Babel</a> <a href="/tags/DOM/" style="font-size: 13px;">DOM</a> <a href="/tags/HTML/" style="font-size: 13px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.25px;">HTTP</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 13.5px;">JavaScript</a> <a href="/tags/Koa/" style="font-size: 13px;">Koa</a> <a href="/tags/Lazyload/" style="font-size: 13px;">Lazyload</a> <a href="/tags/MySQL/" style="font-size: 13px;">MySQL</a> <a href="/tags/Node/" style="font-size: 13.25px;">Node</a> <a href="/tags/React/" style="font-size: 13.25px;">React</a> <a href="/tags/Redux/" style="font-size: 13px;">Redux</a> <a href="/tags/SQLite/" style="font-size: 13px;">SQLite</a> <a href="/tags/TabLayout/" style="font-size: 13px;">TabLayout</a> <a href="/tags/ViewPager/" style="font-size: 13px;">ViewPager</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/09/01/JavaScript/JavaScript Array/" class="title">JavaScript Array 的 1 个属性，35 个方法</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-01T07:30:16.000Z" itemprop="datePublished">2019-09-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/25/JavaScript/Redux V0.2.1/" class="title">React Redux v0.2.1 源码学习</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-25T11:30:16.000Z" itemprop="datePublished">2019-08-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/18/JavaScript/KoaJs/" class="title">Node KoaJs 源码解析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-18T10:56:00.000Z" itemprop="datePublished">2019-08-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/11/Android/一个滑动组件的原理浅析/" class="title">Android 一个滑动组件的原理浅析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-11T06:47:16.000Z" itemprop="datePublished">2019-08-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/04/JavaScript/Babel Loader/" class="title">JavaScript Babel-Loader 自定义入门</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-04T05:42:00.000Z" itemprop="datePublished">2019-08-04</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Book Notes/Effective-Java-2-读书笔记-78条" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Effective Java2 读书笔记78条
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/08/30/Book Notes/Effective-Java-2-读书笔记-78条/" class="article-date">
+	  <time datetime="2018-08-30T14:18:00.000Z" itemprop="datePublished">2018-08-30</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/Java/">Java</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/08/30/Book Notes/Effective-Java-2-读书笔记-78条/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 3.6k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 12(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="第一条-考虑使用静态工厂方法代替构造器"><a class="markdownIt-Anchor" href="#第一条-考虑使用静态工厂方法代替构造器"></a> 第一条 考虑使用静态工厂方法代替构造器</h3>
+<h4 id="优势"><a class="markdownIt-Anchor" href="#优势"></a> 优势</h4>
+<ol>
+<li>有名称</li>
+<li>不必每次调用的时候都创建一个对象</li>
+<li>返回原返回类型的所有子类型的对象</li>
+<li>在创建参数实例化的时候，他们使代码变得更简洁</li>
+</ol>
+<h4 id="缺点"><a class="markdownIt-Anchor" href="#缺点"></a> 缺点</h4>
+<ol>
+<li>类如果不含有共有的或者受保护的类构造器，就不能被子类化</li>
+<li>他们与其他的静态方法没什么区别</li>
+</ol>
+<h3 id="第二条-遇到多个构造器时要考虑用构建器"><a class="markdownIt-Anchor" href="#第二条-遇到多个构造器时要考虑用构建器"></a> 第二条 遇到多个构造器时要考虑用构建器</h3>
+<p>构造器参数多，个数多，则优先使用 Builder 模式，构建器比JavaBeans更加安全</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface Builder&lt;T&gt; &#123;</span><br><span class="line">  public T build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第三条-用私有构造器火鹤枚举类型强化singleton属性"><a class="markdownIt-Anchor" href="#第三条-用私有构造器火鹤枚举类型强化singleton属性"></a> 第三条 用私有构造器火鹤枚举类型强化singleton属性</h3>
+<p>单元素的枚举类型已经成为实现Singleton的最佳方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public enum Elvis &#123;</span><br><span class="line">  INSTANCE;</span><br><span class="line">  public void leaveTheBuilding() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第四条-通过私有构造器强化不可实例化的能力"><a class="markdownIt-Anchor" href="#第四条-通过私有构造器强化不可实例化的能力"></a> 第四条 通过私有构造器强化不可实例化的能力</h3>
+<p>超类也不能被实例化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class UtilityClass &#123;</span><br><span class="line">  private UtilityClass() &#123;</span><br><span class="line">    throw new AssertionError();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第五条-避免创建不必要的对象"><a class="markdownIt-Anchor" href="#第五条-避免创建不必要的对象"></a> 第五条 避免创建不必要的对象</h3>
+<ol>
+<li>避免重复创建相同的对象</li>
+<li>优先使用基本类型而不是装箱基本类型</li>
+<li>不要盲目觉得创建对象代价十分昂贵，使用对象池的特例：数据库连接池，否则没必要创建对象池，会影响GC</li>
+</ol>
+<h3 id="第六条-消除过期的对象引用"><a class="markdownIt-Anchor" href="#第六条-消除过期的对象引用"></a> 第六条 消除过期的对象引用</h3>
+<ol>
+<li>常见的场景在与ArrayList，删除对象后需要把该索引位置置空。</li>
+<li>监听器，其他回调</li>
+</ol>
+<p>可使用 WeakHashMap 将键保持为弱引用</p>
+<h3 id="第七条-避免使用终结方法"><a class="markdownIt-Anchor" href="#第七条-避免使用终结方法"></a> 第七条 避免使用终结方法</h3>
+<p>终结方法通常是不可预测的，也是很危险的吗，一般情况下是不必要的。使用终结方法是很危险的。</p>
+<p>终结方法线程的优先级比应用程序线程的优先级低很多</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 不保证 finalize 执行</span><br><span class="line">System.gc System.runFinaliaation</span><br><span class="line">// 保证执行</span><br><span class="line">System.runFinalizersOnExit Runtime.runFinalizersOnExit</span><br></pre></td></tr></table></figure>
+<h3 id="第八条-覆盖-equals-时请遵守通用约定"><a class="markdownIt-Anchor" href="#第八条-覆盖-equals-时请遵守通用约定"></a> 第八条 覆盖 equals 时请遵守通用约定</h3>
+<ul>
+<li>类是私有的或是包级私有的，可以确定它的 equals 方法永远不会被调用。<br>
+<strong>防止方法被调用的方法</strong> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Ovveride</span><br><span class="line">public boolean equals(Object o) &#123;</span><br><span class="line">  throw new AssertionError();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h6 id="equals-方法实现了等价关系"><a class="markdownIt-Anchor" href="#equals-方法实现了等价关系"></a> equals 方法实现了等价关系</h6>
+<ul>
+<li>自反性</li>
+<li>对称性</li>
+<li>传递性</li>
+<li>一致性<br>
+一般做法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public boolean equals(Object o) &#123;</span><br><span class="line">  if (o == this) &#123;</span><br><span class="line">    return true;</span><br><span class="line">  &#125;</span><br><span class="line">  if (!(o instanceOf MyClass)) &#123;</span><br><span class="line">    return false;</span><br><span class="line">  &#125;</span><br><span class="line">  MyClass class = (MyClass) o;</span><br><span class="line">  // 比较各个域值</span><br><span class="line">  ......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第九条-覆盖-equals-时总要覆盖-hashcode"><a class="markdownIt-Anchor" href="#第九条-覆盖-equals-时总要覆盖-hashcode"></a> 第九条 覆盖 equals 时总要覆盖 hashCode</h3>
+<p>Object 规范（JavaSE6）</p>
+<ul>
+<li>同一个对象多次调用必须一致，同一个程序多次执行可以不一致</li>
+<li>equals 相等，hashCode 必然要相等</li>
+<li>hashCode 相同，equals 不一定相同</li>
+</ul>
+<p><strong>一个好的散列函数通常倾向于“为不同的对象产生不相等的散列码”</strong><br>
+如何计算：</p>
+<ol>
+<li>把某个非零常熟值，比如说17，保存到一个名为 result 的 int 类型的变量中。</li>
+<li>对于对象中每个关键域 f （指 equals 方法中涉及到的每个域），完成以下步骤：<br>
+a. 为该域计算 int 类型的散列码 c ：
+<ul>
+<li>如果该域是 boolean 类型，则计算 （f ? 1 : 0）</li>
+<li>如果该域是 byte ，char，short，int，则计算 （int）f</li>
+<li>如果该域是 long，则计算（int）（f ^ （f &gt;&gt; 32））</li>
+<li>如果该域是 float，则计算 Float.floatToIntBits(f);</li>
+<li>如果该域是 double，则计算 Double.doubleToLongBits(f), 然后按照步骤 a.3，计算 long 的散列值</li>
+<li>如果该域是一个对象引用，并且该类的 equals 方法通过递归的调用 equals 的方式来比较这个域，则同样为这个域递归的调用 hashCode。如果这个域为 null， 则为 0</li>
+<li>如果该域是一个数组，则需要把每一个元素当作单独的域来处理。</li>
+</ul>
+</li>
+</ol>
+<p>b. 按照下面的公式，把步骤2.a 中计算得到的散列码 c 合并到 result 中：<br>
+result = 31 * result + c；<br>
+3. 返回 result<br>
+4. check</p>
+<h3 id="第十条-始终要覆盖-tostring"><a class="markdownIt-Anchor" href="#第十条-始终要覆盖-tostring"></a> 第十条 始终要覆盖 toString</h3>
+<p>建议所有的子类都应该覆盖这个方法</p>
+<h3 id="第十一条-谨慎的覆盖-clone"><a class="markdownIt-Anchor" href="#第十一条-谨慎的覆盖-clone"></a> 第十一条 谨慎的覆盖 clone</h3>
+<p>创建和返回该对象的一个拷贝，不必调用构造器创建对象<br>
+JavaSE6 的约定内容：</p>
+<ul>
+<li>x.clone() != x 为 true</li>
+<li>x.clone().getClass() == x.getClass() 为 true</li>
+<li>x.clone().equals(x) 为 true<br>
+一般写法，通过递归 super.clone() 创建对象，再将域逐个复制即可</li>
+</ul>
+<h3 id="第十二条-考虑实现-comparable-接口"><a class="markdownIt-Anchor" href="#第十二条-考虑实现-comparable-接口"></a> 第十二条 考虑实现 Comparable 接口</h3>
+<p>实现了 Comparable 接口，就表明它的实例具有内在的排序关系。<br>
+当然，也可以使用外在排序 Comparator</p>
+<h3 id="第十三条-使类和成员的可访问性最小化"><a class="markdownIt-Anchor" href="#第十三条-使类和成员的可访问性最小化"></a> 第十三条 使类和成员的可访问性最小化</h3>
+<p>设计良好的模块会隐藏所有的实现细节，把它的API与它的实现清晰的隔离开来。</p>
+<ul>
+<li>尽可能地使每个类或成员不被外界访问</li>
+<li>有四种访问性：
+<ul>
+<li>私有的（private）</li>
+<li>包级私有的（default）</li>
+<li>受保护的（protected）</li>
+<li>共有的（public）<br>
+<strong>实例域不能是共有的</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="第十四条-在共有类中使用访问方法而非共有域"><a class="markdownIt-Anchor" href="#第十四条-在共有类中使用访问方法而非共有域"></a> 第十四条 在共有类中使用访问方法而非共有域</h3>
+<p>有时候，可能会编写一些退化类，没有什么作用，只是用来集中实例域<br>
+Java平台类库中有一些违反了，但应该警惕<br>
+<strong>共有类永远不应该暴露可变的域</strong></p>
+<h3 id="第十五条-使可变性最小化"><a class="markdownIt-Anchor" href="#第十五条-使可变性最小化"></a> 第十五条 使可变性最小化</h3>
+<p>不可变类只是其实例不能被修改的类。每个实例中包含的所有信息都必须在创建该实例的时候就提供，并在对象的整个生命周期内固定不变，Java 平台类库中包含了许多不可变类，比如 String，基本类型包装类，BigDecimal 和 BigInteger。存在不可变的类有很多理由：不可变的类比可变的类更加容易设计，实现和使用。<br>
+原则</p>
+<ul>
+<li>不要提供任何会修改对象状态的方法</li>
+<li>保证类不会被扩展</li>
+<li>使所有的域都是 final 的</li>
+<li>使所有的域都是私有的</li>
+<li>确保对于任何可变组件的互斥访问</li>
+</ul>
+<h3 id="第十六条-复合优先于继承"><a class="markdownIt-Anchor" href="#第十六条-复合优先于继承"></a> 第十六条 复合优先于继承</h3>
+<p>继承虽然是实现代码重用的有力手段，但它会打破封装性。而复合可以解决这个问题，只有当子类是超类的子类型时，才适用继承（is-a关系）。Java 平台类库中 Stack和Vector，Properties和Hashtable 违反了这个原则</p>
+<h3 id="第十七条-要么为继承而设计并提供文档说明要么就禁止继承"><a class="markdownIt-Anchor" href="#第十七条-要么为继承而设计并提供文档说明要么就禁止继承"></a> 第十七条 要么为继承而设计，并提供文档说明，要么就禁止继承</h3>
+<p>对于专门为了继承而设计的类需要具有良好文档说明，该文档必须精确的描述覆盖每个方法所带来的影响</p>
+<ul>
+<li>构造器绝不能调用可被覆盖的方法</li>
+</ul>
+<h3 id="第十八条-接口优于抽象类"><a class="markdownIt-Anchor" href="#第十八条-接口优于抽象类"></a> 第十八条 接口优于抽象类</h3>
+<p>Java 程序设计语言提供了两种机制，可以用来定义允许多个实现的类型：接口和抽象</p>
+<ul>
+<li>现有的类很容易被更新，以实现新的借口</li>
+<li>接口是定义mixin（混合类型）的理想选择</li>
+<li>接口允许我们构造非层次结构的类型框架</li>
+</ul>
+<h3 id="第十九条-接口只用于定义类型"><a class="markdownIt-Anchor" href="#第十九条-接口只用于定义类型"></a> 第十九条 接口只用于定义类型</h3>
+<p>接口应该只被用来定义类型，不应该被用来导出常量<br>
+导出常量的做法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class PhysicalConstants  &#123;</span><br><span class="line">  //  私有</span><br><span class="line">  private PhysicalConstants() &#123;&#125;</span><br><span class="line">  public static final double AVOGADROS_NUMBER = 6.02214199e23;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第二十条-类层次优先于标签类"><a class="markdownIt-Anchor" href="#第二十条-类层次优先于标签类"></a> 第二十条 类层次优先于标签类</h3>
+<p>标签类使得类变得复杂难懂，考虑使用类层次替换<br>
+<strong>域是不能做成 final 的</strong></p>
+<h3 id="第二十一条-用函数对象表示策略"><a class="markdownIt-Anchor" href="#第二十一条-用函数对象表示策略"></a> 第二十一条 用函数对象表示策略</h3>
+<p>简而言之，函数指针的主要用途就是实现策略模式。为了在 Java 中实现这种模式，要声明一个接口来表示该策略，并且为每个具体的策略声明实现一个该接口的类。当一个具体策略只被使用一次的时候，通常使用匿名类的方式和实例化这个具体策略类。当一个具体策略是设计用来重复使用的时候，他的类通常就要实现为私有的静态成员类，并通过共有的静态final域被导出，其类型为该策略接口。</p>
+<h3 id="第二十二条-优先考虑静态成员类"><a class="markdownIt-Anchor" href="#第二十二条-优先考虑静态成员类"></a> 第二十二条 优先考虑静态成员类</h3>
+<p>嵌套类被定义为在另外一个类的内部的类，有四种：静态成员类，非静态成员类，匿名类，局部类，后三者为内部类；</p>
+<h3 id="第二十三条-请不要在新代码中使用原生态类型"><a class="markdownIt-Anchor" href="#第二十三条-请不要在新代码中使用原生态类型"></a> 第二十三条 请不要在新代码中使用原生态类型</h3>
+<p>例如，List 原生态类型不能再编译器发现类型转化错误，而使用范型则可以，更加安全</p>
+<h3 id="第二十四条-消除非受检警告"><a class="markdownIt-Anchor" href="#第二十四条-消除非受检警告"></a> 第二十四条 消除非受检警告</h3>
+<h3 id="第二十五条-列表优先于数组"><a class="markdownIt-Anchor" href="#第二十五条-列表优先于数组"></a> 第二十五条 列表优先于数组</h3>
+<h3 id="第二十六条-优先考虑范型"><a class="markdownIt-Anchor" href="#第二十六条-优先考虑范型"></a> 第二十六条 优先考虑范型</h3>
+<p>不能创建范型数组</p>
+<h3 id="第二十七条-优先考虑范型方法"><a class="markdownIt-Anchor" href="#第二十七条-优先考虑范型方法"></a> 第二十七条 优先考虑范型方法</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public static &lt;T entends Comparable&lt;T&gt;&gt; T max(List&lt;T&gt; list) &#123;</span><br><span class="line">  Iterator&lt;T&gt; i = list.iterator();</span><br><span class="line">  T result = i.next();</span><br><span class="line">  while (i.hasNext()) &#123;</span><br><span class="line">    T t = i.next();</span><br><span class="line">    if (t.compareTo(result) &gt; 0) &#123;</span><br><span class="line">      result = t&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第二十八条-利用有限通配符来提升api的灵活性"><a class="markdownIt-Anchor" href="#第二十八条-利用有限通配符来提升api的灵活性"></a> 第二十八条 利用有限通配符来提升API的灵活性</h3>
+<h3 id="第二十九条-优先考虑类型安全的异构容器"><a class="markdownIt-Anchor" href="#第二十九条-优先考虑类型安全的异构容器"></a> 第二十九条 优先考虑类型安全的异构容器</h3>
+<h3 id="第三十条-用-enum-代替-int"><a class="markdownIt-Anchor" href="#第三十条-用-enum-代替-int"></a> 第三十条 用 enum 代替 int</h3>
+<h3 id="第三十一条-用实例域代替序数"><a class="markdownIt-Anchor" href="#第三十一条-用实例域代替序数"></a> 第三十一条 用实例域代替序数</h3>
+<h3 id="第三十二条-用-enumset-代替位域"><a class="markdownIt-Anchor" href="#第三十二条-用-enumset-代替位域"></a> 第三十二条 用 EnumSet 代替位域</h3>
+<h3 id="第三十三条-用enummap-代替序数索引"><a class="markdownIt-Anchor" href="#第三十三条-用enummap-代替序数索引"></a> 第三十三条 用EnumMap 代替序数索引</h3>
+<h3 id="第三十四条-用接口模拟可伸缩的枚举"><a class="markdownIt-Anchor" href="#第三十四条-用接口模拟可伸缩的枚举"></a> 第三十四条 用接口模拟可伸缩的枚举</h3>
+<p>虽然无法编写可扩展的枚举类型，却可以通过编写接口以及实现该接口的基础枚举类型，对它进行模拟。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public interface Operation &#123;</span><br><span class="line">  double apply(double x, double y);</span><br><span class="line">&#125;</span><br><span class="line">public enum BasicOperation implements Operation &#123;</span><br><span class="line">  PLUS(&quot;+&quot;) &#123;</span><br><span class="line">    public double apply(double x, double y) &#123; return x + y; &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  private final String symbol;</span><br><span class="line">  BasicOperation(String symbol) &#123;</span><br><span class="line">    this.symbol = symbol;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第三十五条-注解优先于命名模式"><a class="markdownIt-Anchor" href="#第三十五条-注解优先于命名模式"></a> 第三十五条 注解优先于命名模式</h3>
+<p>命名模式指的是：给一些类或者方法使用有特定约束的名字</p>
+<h3 id="第三十六条-坚持使用-override-注解"><a class="markdownIt-Anchor" href="#第三十六条-坚持使用-override-注解"></a> 第三十六条 坚持使用 Override 注解</h3>
+<p>坚持使用 Override 注解能够避免一些错误</p>
+<h3 id="第三十七条-用标记接口定义类型"><a class="markdownIt-Anchor" href="#第三十七条-用标记接口定义类型"></a> 第三十七条 用标记接口定义类型</h3>
+<p>标记接口是没有包含任何方法的接口，例如 Serializable 接口，不包含任何方法</p>
+<h3 id="第三十八条-检查参数的有效性"><a class="markdownIt-Anchor" href="#第三十八条-检查参数的有效性"></a> 第三十八条 检查参数的有效性</h3>
+<p>对于共有的可以使用 throws 说明方法会产生什么异常<br>
+对于私有的方法可以使用 assert 断言<br>
+简而言之，每当编写方法或者构造器的时候，应该考虑它的参数有哪些限制。应该把这些限制写到文档中，并且在这个方法提开头处，通过显式的检查来实施这些限制。</p>
+<h3 id="第三十九条-必要时进行保护性拷贝"><a class="markdownIt-Anchor" href="#第三十九条-必要时进行保护性拷贝"></a> 第三十九条 必要时进行保护性拷贝</h3>
+<p>简而言之，如果类具有从客户端得到或者返回客户端的可变组件，类就必须保护性地拷贝这些组件。如果拷贝的成本受到限制，并且类信任它的客户端不会不恰当的修改组件，就可以在文档中指明客户端的职责是不得修改受到影响的组件，以此来代替保护性拷贝</p>
+<h3 id="第四十条-谨慎设计方法签名"><a class="markdownIt-Anchor" href="#第四十条-谨慎设计方法签名"></a> 第四十条 谨慎设计方法签名</h3>
+<ul>
+<li>谨慎的选择方法的名称</li>
+<li>不要过于追求提供便利的方法</li>
+<li>避免过长的参数列表</li>
+</ul>
+<h3 id="第四十一条-慎用重载"><a class="markdownIt-Anchor" href="#第四十一条-慎用重载"></a> 第四十一条 慎用重载</h3>
+<p>安全而保守的策略是，永远不要导出两个具有相同参数树木的重载方法</p>
+<h3 id="第四十二条-慎用可变参数"><a class="markdownIt-Anchor" href="#第四十二条-慎用可变参数"></a> 第四十二条 慎用可变参数</h3>
+<h3 id="第四十三条-返回零长度的数组或者集合而不是null"><a class="markdownIt-Anchor" href="#第四十三条-返回零长度的数组或者集合而不是null"></a> 第四十三条 返回零长度的数组或者集合，而不是null</h3>
+<p>返回类型为 List 或数组，长度为零是返回 Collections.empty();</p>
+<h3 id="第四十四条-为所有导出的api元素编写文档注释"><a class="markdownIt-Anchor" href="#第四十四条-为所有导出的api元素编写文档注释"></a> 第四十四条 为所有导出的API元素编写文档注释</h3>
+<h3 id="第四十五条-将局部变量的作用域最小化"><a class="markdownIt-Anchor" href="#第四十五条-将局部变量的作用域最小化"></a> 第四十五条 将局部变量的作用域最小化</h3>
+<h3 id="第四十六条-for-each-循环优先于传统的for循环"><a class="markdownIt-Anchor" href="#第四十六条-for-each-循环优先于传统的for循环"></a> 第四十六条 for-each 循环优先于传统的for循环</h3>
+<h3 id="第四十七条-了解和使用类库"><a class="markdownIt-Anchor" href="#第四十七条-了解和使用类库"></a> 第四十七条 了解和使用类库</h3>
+<h3 id="第四十八条-如果需要精确的答案请避免使用-float-和-double"><a class="markdownIt-Anchor" href="#第四十八条-如果需要精确的答案请避免使用-float-和-double"></a> 第四十八条 如果需要精确的答案，请避免使用 float 和 double</h3>
+<h3 id="第四十九条-基本类型优先于装箱基本类型"><a class="markdownIt-Anchor" href="#第四十九条-基本类型优先于装箱基本类型"></a> 第四十九条 基本类型优先于装箱基本类型</h3>
+<h3 id="第五十条-如果其他类型更合适则尽量避免使用字符串"><a class="markdownIt-Anchor" href="#第五十条-如果其他类型更合适则尽量避免使用字符串"></a> 第五十条 如果其他类型更合适，则尽量避免使用字符串</h3>
+<h3 id="第五十一条-当心字符串连接的性能"><a class="markdownIt-Anchor" href="#第五十一条-当心字符串连接的性能"></a> 第五十一条 当心字符串连接的性能</h3>
+<h3 id="第五十二条-通过接口引用对象"><a class="markdownIt-Anchor" href="#第五十二条-通过接口引用对象"></a> 第五十二条 通过接口引用对象</h3>
+<p>应该优先使用接口而不是类来引用对象</p>
+<h3 id="第五十三条-接口优先于反射机制"><a class="markdownIt-Anchor" href="#第五十三条-接口优先于反射机制"></a> 第五十三条 接口优先于反射机制</h3>
+<h3 id="第五十四条-谨慎的使用本地方法"><a class="markdownIt-Anchor" href="#第五十四条-谨慎的使用本地方法"></a> 第五十四条 谨慎的使用本地方法</h3>
+<h3 id="第五十五条-谨慎的使用优化"><a class="markdownIt-Anchor" href="#第五十五条-谨慎的使用优化"></a> 第五十五条 谨慎的使用优化</h3>
+<h3 id="第五十六条-遵守普遍接受的命名习惯"><a class="markdownIt-Anchor" href="#第五十六条-遵守普遍接受的命名习惯"></a> 第五十六条 遵守普遍接受的命名习惯</h3>
+<h3 id="第五十七条-只有针对异常的情况才使用异常"><a class="markdownIt-Anchor" href="#第五十七条-只有针对异常的情况才使用异常"></a> 第五十七条 只有针对异常的情况才使用异常</h3>
+<h3 id="第五十八条-对可恢复的情况使用受检异常对编程错误使用运行时异常"><a class="markdownIt-Anchor" href="#第五十八条-对可恢复的情况使用受检异常对编程错误使用运行时异常"></a> 第五十八条 对可恢复的情况使用受检异常，对编程错误使用运行时异常</h3>
+<h3 id="第五十九条-避免不必要地使用受检的异常"><a class="markdownIt-Anchor" href="#第五十九条-避免不必要地使用受检的异常"></a> 第五十九条 避免不必要地使用受检的异常</h3>
+<h3 id="第六十条-优先使用标准的异常"><a class="markdownIt-Anchor" href="#第六十条-优先使用标准的异常"></a> 第六十条 优先使用标准的异常</h3>
+<h3 id="第六十一条-抛出与抽象相对应的异常"><a class="markdownIt-Anchor" href="#第六十一条-抛出与抽象相对应的异常"></a> 第六十一条 抛出与抽象相对应的异常</h3>
+<h3 id="第六十二条-每个方法抛出的异常都要有文档"><a class="markdownIt-Anchor" href="#第六十二条-每个方法抛出的异常都要有文档"></a> 第六十二条 每个方法抛出的异常都要有文档</h3>
+<h3 id="第六十三条-在细节消息中包含能捕获失败的消息"><a class="markdownIt-Anchor" href="#第六十三条-在细节消息中包含能捕获失败的消息"></a> 第六十三条 在细节消息中包含能捕获失败的消息</h3>
+<h3 id="第六十四条-努力是失败保持原子性"><a class="markdownIt-Anchor" href="#第六十四条-努力是失败保持原子性"></a> 第六十四条 努力是失败保持原子性</h3>
+<h3 id="第六十五条-不要忽略异常"><a class="markdownIt-Anchor" href="#第六十五条-不要忽略异常"></a> 第六十五条 不要忽略异常</h3>
+<h3 id="第六十六条-同步访问共享的可变数据"><a class="markdownIt-Anchor" href="#第六十六条-同步访问共享的可变数据"></a> 第六十六条 同步访问共享的可变数据</h3>
+<h3 id="第六十七条-避免过度同步"><a class="markdownIt-Anchor" href="#第六十七条-避免过度同步"></a> 第六十七条 避免过度同步</h3>
+<h3 id="第六十八条-executor-和-task-优先于线程"><a class="markdownIt-Anchor" href="#第六十八条-executor-和-task-优先于线程"></a> 第六十八条 executor 和 task 优先于线程</h3>
+<h3 id="第六十九条-并发工具优先于-wait-和-notify"><a class="markdownIt-Anchor" href="#第六十九条-并发工具优先于-wait-和-notify"></a> 第六十九条 并发工具优先于 wait 和 notify</h3>
+<h3 id="第七十条-线程安全性的文档化"><a class="markdownIt-Anchor" href="#第七十条-线程安全性的文档化"></a> 第七十条 线程安全性的文档化</h3>
+<h3 id="第七十一条-慎用延迟初始化"><a class="markdownIt-Anchor" href="#第七十一条-慎用延迟初始化"></a> 第七十一条 慎用延迟初始化</h3>
+<h3 id="第七十二条-不要依赖于线程调度器"><a class="markdownIt-Anchor" href="#第七十二条-不要依赖于线程调度器"></a> 第七十二条 不要依赖于线程调度器</h3>
+<h3 id="第七十三条-避免使用线程组"><a class="markdownIt-Anchor" href="#第七十三条-避免使用线程组"></a> 第七十三条 避免使用线程组</h3>
+<h3 id="第七十四条-谨慎地实现-serializble-接口"><a class="markdownIt-Anchor" href="#第七十四条-谨慎地实现-serializble-接口"></a> 第七十四条 谨慎地实现 Serializble 接口</h3>
+<p>实现 Serializable 接口而付出第最大代价是，一旦一个类被发布，就大大降低了“改变这个类的实现” 的灵活性</p>
+<h3 id="第七十五条-考虑使用自定义的序列化形式"><a class="markdownIt-Anchor" href="#第七十五条-考虑使用自定义的序列化形式"></a> 第七十五条 考虑使用自定义的序列化形式</h3>
+<h3 id="第七十六条-保护性的编写-readobject-方法"><a class="markdownIt-Anchor" href="#第七十六条-保护性的编写-readobject-方法"></a> 第七十六条 保护性的编写 readObject 方法</h3>
+<h3 id="第七十七条-对于实例控制枚举类型优先于-readresolve"><a class="markdownIt-Anchor" href="#第七十七条-对于实例控制枚举类型优先于-readresolve"></a> 第七十七条 对于实例控制，枚举类型优先于 readResolve</h3>
+<h3 id="第七十八条-考虑使用序列化代理代替序列化实例"><a class="markdownIt-Anchor" href="#第七十八条-考虑使用序列化代理代替序列化实例"></a> 第七十八条 考虑使用序列化代理代替序列化实例</h3>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wzes.github.io/2018/08/30/Book Notes/Effective-Java-2-读书笔记-78条/" title="Effective Java2 读书笔记78条" target="_blank" rel="external">https://wzes.github.io/2018/08/30/Book Notes/Effective-Java-2-读书笔记-78条/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wzes" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wzes" target="_blank"><span class="text-dark">爨</span><small class="ml-1x">美团点评 Android 开发</small></a></h3>
+        <div>一只会 FE 的 Android 工程师～</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/09/05/Android/Android Rxjava/" title="Android Rxjava 源码解析"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/08/27/Java/Java8 HashMap 源码解析/" title="Java8 HashMap 源码解析"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'Iv1.446a8880ab469e45',
+    clientSecret: '06f5e0c171bd464017a20a8002e7322ac897238c',
+    repo: 'https://github.com/wzes/wzes.github.io',
+    owner: 'wzes',
+    admin: ['wzes'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>
