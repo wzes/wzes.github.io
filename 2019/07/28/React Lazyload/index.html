@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>React Lazyload 源码解析 | Xuantang Cun 的博客</title>
+  <meta name="description" content="React Lazyload">
+<meta name="keywords" content="JavaScript,React,Lazyload">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React Lazyload 源码解析">
+<meta property="og:url" content="https://wzes.github.io/2019/07/28/React Lazyload/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="React Lazyload">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7117641-a10f694d96109cc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640">
+<meta property="og:updated_time" content="2019-09-01T14:30:38.029Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React Lazyload 源码解析">
+<meta name="twitter:description" content="React Lazyload">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7117641-a10f694d96109cc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wzes.github.io/2019/07/28/React Lazyload/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wzes" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎加入美团点评的大家庭～～内推找18001997427（微信 备注Github）</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-Node/">JavaScript Node</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/">DOM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Array/">JavaScript Array</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Babel/">JavaScript Babel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Koa/">Koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lazyload/">Lazyload</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/">Node</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/">Redux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/DOM/" style="font-size: 13px;">DOM</a> <a href="/tags/HTML/" style="font-size: 13px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript-Array/" style="font-size: 13px;">JavaScript Array</a> <a href="/tags/JavaScript-Babel/" style="font-size: 13px;">JavaScript Babel</a> <a href="/tags/Koa/" style="font-size: 13px;">Koa</a> <a href="/tags/Lazyload/" style="font-size: 13px;">Lazyload</a> <a href="/tags/Node/" style="font-size: 13px;">Node</a> <a href="/tags/React/" style="font-size: 13.5px;">React</a> <a href="/tags/Redux/" style="font-size: 13px;">Redux</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/09/01/JavaScript Array/" class="title">JavaScript Array 的 1 个属性，35 个方法</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-01T07:30:16.000Z" itemprop="datePublished">2019-09-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/25/Redux V0.2.1/" class="title">Redux v0.2.1 源码学习</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-25T11:30:16.000Z" itemprop="datePublished">2019-08-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/18/KoaJs/" class="title">KoaJs 源码解析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-18T10:56:00.000Z" itemprop="datePublished">2019-08-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript-Node/">JavaScript Node</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/04/Babel Loader/" class="title">Babel-Loader 自定义入门</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-04T05:42:00.000Z" itemprop="datePublished">2019-08-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/07/28/React Lazyload/" class="title">React Lazyload 源码解析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-07-28T03:59:00.000Z" itemprop="datePublished">2019-07-28</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-React Lazyload" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      React Lazyload 源码解析
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/07/28/React Lazyload/" class="article-date">
+	  <time datetime="2019-07-28T03:59:00.000Z" itemprop="datePublished">2019-07-28</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>, <a class="article-tag-link" href="/tags/Lazyload/">Lazyload</a>, <a class="article-tag-link" href="/tags/React/">React</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/07/28/React Lazyload/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.7k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 8(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h3>
+<p>早在多年前，lazyload 已经出现了，懒加载在前端里边同样具有十分重要的意义。react-lazyload 的作用是当组件未出现在屏幕内时，不去挂载该组件，而是使用 placeholder 去渲染，让滚动使内容出现后，组件会被挂载。就是这么简单！例如，一个复杂的组件（非首屏内容），使用了懒加载后，渲染首屏就会节省很多资源，从而减少首屏渲染时间。</p>
+<h3 id="demo"><a class="markdownIt-Anchor" href="#demo"></a> Demo</h3>
+<p>源码地址 <a href="https://github.com/twobin/react-lazyload" target="_blank" rel="noopener">react-lazyload</a><br>
+Demo地址 <a href="https://twobin.github.io/react-lazyload/examples/" target="_blank" rel="noopener">Demo</a></p>
+<h4 id="helloworld"><a class="markdownIt-Anchor" href="#helloworld"></a> HelloWorld</h4>
+<p>将需要懒加载的组件使用 LazyLoad 包裹即可，最好使用 height 进行站位，否则该组件位置将会为 0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;LazyLoad height=&#123;200&#125;&gt;</span><br><span class="line">    &lt;img src=&quot;tiger.jpg&quot; /&gt; /*</span><br><span class="line">                              Lazy loading images is supported out of box,</span><br><span class="line">                              no extra config needed, set `height` for better</span><br><span class="line">                              experience</span><br><span class="line">                             */</span><br><span class="line">  &lt;/LazyLoad&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="解析"><a class="markdownIt-Anchor" href="#解析"></a> 解析</h3>
+<p>从源码角度分析～</p>
+<h4 id="一览核心"><a class="markdownIt-Anchor" href="#一览核心"></a> 一览核心</h4>
+<p>本小节摘取了最核心的代码，目的在于对 LazyLoad 组件有个最核心的认识，它的核心就是监听滚动事件，检查组件是否在屏幕内，如果在的话就显示，不在的话就不显示～</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class LazyLoad extends Component &#123;</span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">   on(scrollport, &apos;scroll&apos;, finalLazyLoadHandler, passiveEvent);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return this.visible ?</span><br><span class="line">           this.props.children :</span><br><span class="line">             this.props.placeholder ?</span><br><span class="line">                this.props.placeholder :</span><br><span class="line">                &lt;div style=&#123;&#123; height: this.props.height &#125;&#125; className=&quot;lazyload-placeholder&quot; ref=&#123;this.setRef&#125; /&gt;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>LazyLoad 的属性，透过属性，我们可以知道它大概有些什么功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">LazyLoad.propTypes = &#123;</span><br><span class="line">  once: PropTypes.bool,</span><br><span class="line">  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),</span><br><span class="line">  offset: PropTypes.oneOfType([PropTypes.number, PropTypes.arrayOf(PropTypes.number)]),</span><br><span class="line">  overflow: PropTypes.bool, // 不是 window 滚动，而使用了 overflow: scroll </span><br><span class="line">  resize: PropTypes.bool, // 是否监听 resize</span><br><span class="line">  scroll: PropTypes.bool, // 是否监听滚动</span><br><span class="line">  children: PropTypes.node,</span><br><span class="line">  throttle: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),</span><br><span class="line">  debounce: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),</span><br><span class="line">  placeholder: PropTypes.node,</span><br><span class="line">  scrollContainer: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),</span><br><span class="line">  unmountIfInvisible: PropTypes.bool,</span><br><span class="line">  preventLoading: PropTypes.bool</span><br><span class="line">&#125;;</span><br><span class="line">// 默认值</span><br><span class="line">LazyLoad.defaultProps = &#123;</span><br><span class="line">  once: false,</span><br><span class="line">  offset: 0,</span><br><span class="line">  overflow: false,</span><br><span class="line">  resize: false,</span><br><span class="line">  scroll: true,</span><br><span class="line">  unmountIfInvisible: false,</span><br><span class="line">  preventLoading: false,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>完整的 componentDidMount，scrollport 是滚动试图，默认是 window，如果 props 传入了 scrollContainer，那么滚动试图将是自定义的。needResetFinalLazyLoadHandler 是控制是否重置滚动监听。debounce 和 throttle 分别是用来控制滚动事件的监听触发频率，默认都是 undefine，needResetFinalLazyLoadHandler 初始值为 false。finalLazyLoadHandler 初始值也为 undefine，而 overflow 也为 false，scroll 为 true，listeners 是需要懒加载的组件集合，初始大小肯定为0，componentDidMount 最后才会进行添加，因此最终会走到 **on(scrollport, ‘scroll’, finalLazyLoadHandler, passiveEvent)，事件只需要一次绑定即可。<br>
+**</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">componentDidMount() &#123;</span><br><span class="line">    // It&apos;s unlikely to change delay type on the fly, this is mainly</span><br><span class="line">    // designed for tests</span><br><span class="line">    let scrollport = window;</span><br><span class="line">    const &#123;</span><br><span class="line">      scrollContainer,</span><br><span class="line">    &#125; = this.props;</span><br><span class="line">    if (scrollContainer) &#123;</span><br><span class="line">      if (isString(scrollContainer)) &#123;</span><br><span class="line">        scrollport = scrollport.document.querySelector(scrollContainer);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    const needResetFinalLazyLoadHandler = (this.props.debounce !== undefined &amp;&amp; delayType === &apos;throttle&apos;)</span><br><span class="line">      || (delayType === &apos;debounce&apos; &amp;&amp; this.props.debounce === undefined);</span><br><span class="line"></span><br><span class="line">    if (needResetFinalLazyLoadHandler) &#123;</span><br><span class="line">      off(scrollport, &apos;scroll&apos;, finalLazyLoadHandler, passiveEvent);</span><br><span class="line">      off(window, &apos;resize&apos;, finalLazyLoadHandler, passiveEvent);</span><br><span class="line">      finalLazyLoadHandler = null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (!finalLazyLoadHandler) &#123;</span><br><span class="line">      if (this.props.debounce !== undefined) &#123;</span><br><span class="line">        finalLazyLoadHandler = debounce(lazyLoadHandler, typeof this.props.debounce === &apos;number&apos; ?</span><br><span class="line">                                                         this.props.debounce :</span><br><span class="line">                                                         300);</span><br><span class="line">        delayType = &apos;debounce&apos;;</span><br><span class="line">      &#125; else if (this.props.throttle !== undefined) &#123;</span><br><span class="line">        finalLazyLoadHandler = throttle(lazyLoadHandler, typeof this.props.throttle === &apos;number&apos; ?</span><br><span class="line">                                                         this.props.throttle :</span><br><span class="line">                                                         300);</span><br><span class="line">        delayType = &apos;throttle&apos;;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        finalLazyLoadHandler = lazyLoadHandler;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (this.props.overflow) &#123;</span><br><span class="line">      const parent = scrollParent(this.ref);</span><br><span class="line">      if (parent &amp;&amp; typeof parent.getAttribute === &apos;function&apos;) &#123;</span><br><span class="line">        const listenerCount = 1 + (+parent.getAttribute(LISTEN_FLAG));</span><br><span class="line">        if (listenerCount === 1) &#123;</span><br><span class="line">          parent.addEventListener(&apos;scroll&apos;, finalLazyLoadHandler, passiveEvent);</span><br><span class="line">        &#125;</span><br><span class="line">        parent.setAttribute(LISTEN_FLAG, listenerCount);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else if (listeners.length === 0 || needResetFinalLazyLoadHandler) &#123;</span><br><span class="line">      const &#123; scroll, resize &#125; = this.props;</span><br><span class="line"></span><br><span class="line">      if (scroll) &#123;</span><br><span class="line">        on(scrollport, &apos;scroll&apos;, finalLazyLoadHandler, passiveEvent);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      if (resize) &#123;</span><br><span class="line">        on(window, &apos;resize&apos;, finalLazyLoadHandler, passiveEvent);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    listeners.push(this);</span><br><span class="line">    checkVisible(this);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>通常 finalLazyLoadHandler 就是 lazyLoadHandler，不会对滚动事件进行 debounce 或 throttle，我们一般为了性能，会使用 throttle 进行处理。函数会对每一个懒加载组件进行 checkVisible，之后会移除 once component</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const lazyLoadHandler = () =&gt; &#123;</span><br><span class="line">  for (let i = 0; i &lt; listeners.length; ++i) &#123;</span><br><span class="line">    const listener = listeners[i];</span><br><span class="line">    checkVisible(listener);</span><br><span class="line">  &#125;</span><br><span class="line">  // Remove `once` component in listeners</span><br><span class="line">  purgePending();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>checkVisible，检查组件是否出现在 viewport 中，如果出现了就吧 visible 设置为 true，当然如果设置了 unmountIfInvisible = true，那么不可见时组件将被移除，如果之前已经渲染了，需要避免再次渲染。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">const checkVisible = function checkVisible(component) &#123;</span><br><span class="line">  const node = component.ref;</span><br><span class="line">  if (!(node instanceof HTMLElement)) &#123;</span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const parent = scrollParent(node);</span><br><span class="line">  const isOverflow = component.props.overflow &amp;&amp;</span><br><span class="line">                     parent !== node.ownerDocument &amp;&amp;</span><br><span class="line">                     parent !== document &amp;&amp;</span><br><span class="line">                     parent !== document.documentElement;</span><br><span class="line">  const visible = isOverflow ?</span><br><span class="line">                  checkOverflowVisible(component, parent) :</span><br><span class="line">                  checkNormalVisible(component);</span><br><span class="line">  if (visible) &#123;</span><br><span class="line">    // Avoid extra render if previously is visible</span><br><span class="line">    if (!component.visible &amp;&amp; !component.preventLoading) &#123;</span><br><span class="line">      if (component.props.once) &#123;</span><br><span class="line">        pending.push(component);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      component.visible = true;</span><br><span class="line">      component.forceUpdate();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else if (!(component.props.once &amp;&amp; component.visible)) &#123;</span><br><span class="line">    component.visible = false;</span><br><span class="line">    if (component.props.unmountIfInvisible) &#123;</span><br><span class="line">      component.forceUpdate();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>checkNormalVisible 检查组件是否 visible 的函数，判断组件的getgetBoundingClientRect 的 top - offset（相对于屏幕顶部的距离） 与 window 的 height 之间的关系</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">const checkNormalVisible = function checkNormalVisible(component) &#123;</span><br><span class="line">  const node = component.ref;</span><br><span class="line"></span><br><span class="line">  // If this element is hidden by css rules somehow, it&apos;s definitely invisible</span><br><span class="line">  if (!(node.offsetWidth || node.offsetHeight || node.getClientRects().length)) return false;</span><br><span class="line"></span><br><span class="line">  let top;</span><br><span class="line">  let elementHeight;</span><br><span class="line"></span><br><span class="line">  try &#123;</span><br><span class="line">    // 这个语法 node 也是支持的</span><br><span class="line">    (&#123; top, height: elementHeight &#125; = node.getBoundingClientRect());</span><br><span class="line">  &#125; catch (e) &#123;</span><br><span class="line">    (&#123; top, height: elementHeight &#125; = defaultBoundingClientRect);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const windowInnerHeight = window.innerHeight || document.documentElement.clientHeight;</span><br><span class="line"></span><br><span class="line">  const offsets = Array.isArray(component.props.offset) ?</span><br><span class="line">                component.props.offset :</span><br><span class="line">                [component.props.offset, component.props.offset]; // Be compatible with previous API</span><br><span class="line"></span><br><span class="line">  return (top - offsets[0] &lt;= windowInnerHeight) &amp;&amp;</span><br><span class="line">         (top + elementHeight + offsets[1] &gt;= 0);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(top - offsets[0] &lt;= windowInnerHeight) &amp;&amp;</span><br><span class="line">         (top + elementHeight + offsets[1] &gt;= 0);</span><br></pre></td></tr></table></figure>
+<p>一张图解析！<br>
+<img src="https://upload-images.jianshu.io/upload_images/7117641-a10f694d96109cc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640" alt="check visible example"><br>
+到这里解析的差不多了</p>
+<p>欣赏一下 throttle</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">export default function throttle(fn, threshhold, scope) &#123;</span><br><span class="line">  threshhold || (threshhold = 250);</span><br><span class="line">  var last,</span><br><span class="line">      deferTimer;</span><br><span class="line">  return function () &#123;</span><br><span class="line">    var context = scope || this;</span><br><span class="line"></span><br><span class="line">    var now = +new Date,</span><br><span class="line">        args = arguments;</span><br><span class="line">    if (last &amp;&amp; now &lt; last + threshhold) &#123;</span><br><span class="line">      // hold on to it</span><br><span class="line">      clearTimeout(deferTimer);</span><br><span class="line">      deferTimer = setTimeout(function () &#123;</span><br><span class="line">        last = now;</span><br><span class="line">        fn.apply(context, args);</span><br><span class="line">      &#125;, threshhold);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      last = now;</span><br><span class="line">      fn.apply(context, args);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再欣赏一下 debounce</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">export default function debounce(func, wait, immediate) &#123;</span><br><span class="line">  let timeout;</span><br><span class="line">  let args;</span><br><span class="line">  let context;</span><br><span class="line">  let timestamp;</span><br><span class="line">  let result;</span><br><span class="line"></span><br><span class="line">  const later = function later() &#123;</span><br><span class="line">    const last = +(new Date()) - timestamp;</span><br><span class="line"></span><br><span class="line">    if (last &lt; wait &amp;&amp; last &gt;= 0) &#123;</span><br><span class="line">      timeout = setTimeout(later, wait - last);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      timeout = null;</span><br><span class="line">      if (!immediate) &#123;</span><br><span class="line">        result = func.apply(context, args);</span><br><span class="line">        if (!timeout) &#123;</span><br><span class="line">          context = null;</span><br><span class="line">          args = null;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  return function debounced() &#123;</span><br><span class="line">    context = this;</span><br><span class="line">    args = arguments;</span><br><span class="line">    timestamp = +(new Date());</span><br><span class="line"></span><br><span class="line">    const callNow = immediate &amp;&amp; !timeout;</span><br><span class="line">    if (!timeout) &#123;</span><br><span class="line">      timeout = setTimeout(later, wait);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (callNow) &#123;</span><br><span class="line">      result = func.apply(context, args);</span><br><span class="line">      context = null;</span><br><span class="line">      args = null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return result;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>获取 scrollParent</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">export default (node) =&gt; &#123;</span><br><span class="line">  if (!(node instanceof HTMLElement)) &#123;</span><br><span class="line">    return document.documentElement;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const excludeStaticParent = node.style.position === &apos;absolute&apos;;</span><br><span class="line">  const overflowRegex = /(scroll|auto)/;</span><br><span class="line">  let parent = node;</span><br><span class="line"></span><br><span class="line">  while (parent) &#123;</span><br><span class="line">    if (!parent.parentNode) &#123;</span><br><span class="line">      return node.ownerDocument || document.documentElement;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const style = window.getComputedStyle(parent);</span><br><span class="line">    const position = style.position;</span><br><span class="line">    const overflow = style.overflow;</span><br><span class="line">    const overflowX = style[&apos;overflow-x&apos;];</span><br><span class="line">    const overflowY = style[&apos;overflow-y&apos;];</span><br><span class="line"></span><br><span class="line">    if (position === &apos;static&apos; &amp;&amp; excludeStaticParent) &#123;</span><br><span class="line">      parent = parent.parentNode;</span><br><span class="line">      continue;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (overflowRegex.test(overflow) &amp;&amp; overflowRegex.test(overflowX) &amp;&amp; overflowRegex.test(overflowY)) &#123;</span><br><span class="line">      return parent;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    parent = parent.parentNode;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return node.ownerDocument || node.documentElement || document.documentElement;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="总结思考"><a class="markdownIt-Anchor" href="#总结思考"></a> 总结思考</h3>
+<p>我们可以看到，Lazyload 并不能实现类似客户端的图片懒加载，Lazyload 加载图片也会出现白屏时间，解决办法是使用 <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XUL/Attribute/image.onload" target="_blank" rel="noopener">image.onload</a>，当图片资源请求关闭后，再显示图片，就可以做到类似客户端的效果。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wzes.github.io/2019/07/28/React Lazyload/" title="React Lazyload 源码解析" target="_blank" rel="external">https://wzes.github.io/2019/07/28/React Lazyload/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wzes" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wzes" target="_blank"><span class="text-dark">爨</span><small class="ml-1x">美团点评 Android 开发</small></a></h3>
+        <div>一只会 FE 的 Android 工程师～</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/08/04/Babel Loader/" title="Babel-Loader 自定义入门"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/07/20/Swipe-js-ios/" title="Swipe-js-ios 源码解析"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'Iv1.446a8880ab469e45',
+    clientSecret: '06f5e0c171bd464017a20a8002e7322ac897238c',
+    repo: 'https://github.com/wzes/wzes.github.io',
+    owner: 'wzes',
+    admin: ['wzes'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>Webpack 源码解析 | Xuantang Cun 的博客</title>
+  <meta name="description" content="Webpack">
+<meta name="keywords" content="JavaScript,Webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Webpack 源码解析">
+<meta property="og:url" content="https://wzes.github.io/2019/07/13/Webpack/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Webpack">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-01T14:31:00.690Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Webpack 源码解析">
+<meta name="twitter:description" content="Webpack">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wzes.github.io/2019/07/13/Webpack/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wzes" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎加入美团点评的大家庭～～内推找18001997427（微信 备注Github）</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-Node/">JavaScript Node</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/">DOM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Array/">JavaScript Array</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Babel/">JavaScript Babel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Koa/">Koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lazyload/">Lazyload</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/">Node</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/">Redux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/DOM/" style="font-size: 13px;">DOM</a> <a href="/tags/HTML/" style="font-size: 13px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript-Array/" style="font-size: 13px;">JavaScript Array</a> <a href="/tags/JavaScript-Babel/" style="font-size: 13px;">JavaScript Babel</a> <a href="/tags/Koa/" style="font-size: 13px;">Koa</a> <a href="/tags/Lazyload/" style="font-size: 13px;">Lazyload</a> <a href="/tags/Node/" style="font-size: 13px;">Node</a> <a href="/tags/React/" style="font-size: 13.5px;">React</a> <a href="/tags/Redux/" style="font-size: 13px;">Redux</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/09/01/JavaScript Array/" class="title">JavaScript Array 的 1 个属性，35 个方法</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-01T07:30:16.000Z" itemprop="datePublished">2019-09-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/25/Redux V0.2.1/" class="title">Redux v0.2.1 源码学习</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-25T11:30:16.000Z" itemprop="datePublished">2019-08-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/18/KoaJs/" class="title">KoaJs 源码解析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-18T10:56:00.000Z" itemprop="datePublished">2019-08-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript-Node/">JavaScript Node</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/04/Babel Loader/" class="title">Babel-Loader 自定义入门</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-04T05:42:00.000Z" itemprop="datePublished">2019-08-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/07/28/React Lazyload/" class="title">React Lazyload 源码解析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-07-28T03:59:00.000Z" itemprop="datePublished">2019-07-28</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Webpack" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Webpack 源码解析
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/07/13/Webpack/" class="article-date">
+	  <time datetime="2019-07-13T11:59:16.000Z" itemprop="datePublished">2019-07-13</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>, <a class="article-tag-link" href="/tags/Webpack/">Webpack</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/07/13/Webpack/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.4k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 7(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h3>
+<p>算是一个h5开发了，虽然没写过什么完整的前端页面，但接触前端也有段时间了，对于一个合格的前端开发者而言，搞懂 webpack 打包原理还是比较重要的。</p>
+<h3 id="hello-world"><a class="markdownIt-Anchor" href="#hello-world"></a> hello world</h3>
+<p>使用 commonjs 规范，lib.js 只导出一个方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// lib.js</span><br><span class="line">module.exports = function () &#123;</span><br><span class="line">    return &quot;hello webpack!&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>index.js 使用 require 引入，代码很简单，输入方法返回值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// index.js</span><br><span class="line">const func = require(&quot;./lib&quot;)</span><br><span class="line"></span><br><span class="line">const result = func()</span><br><span class="line">// print hello</span><br><span class="line">console.log(result)</span><br></pre></td></tr></table></figure>
+<h5 id="目录结构"><a class="markdownIt-Anchor" href="#目录结构"></a> 目录结构</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── dist</span><br><span class="line">│   └── main.js</span><br><span class="line">├── package-lock.json</span><br><span class="line">├── package.json</span><br><span class="line">├── node_modules</span><br><span class="line">├── src</span><br><span class="line">│   ├── index.js</span><br><span class="line">│   └── lib.js</span><br><span class="line">└── webpack.config.js</span><br></pre></td></tr></table></figure>
+<h5 id="webpackconfigjs"><a class="markdownIt-Anchor" href="#webpackconfigjs"></a> webpack.config.js</h5>
+<p>为了方便看生成的源码，我们将 mode 设置为 development，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var path = require(&apos;path&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    context: path.resolve(__dirname, &apos;./&apos;),</span><br><span class="line">    mode: &apos;development&apos;,</span><br><span class="line">    entry: &apos;./src/index.js&apos;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, &apos;dist&apos;),</span><br><span class="line">        filename: &apos;main.js&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h5 id="packagejson"><a class="markdownIt-Anchor" href="#packagejson"></a> package.json</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;webpack-demo&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;&quot;,</span><br><span class="line">  &quot;private&quot;: true,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,</span><br><span class="line">    &quot;build&quot;: &quot;webpack&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;keywords&quot;: [],</span><br><span class="line">  &quot;author&quot;: &quot;&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;ISC&quot;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;webpack&quot;: &quot;^4.35.2&quot;,</span><br><span class="line">    &quot;webpack-cli&quot;: &quot;^3.3.5&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="编译运行"><a class="markdownIt-Anchor" href="#编译运行"></a> 编译运行</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br><span class="line">node dist/main.js</span><br></pre></td></tr></table></figure>
+<h5 id="输出"><a class="markdownIt-Anchor" href="#输出"></a> 输出</h5>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ node dist/main.js </span><br><span class="line">hello webpack!</span><br></pre></td></tr></table></figure>
+<h4 id="起源"><a class="markdownIt-Anchor" href="#起源"></a> 起源</h4>
+<p>浏览器，node 并不支持模块化，我们在项目中使用的 require、export 将会经过 webpack 后，这些 js 就会被打包整合成一个 js 文件，只需要运行 js 文件，整个模块将会运行起来了。</p>
+<h4 id="mainjs-解析"><a class="markdownIt-Anchor" href="#mainjs-解析"></a> main.js 解析</h4>
+<p>整个文件只有 111 行，这是未经过压缩的版本，生产环境下的输出文件比这还要精简，只需要在 webpack.config.js 中将 mode 值等于 production 即可改变打包环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line">/******/ (function(modules) &#123; // webpackBootstrap</span><br><span class="line">/******/ 	// The module cache</span><br><span class="line">/******/ 	var installedModules = &#123;&#125;;</span><br><span class="line">/******/</span><br><span class="line">/******/ 	// The require function</span><br><span class="line">/******/ 	function __webpack_require__(moduleId) &#123;</span><br><span class="line">/******/</span><br><span class="line">/******/ 		// Check if module is in cache</span><br><span class="line">/******/ 		if(installedModules[moduleId]) &#123;</span><br><span class="line">/******/ 			return installedModules[moduleId].exports;</span><br><span class="line">/******/ 		&#125;</span><br><span class="line">/******/ 		// Create a new module (and put it into the cache)</span><br><span class="line">/******/ 		var module = installedModules[moduleId] = &#123;</span><br><span class="line">/******/ 			i: moduleId,</span><br><span class="line">/******/ 			l: false,</span><br><span class="line">/******/ 			exports: &#123;&#125;</span><br><span class="line">/******/ 		&#125;;</span><br><span class="line">/******/</span><br><span class="line">/******/ 		// Execute the module function</span><br><span class="line">/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);</span><br><span class="line">/******/</span><br><span class="line">/******/ 		// Flag the module as loaded</span><br><span class="line">/******/ 		module.l = true;</span><br><span class="line">/******/</span><br><span class="line">/******/ 		// Return the exports of the module</span><br><span class="line">/******/ 		return module.exports;</span><br><span class="line">/******/ 	&#125;</span><br><span class="line">/******/</span><br><span class="line">/******/</span><br><span class="line">/******/ 	// expose the modules object (__webpack_modules__)</span><br><span class="line">/******/ 	__webpack_require__.m = modules;</span><br><span class="line">/******/</span><br><span class="line">/******/ 	// expose the module cache</span><br><span class="line">/******/ 	__webpack_require__.c = installedModules;</span><br><span class="line">/******/</span><br><span class="line">/******/ 	// define getter function for harmony exports</span><br><span class="line">/******/ 	__webpack_require__.d = function(exports, name, getter) &#123;</span><br><span class="line">/******/ 		if(!__webpack_require__.o(exports, name)) &#123;</span><br><span class="line">/******/ 			Object.defineProperty(exports, name, &#123; enumerable: true, get: getter &#125;);</span><br><span class="line">/******/ 		&#125;</span><br><span class="line">/******/ 	&#125;;</span><br><span class="line">/******/</span><br><span class="line">/******/ 	// define __esModule on exports</span><br><span class="line">/******/ 	__webpack_require__.r = function(exports) &#123;</span><br><span class="line">/******/ 		if(typeof Symbol !== &apos;undefined&apos; &amp;&amp; Symbol.toStringTag) &#123;</span><br><span class="line">/******/ 			Object.defineProperty(exports, Symbol.toStringTag, &#123; value: &apos;Module&apos; &#125;);</span><br><span class="line">/******/ 		&#125;</span><br><span class="line">/******/ 		Object.defineProperty(exports, &apos;__esModule&apos;, &#123; value: true &#125;);</span><br><span class="line">/******/ 	&#125;;</span><br><span class="line">/******/</span><br><span class="line">/******/ 	// create a fake namespace object</span><br><span class="line">/******/ 	// mode &amp; 1: value is a module id, require it</span><br><span class="line">/******/ 	// mode &amp; 2: merge all properties of value into the ns</span><br><span class="line">/******/ 	// mode &amp; 4: return value when already ns object</span><br><span class="line">/******/ 	// mode &amp; 8|1: behave like require</span><br><span class="line">/******/ 	__webpack_require__.t = function(value, mode) &#123;</span><br><span class="line">/******/ 		if(mode &amp; 1) value = __webpack_require__(value);</span><br><span class="line">/******/ 		if(mode &amp; 8) return value;</span><br><span class="line">/******/ 		if((mode &amp; 4) &amp;&amp; typeof value === &apos;object&apos; &amp;&amp; value &amp;&amp; value.__esModule) return value;</span><br><span class="line">/******/ 		var ns = Object.create(null);</span><br><span class="line">/******/ 		__webpack_require__.r(ns);</span><br><span class="line">/******/ 		Object.defineProperty(ns, &apos;default&apos;, &#123; enumerable: true, value: value &#125;);</span><br><span class="line">/******/ 		if(mode &amp; 2 &amp;&amp; typeof value != &apos;string&apos;) for(var key in value) __webpack_require__.d(ns, key, function(key) &#123; return value[key]; &#125;.bind(null, key));</span><br><span class="line">/******/ 		return ns;</span><br><span class="line">/******/ 	&#125;;</span><br><span class="line">/******/</span><br><span class="line">/******/ 	// getDefaultExport function for compatibility with non-harmony modules</span><br><span class="line">/******/ 	__webpack_require__.n = function(module) &#123;</span><br><span class="line">/******/ 		var getter = module &amp;&amp; module.__esModule ?</span><br><span class="line">/******/ 			function getDefault() &#123; return module[&apos;default&apos;]; &#125; :</span><br><span class="line">/******/ 			function getModuleExports() &#123; return module; &#125;;</span><br><span class="line">/******/ 		__webpack_require__.d(getter, &apos;a&apos;, getter);</span><br><span class="line">/******/ 		return getter;</span><br><span class="line">/******/ 	&#125;;</span><br><span class="line">/******/</span><br><span class="line">/******/ 	// Object.prototype.hasOwnProperty.call</span><br><span class="line">/******/ 	__webpack_require__.o = function(object, property) &#123; return Object.prototype.hasOwnProperty.call(object, property); &#125;;</span><br><span class="line">/******/</span><br><span class="line">/******/ 	// __webpack_public_path__</span><br><span class="line">/******/ 	__webpack_require__.p = &quot;&quot;;</span><br><span class="line">/******/</span><br><span class="line">/******/</span><br><span class="line">/******/ 	// Load entry module and return exports</span><br><span class="line">/******/ 	return __webpack_require__(__webpack_require__.s = &quot;./src/index.js&quot;);</span><br><span class="line">/******/ &#125;)</span><br><span class="line">/************************************************************************/</span><br><span class="line">/******/ (&#123;</span><br><span class="line"></span><br><span class="line">/***/ &quot;./src/index.js&quot;:</span><br><span class="line">/*!**********************!*\</span><br><span class="line">  !*** ./src/index.js ***!</span><br><span class="line">  \**********************/</span><br><span class="line">/*! no static exports found */</span><br><span class="line">/***/ (function(module, exports, __webpack_require__) &#123;</span><br><span class="line"></span><br><span class="line">eval(&quot;// index.js\nconst func = __webpack_require__(/*! ./lib */ \&quot;./src/lib.js\&quot;)\n\nconst result = func()\n// print hello\nconsole.log(result)\n\n//# sourceURL=webpack:///./src/index.js?&quot;);</span><br><span class="line"></span><br><span class="line">/***/ &#125;),</span><br><span class="line"></span><br><span class="line">/***/ &quot;./src/lib.js&quot;:</span><br><span class="line">/*!********************!*\</span><br><span class="line">  !*** ./src/lib.js ***!</span><br><span class="line">  \********************/</span><br><span class="line">/*! no static exports found */</span><br><span class="line">/***/ (function(module, exports) &#123;</span><br><span class="line"></span><br><span class="line">eval(&quot;module.exports = function () &#123;\n    return \&quot;hello webpack!\&quot;\n&#125;\n\n//# sourceURL=webpack:///./src/lib.js?&quot;);</span><br><span class="line"></span><br><span class="line">/***/ &#125;)</span><br><span class="line"></span><br><span class="line">/******/ &#125;);</span><br></pre></td></tr></table></figure>
+<p>我们先将此文件的主要部分拿出来看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">/******/</span><br><span class="line">(function (modules) &#123;</span><br><span class="line">    var installedModules = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    function __webpack_require__ (moduleId) &#123;</span><br><span class="line">        if (installedModules[moduleId]) &#123;</span><br><span class="line">            return installedModules[moduleId].exports</span><br><span class="line">        &#125;</span><br><span class="line">        var module = installedModules[moduleId] = &#123;</span><br><span class="line">            i: moduleId,</span><br><span class="line">            l: false,</span><br><span class="line">            exports: &#123;&#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        modules[moduleId].call(module.exports, module, module.exports, __webpack_require__)</span><br><span class="line">        module.l = true</span><br><span class="line">        return module.exports</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return __webpack_require__(__webpack_require__.s = &apos;./src/index.js&apos;)</span><br><span class="line">&#125;)</span><br><span class="line">(&#123;</span><br><span class="line">    &apos;./src/index.js&apos;:</span><br><span class="line">        (function (module, exports, __webpack_require__) &#123;</span><br><span class="line">            eval(</span><br><span class="line">                &apos;// index.js\nconst func = __webpack_require__(/*! ./lib */ &quot;./src/lib.js&quot;)\n\nconst result = func()\n// print hello\nconsole.log(result)\n\n//# sourceURL=webpack:///./src/index.js?&apos;)</span><br><span class="line">        &#125;),</span><br><span class="line">    &apos;./src/lib.js&apos;:</span><br><span class="line">        (function (module, exports) &#123;</span><br><span class="line">            eval(</span><br><span class="line">                &apos;module.exports = function () &#123;\n    return &quot;hello webpack!&quot;\n&#125;\n\n//# sourceURL=webpack:///./src/lib.js?&apos;)</span><br><span class="line">        &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这是一个立即执行函数，首先申明了 installedModules 对象，这是已安装的模块集合，之后定义了一个函数 <strong>webpack_require</strong> ，此函数用来获取模块的引用，最后 return 了此函数，参数为入口，moduleId = ‘./src/index.js’<br>
+modules 即为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &apos;./src/index.js&apos;:</span><br><span class="line">        (function (module, exports, __webpack_require__) &#123;</span><br><span class="line">            eval(</span><br><span class="line">                &apos;// index.js\nconst func = __webpack_require__(/*! ./lib */ &quot;./src/lib.js&quot;)\n\nconst result = func()\n// print hello\nconsole.log(result)\n\n//# sourceURL=webpack:///./src/index.js?&apos;)</span><br><span class="line">        &#125;),</span><br><span class="line">    &apos;./src/lib.js&apos;:</span><br><span class="line">        (function (module, exports) &#123;</span><br><span class="line">            eval(</span><br><span class="line">                &apos;module.exports = function () &#123;\n    return &quot;hello webpack!&quot;\n&#125;\n\n//# sourceURL=webpack:///./src/lib.js?&apos;)</span><br><span class="line">        &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modules[moduleId].call(module.exports, module, module.exports, __webpack_require__)</span><br></pre></td></tr></table></figure>
+<p>module 即模块，modules[moduleId] 即为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(function (module, exports, __webpack_require__) &#123;</span><br><span class="line">           eval(</span><br><span class="line">               &apos;// index.js\nconst func = __webpack_require__(/*! ./lib */ &quot;./src/lib.js&quot;)\n\nconst result = func()\n// print hello\nconsole.log(result)\n\n//# sourceURL=webpack:///./src/index.js?&apos;)</span><br><span class="line">       &#125;)</span><br></pre></td></tr></table></figure>
+<p>module.exports 为 this 上下文环境，该函数执行中，第一行即调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const func = __webpack_require__(&quot;./src/lib.js&quot;)</span><br></pre></td></tr></table></figure>
+<p><strong>webpack_require</strong>(&quot;./src/lib.js&quot;) 即调用了此函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(function (module, exports) &#123;</span><br><span class="line">            eval(</span><br><span class="line">                &apos;module.exports = function () &#123;\n    return &quot;hello webpack!&quot;\n&#125;\n\n//# sourceURL=webpack:///./src/lib.js?&apos;)</span><br><span class="line">        &#125;)</span><br></pre></td></tr></table></figure>
+<p>最后返回 module.exports 即 lib 里面的导出函数。再往后执行便是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const result = func()</span><br><span class="line">// print hello</span><br><span class="line">console.log(result)</span><br></pre></td></tr></table></figure>
+<p>此刻基本已经将关系理顺了，此后如果在调用模块，则世界从 installedModules 中直接返回。</p>
+<h4 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h4>
+<p>此文只是分析了简单的模块引用，需要仔细分析才能融会贯通。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wzes.github.io/2019/07/13/Webpack/" title="Webpack 源码解析" target="_blank" rel="external">https://wzes.github.io/2019/07/13/Webpack/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wzes" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wzes" target="_blank"><span class="text-dark">爨</span><small class="ml-1x">美团点评 Android 开发</small></a></h3>
+        <div>一只会 FE 的 Android 工程师～</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/07/20/Swipe-js-ios/" title="Swipe-js-ios 源码解析"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'Iv1.446a8880ab469e45',
+    clientSecret: '06f5e0c171bd464017a20a8002e7322ac897238c',
+    repo: 'https://github.com/wzes/wzes.github.io',
+    owner: 'wzes',
+    admin: ['wzes'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

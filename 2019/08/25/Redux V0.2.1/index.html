@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>Redux v0.2.1 源码学习 | Xuantang Cun 的博客</title>
+  <meta name="description" content="React Redux">
+<meta name="keywords" content="JavaScript,React,Redux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redux v0.2.1 源码学习">
+<meta property="og:url" content="https://wzes.github.io/2019/08/25/Redux V0.2.1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="React Redux">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-01T14:29:39.685Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redux v0.2.1 源码学习">
+<meta name="twitter:description" content="React Redux">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wzes.github.io/2019/08/25/Redux V0.2.1/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wzes" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎加入美团点评的大家庭～～内推找18001997427（微信 备注Github）</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript-Node/">JavaScript Node</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/">DOM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Array/">JavaScript Array</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript-Babel/">JavaScript Babel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Koa/">Koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lazyload/">Lazyload</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/">Node</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/">Redux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/DOM/" style="font-size: 13px;">DOM</a> <a href="/tags/HTML/" style="font-size: 13px;">HTML</a> <a href="/tags/JavaScript/" style="font-size: 14px;">JavaScript</a> <a href="/tags/JavaScript-Array/" style="font-size: 13px;">JavaScript Array</a> <a href="/tags/JavaScript-Babel/" style="font-size: 13px;">JavaScript Babel</a> <a href="/tags/Koa/" style="font-size: 13px;">Koa</a> <a href="/tags/Lazyload/" style="font-size: 13px;">Lazyload</a> <a href="/tags/Node/" style="font-size: 13px;">Node</a> <a href="/tags/React/" style="font-size: 13.5px;">React</a> <a href="/tags/Redux/" style="font-size: 13px;">Redux</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/09/01/JavaScript Array/" class="title">JavaScript Array 的 1 个属性，35 个方法</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-01T07:30:16.000Z" itemprop="datePublished">2019-09-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/25/Redux V0.2.1/" class="title">Redux v0.2.1 源码学习</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-25T11:30:16.000Z" itemprop="datePublished">2019-08-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/18/KoaJs/" class="title">KoaJs 源码解析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-18T10:56:00.000Z" itemprop="datePublished">2019-08-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript-Node/">JavaScript Node</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/04/Babel Loader/" class="title">Babel-Loader 自定义入门</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-04T05:42:00.000Z" itemprop="datePublished">2019-08-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/07/28/React Lazyload/" class="title">React Lazyload 源码解析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-07-28T03:59:00.000Z" itemprop="datePublished">2019-07-28</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Redux V0.2.1" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Redux v0.2.1 源码学习
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/08/25/Redux V0.2.1/" class="article-date">
+	  <time datetime="2019-08-25T11:30:16.000Z" itemprop="datePublished">2019-08-25</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>, <a class="article-tag-link" href="/tags/React/">React</a>, <a class="article-tag-link" href="/tags/Redux/">Redux</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/08/25/Redux V0.2.1/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.8k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 9(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h3>
+<p>这周突然想学习一下状态管理的写法。看看业界是怎么实现的，之前使用过 redux，那就先从 redux 下手吧，但是，一上来就看最新版本的代码，不太适合新手学习，一方面最新版本已经发展n多年了，功能已经非常完善（代码多难懂），另一方面直接看最新的不了解这个工具是怎么设计出来的。于是就打算学习最早的发布版本 v0.2.1</p>
+<p>先来说下我认识的一般的状态管理的基本路子：</p>
+<blockquote>
+<p>全局只存在 <strong>唯一state</strong>，而前端不直接改变 state，而是通过 <strong>action</strong> 去改变 state</p>
+</blockquote>
+<h3 id="helloworld"><a class="markdownIt-Anchor" href="#helloworld"></a> HelloWorld</h3>
+<p>一个计数器的栗子，目录结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">counter</span><br><span class="line">├── App.js</span><br><span class="line">├── Counter.js</span><br><span class="line">├── actions</span><br><span class="line">│   ├── CounterActions.js</span><br><span class="line">│   └── index.js</span><br><span class="line">├── constants</span><br><span class="line">│   └── ActionTypes.js</span><br><span class="line">├── dispatcher.js</span><br><span class="line">└── stores</span><br><span class="line">    ├── CounterStore.js</span><br><span class="line">    └── index.js</span><br></pre></td></tr></table></figure>
+<h4 id="actions"><a class="markdownIt-Anchor" href="#actions"></a> actions</h4>
+<p>函数，返回一个带 type 的对象，或者返回一个函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import &#123;</span><br><span class="line">  INCREMENT_COUNTER,</span><br><span class="line">  DECREMENT_COUNTER</span><br><span class="line">&#125; from &apos;../constants/ActionTypes&apos;;</span><br><span class="line"></span><br><span class="line">export function increment() &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    type: INCREMENT_COUNTER</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function incrementAsync() &#123;</span><br><span class="line">  return dispatch =&gt; &#123;</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      dispatch(increment());</span><br><span class="line">    &#125;, 1000);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function decrement() &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    type: DECREMENT_COUNTER</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="store"><a class="markdownIt-Anchor" href="#store"></a> store</h4>
+<p>返回一个函数，参数 state 和 action，当 state 为空时返回初始值，表示初始化。根据 action 的 type 值，进行相应的做法，返回一个新的 state。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">import &#123;</span><br><span class="line">  INCREMENT_COUNTER,</span><br><span class="line">  DECREMENT_COUNTER</span><br><span class="line">&#125; from &apos;../constants/ActionTypes&apos;;</span><br><span class="line"></span><br><span class="line">const initialState = &#123; counter: 0 &#125;;</span><br><span class="line"></span><br><span class="line">function incremenent(&#123; counter &#125;) &#123;</span><br><span class="line">  return &#123; counter: counter + 1 &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function decremenent(&#123; counter &#125;) &#123;</span><br><span class="line">  return &#123; counter: counter - 1 &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default function CounterStore(state, action) &#123;</span><br><span class="line">  if (!state) &#123;</span><br><span class="line">    return initialState;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  switch (action.type) &#123;</span><br><span class="line">  case INCREMENT_COUNTER:</span><br><span class="line">    return incremenent(state, action);</span><br><span class="line">  case DECREMENT_COUNTER:</span><br><span class="line">    return decremenent(state, action);</span><br><span class="line">  default:</span><br><span class="line">    return state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>入口 App.js 你会发现 @provides(dispatcher) 这个奇怪的东西，在 React 里面还经常出现，装饰器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line">import Counter from &apos;./Counter&apos;;</span><br><span class="line">import &#123; provides &#125; from &apos;redux&apos;;</span><br><span class="line">import dispatcher from &apos;./dispatcher&apos;;</span><br><span class="line"></span><br><span class="line">@provides(dispatcher)</span><br><span class="line">export default class App extends Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;Counter /&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Couter.js，同样，也出现 performs（方法），observes（观察者）等关键字。使用 state 直接使用 this.props 解构赋值即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;;</span><br><span class="line">import &#123; performs, observes &#125; from &apos;redux&apos;;</span><br><span class="line"></span><br><span class="line">@performs(&apos;increment&apos;, &apos;decrement&apos;)</span><br><span class="line">@observes(&apos;CounterStore&apos;)</span><br><span class="line">export default class Counter &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    const &#123; increment, decrement &#125; = this.props;</span><br><span class="line">    return (</span><br><span class="line">      &lt;p&gt;</span><br><span class="line">        Clicked: &#123;this.props.counter&#125; times</span><br><span class="line">        &#123;&apos; &apos;&#125;</span><br><span class="line">        &lt;button onClick=&#123;() =&gt; increment()&#125;&gt;+&lt;/button&gt;</span><br><span class="line">        &#123;&apos; &apos;&#125;</span><br><span class="line">        &lt;button onClick=&#123;() =&gt; decrement()&#125;&gt;-&lt;/button&gt;</span><br><span class="line">      &lt;/p&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这些关键字是早起 Redux 状态管理的关键，现在的版本应该已经不使用这种方式了。</p>
+<h3 id="解析"><a class="markdownIt-Anchor" href="#解析"></a> 解析</h3>
+<h4 id="dispatcher"><a class="markdownIt-Anchor" href="#dispatcher"></a> dispatcher</h4>
+<p>通过 provides 将 dispatcher 注入到 App 中，其中，dispatcher 是通过 createDispatcher 创建，并调用了 dispatcher.receive(stores, actions) 进行绑定。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import * as stores from &apos;./stores/index&apos;;</span><br><span class="line">import * as actions from &apos;./actions/index&apos;;</span><br><span class="line">import &#123; createDispatcher &#125; from &apos;redux&apos;;</span><br><span class="line"></span><br><span class="line">const dispatcher =</span><br><span class="line">  module.hot &amp;&amp; module.hot.data &amp;&amp; module.hot.data.dispatcher ||</span><br><span class="line">  createDispatcher();</span><br><span class="line"></span><br><span class="line">dispatcher.receive(stores, actions);</span><br><span class="line"></span><br><span class="line">module.hot.dispose(data =&gt; &#123;</span><br><span class="line">  data.dispatcher = dispatcher;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">export default dispatcher;</span><br></pre></td></tr></table></figure>
+<p>receive 方法，actionCreator 将 action 进行封装，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// Provide a way to receive new stores and actions</span><br><span class="line">  function receive(nextStores, nextActionCreators) &#123;</span><br><span class="line">    stores = nextStores;</span><br><span class="line">    actionCreators = mapValues(nextActionCreators, wrapActionCreator);</span><br><span class="line"></span><br><span class="line">    // Merge the observers</span><br><span class="line">    observers = mapValues(stores,</span><br><span class="line">      (store, key) =&gt; observers[key] || []</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    // Dispatch to initialize stores</span><br><span class="line">    if (currentTransaction) &#123;</span><br><span class="line">      updateState(committedState);</span><br><span class="line">      currentTransaction.forEach(dispatch);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      dispatch(BOOTSTRAP_STORE);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>action 进行转化返回一个 dispatchAction 函数，如果 action 为函数，则先执行函数，把 dispatchInTransaction 作为参数传入，这样可以在 action 内部使用该函数了，否则使用 dispatchInTransaction 函数调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// Bind action creator to the dispatcher</span><br><span class="line"> function wrapActionCreator(actionCreator) &#123;</span><br><span class="line">   return function dispatchAction(...args) &#123;</span><br><span class="line">     const action = actionCreator(...args);</span><br><span class="line">     if (typeof action === &apos;function&apos;) &#123;</span><br><span class="line">       // Async action creator</span><br><span class="line">       action(dispatchInTransaction);</span><br><span class="line">     &#125; else &#123;</span><br><span class="line">       // Sync action creator</span><br><span class="line">       dispatchInTransaction(action);</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>dispatchInTransaction ，执行 dispatch ，计算 nextState，执行 updateState 更新。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">  // Dispatch in the context of current transaction</span><br><span class="line">  function dispatchInTransaction(action) &#123;</span><br><span class="line">    if (currentTransaction) &#123;</span><br><span class="line">      currentTransaction.push(action);</span><br><span class="line">    &#125;</span><br><span class="line">    dispatch(action);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">// Reassign the current state on each dispatch</span><br><span class="line">  function dispatch(action) &#123;</span><br><span class="line">    if (typeof action.type !== &apos;string&apos;) &#123;</span><br><span class="line">      throw new Error(&apos;Action type must be a string.&apos;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const nextState = computeNextState(currentState, action);</span><br><span class="line">    updateState(nextState);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>获取 store，也就是 CounterStore，把参数传入，获取新的 state</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// To compute the next state, combine the next states of every store</span><br><span class="line">function computeNextState(state, action) &#123;</span><br><span class="line">  return mapValues(stores,</span><br><span class="line">    (store, key) =&gt; store(state[key], action)</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>updateState 实现，计算变化的 changedKeys，执行  emitChange 进行更新。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// Update state and emit change if needed</span><br><span class="line">function updateState(nextState) &#123;</span><br><span class="line">  // Swap the state</span><br><span class="line">  const previousState = currentState;</span><br><span class="line">  currentState = nextState;</span><br><span class="line"></span><br><span class="line">  // Notify the observers</span><br><span class="line">  const changedKeys = Object.keys(currentState).filter(key =&gt;</span><br><span class="line">    currentState[key] !== previousState[key]</span><br><span class="line">  );</span><br><span class="line">  emitChange(changedKeys);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>emitChange，获取需要通知的 observers，调用通知函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// Notify observers about the changed stores</span><br><span class="line">  function emitChange(changedKeys) &#123;</span><br><span class="line">    if (!changedKeys.length) &#123;</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Gather the affected observers</span><br><span class="line">    const notifyObservers = [];</span><br><span class="line">    changedKeys.forEach(key =&gt; &#123;</span><br><span class="line">      observers[key].forEach(o =&gt; &#123;</span><br><span class="line">        if (notifyObservers.indexOf(o) === -1) &#123;</span><br><span class="line">          notifyObservers.push(o);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    // Emit change</span><br><span class="line">    notifyObservers.forEach(o =&gt; o());</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>这里可能有点疑问，obersevers 是什么，从哪来？往下看～</p>
+<h4 id="observesjs"><a class="markdownIt-Anchor" href="#observesjs"></a> observes.js</h4>
+<p>将 组件进行装饰，构造函数中有一个</p>
+<blockquote>
+<p>this.unobserve = this.context.observeStores(storeKeys, this.handleChange);<br>
+context 就是 dispatcher，</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component, PropTypes &#125; from &apos;react&apos;;</span><br><span class="line">import pick from &apos;lodash/object/pick&apos;;</span><br><span class="line">import identity from &apos;lodash/utility/identity&apos;;</span><br><span class="line"></span><br><span class="line">const contextTypes = &#123;</span><br><span class="line">  observeStores: PropTypes.func.isRequired</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export default function connect(...storeKeys) &#123;</span><br><span class="line">  let mapState = identity;</span><br><span class="line"></span><br><span class="line">  // Last argument may be a custom mapState function</span><br><span class="line">  const lastIndex = storeKeys.length - 1;</span><br><span class="line">  if (typeof storeKeys[lastIndex] === &apos;function&apos;) &#123;</span><br><span class="line">    [mapState] = storeKeys.splice(lastIndex, 1);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return function (DecoratedComponent) &#123;</span><br><span class="line">    const wrappedDisplayName =</span><br><span class="line">      DecoratedComponent.displayName ||</span><br><span class="line">      DecoratedComponent.name ||</span><br><span class="line">      &apos;Component&apos;;</span><br><span class="line"></span><br><span class="line">    return class extends Component &#123;</span><br><span class="line">      static displayName = `ReduxObserves($&#123;wrappedDisplayName&#125;)`;</span><br><span class="line">      static contextTypes = contextTypes;</span><br><span class="line"></span><br><span class="line">      constructor(props, context) &#123;</span><br><span class="line">        super(props, context);</span><br><span class="line">        this.handleChange = this.handleChange.bind(this);</span><br><span class="line">        this.unobserve = this.context.observeStores(storeKeys, this.handleChange);</span><br><span class="line">      &#125;</span><br><span class="line">      ....</span><br><span class="line"></span><br><span class="line">      componentWillUnmount() &#123;</span><br><span class="line">        this.unobserve();</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      render() &#123;</span><br><span class="line">        return (</span><br><span class="line">          &lt;DecoratedComponent &#123;...this.props&#125;</span><br><span class="line">                              &#123;...this.state&#125; /&gt;</span><br><span class="line">        );</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>dispatcher observeStores 方法，将需要监听的组件传入，以及 onChange 函数，作为回调使用。最后返回一个函数，移除监听，这个也太妙了吧。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// Provide subscription and unsubscription</span><br><span class="line">  function observeStores(observedKeys, onChange) &#123;</span><br><span class="line">    // Emit the state update</span><br><span class="line">    function handleChange() &#123;</span><br><span class="line">      onChange(currentState);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Synchronously emit the initial value</span><br><span class="line">    handleChange();</span><br><span class="line"></span><br><span class="line">    // Register the observer for each relevant key</span><br><span class="line">    observedKeys.forEach(key =&gt;</span><br><span class="line">      observers[key].push(handleChange)</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    // Let it unregister when the time comes</span><br><span class="line">    return () =&gt; &#123;</span><br><span class="line">      observedKeys.forEach(key =&gt; &#123;</span><br><span class="line">        const index = observers[key].indexOf(handleChange);</span><br><span class="line">        observers[key].splice(index, 1);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>当计算好 nextState 后，就会调用 observe 的 onChange 方法， onChange 方法也就是 装饰器里面的方法。最后调用自身的 updateState，使用 setState 进行组件更新。而这些 state 作为 props 传入了我们自己的组件，也就可以通过 this.props  拿到。完美～～～</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">handleChange(stateFromStores) &#123;</span><br><span class="line">  this.currentStateFromStores = pick(stateFromStores, storeKeys);</span><br><span class="line">  this.updateState(stateFromStores, this.props);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">componentWillReceiveProps(nextProps) &#123;</span><br><span class="line">  this.updateState(this.currentStateFromStores, nextProps);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">updateState(stateFromStores, props) &#123;</span><br><span class="line">  if (storeKeys.length === 1) &#123;</span><br><span class="line">    // Just give it the particular store state for convenience</span><br><span class="line">    stateFromStores = stateFromStores[storeKeys[0]];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const state = mapState(stateFromStores, props);</span><br><span class="line">  if (this.state) &#123;</span><br><span class="line">    this.setState(state);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    this.state = state;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="performs-组件"><a class="markdownIt-Anchor" href="#performs-组件"></a> performs 组件</h4>
+<p>action 绑定到组件，可以通过 this.props ，通过 this.context.getActions() 拿到 actions</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component, PropTypes &#125; from &apos;react&apos;;</span><br><span class="line">import pick from &apos;lodash/object/pick&apos;;</span><br><span class="line">import identity from &apos;lodash/utility/identity&apos;;</span><br><span class="line"></span><br><span class="line">const contextTypes = &#123;</span><br><span class="line">  getActions: PropTypes.func.isRequired</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export default function performs(...actionKeys) &#123;</span><br><span class="line">  let mapActions = identity;</span><br><span class="line"></span><br><span class="line">  // Last argument may be a custom mapState function</span><br><span class="line">  const lastIndex = actionKeys.length - 1;</span><br><span class="line">  if (typeof actionKeys[lastIndex] === &apos;function&apos;) &#123;</span><br><span class="line">    [mapActions] = actionKeys.splice(lastIndex, 1);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return function (DecoratedComponent) &#123;</span><br><span class="line">    const wrappedDisplayName =</span><br><span class="line">      DecoratedComponent.displayName ||</span><br><span class="line">      DecoratedComponent.name ||</span><br><span class="line">      &apos;Component&apos;;</span><br><span class="line"></span><br><span class="line">    return class extends Component &#123;</span><br><span class="line">      static displayName = `ReduxPerforms($&#123;wrappedDisplayName&#125;)`;</span><br><span class="line">      static contextTypes = contextTypes;</span><br><span class="line"></span><br><span class="line">      constructor(props, context) &#123;</span><br><span class="line">        super(props, context);</span><br><span class="line">        this.updateActions(props);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      componentWillReceiveProps(nextProps) &#123;</span><br><span class="line">        this.updateActions(nextProps);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      updateActions(props) &#123;</span><br><span class="line">        this.actions = mapActions(</span><br><span class="line">          pick(this.context.getActions(), actionKeys),</span><br><span class="line">          props</span><br><span class="line">        );</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      render() &#123;</span><br><span class="line">        return (</span><br><span class="line">          &lt;DecoratedComponent &#123;...this.props&#125;</span><br><span class="line">                              &#123;...this.actions&#125; /&gt;</span><br><span class="line">        );</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到这里就差不多了～<br>
+额外收获</p>
+<h4 id="lodash"><a class="markdownIt-Anchor" href="#lodash"></a> Lodash</h4>
+<ul>
+<li>
+<p>pick</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var object = &#123; &apos;user&apos;: &apos;fred&apos;, &apos;age&apos;: 40 &#125;;</span><br><span class="line">_.pick(object, &apos;user&apos;);</span><br><span class="line">// =&gt; &#123; &apos;user&apos;: &apos;fred&apos; &#125;</span><br><span class="line">_.pick(object, _.isString);</span><br><span class="line">// =&gt; &#123; &apos;user&apos;: &apos;fred&apos; &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>identity</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function identity(value) &#123;</span><br><span class="line">  return value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>mapValues</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">_.mapValues(&#123; &apos;a&apos;: 1, &apos;b&apos;: 2 &#125;, function(n) &#123;</span><br><span class="line"> return n * 3;</span><br><span class="line">&#125;);</span><br><span class="line">// =&gt; &#123; &apos;a&apos;: 3, &apos;b&apos;: 6 &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="最后"><a class="markdownIt-Anchor" href="#最后"></a> 最后</h3>
+<p>麻雀虽小，却能看透精髓～</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wzes.github.io/2019/08/25/Redux V0.2.1/" title="Redux v0.2.1 源码学习" target="_blank" rel="external">https://wzes.github.io/2019/08/25/Redux V0.2.1/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wzes" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wzes" target="_blank"><span class="text-dark">爨</span><small class="ml-1x">美团点评 Android 开发</small></a></h3>
+        <div>一只会 FE 的 Android 工程师～</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/09/01/JavaScript Array/" title="JavaScript Array 的 1 个属性，35 个方法"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/08/18/KoaJs/" title="KoaJs 源码解析"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'Iv1.446a8880ab469e45',
+    clientSecret: '06f5e0c171bd464017a20a8002e7322ac897238c',
+    repo: 'https://github.com/wzes/wzes.github.io',
+    owner: 'wzes',
+    admin: ['wzes'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>
