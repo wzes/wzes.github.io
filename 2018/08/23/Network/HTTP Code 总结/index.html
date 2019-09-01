@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>HTTP-Code-总结 | Xuantang Cun 的博客</title>
+  <meta name="description" content="HTTP">
+<meta name="keywords" content="HTTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP-Code-总结">
+<meta property="og:url" content="https://wzes.github.io/2018/08/23/Network/HTTP Code 总结/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="HTTP">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-09-01T15:26:49.437Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTP-Code-总结">
+<meta name="twitter:description" content="HTTP">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wzes.github.io/2018/08/23/Network/HTTP Code 总结/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wzes" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎加入美团点评的大家庭～～内推找18001997427（微信 备注Github）</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Java/">Java</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTTP/">HTTP</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQLite/">SQLite</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Array/">Array</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Babel/">Babel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/">DOM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">18</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Koa/">Koa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lazyload/">Lazyload</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/">Node</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/">Redux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewPager/">ViewPager</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Android/" style="font-size: 13.75px;">Android</a> <a href="/tags/Array/" style="font-size: 13px;">Array</a> <a href="/tags/Babel/" style="font-size: 13px;">Babel</a> <a href="/tags/DOM/" style="font-size: 13px;">DOM</a> <a href="/tags/HTML/" style="font-size: 13px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.25px;">HTTP</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 13.5px;">JavaScript</a> <a href="/tags/Koa/" style="font-size: 13px;">Koa</a> <a href="/tags/Lazyload/" style="font-size: 13px;">Lazyload</a> <a href="/tags/MySQL/" style="font-size: 13px;">MySQL</a> <a href="/tags/Node/" style="font-size: 13.25px;">Node</a> <a href="/tags/React/" style="font-size: 13.25px;">React</a> <a href="/tags/Redux/" style="font-size: 13px;">Redux</a> <a href="/tags/SQLite/" style="font-size: 13px;">SQLite</a> <a href="/tags/TabLayout/" style="font-size: 13px;">TabLayout</a> <a href="/tags/ViewPager/" style="font-size: 13px;">ViewPager</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/09/01/JavaScript/JavaScript Array/" class="title">JavaScript Array 的 1 个属性，35 个方法</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-01T07:30:16.000Z" itemprop="datePublished">2019-09-01</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/25/JavaScript/Redux V0.2.1/" class="title">React Redux v0.2.1 源码学习</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-25T11:30:16.000Z" itemprop="datePublished">2019-08-25</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/18/JavaScript/KoaJs/" class="title">Node KoaJs 源码解析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-18T10:56:00.000Z" itemprop="datePublished">2019-08-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/Android/">Android</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/11/Android/一个滑动组件的原理浅析/" class="title">Android 一个滑动组件的原理浅析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-11T06:47:16.000Z" itemprop="datePublished">2019-08-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/08/04/JavaScript/Babel Loader/" class="title">JavaScript Babel-Loader 自定义入门</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-04T05:42:00.000Z" itemprop="datePublished">2019-08-04</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Network/HTTP Code 总结" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      HTTP-Code-总结
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/08/23/Network/HTTP Code 总结/" class="article-date">
+	  <time datetime="2018-08-23T06:29:00.000Z" itemprop="datePublished">2018-08-23</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/HTTP/">HTTP</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/HTTP/">HTTP</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/08/23/Network/HTTP Code 总结/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.4k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 7(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="每天背一个状态码系列"><a class="markdownIt-Anchor" href="#每天背一个状态码系列"></a> 每天背一个状态码系列</h1>
+<h3 id="1xx-informational-response"><a class="markdownIt-Anchor" href="#1xx-informational-response"></a> 1xx Informational response</h3>
+<h4 id="100-continue"><a class="markdownIt-Anchor" href="#100-continue"></a> 100 Continue</h4>
+<p>通俗点说的话，如果是POST 请求，我们的提交的数据超过1024 个字节，那么服务器可能不接受，那么我们可以先发一个请求，在请求头里加入 <code>“Expect”:”100-continue”</code>，询问服务器是否接受，这时候如果服务器能够接收，那么我们在提交请求，而不是我们一次性直接提交数据，这样做在一定程度上减缓了服务器端的压力。</p>
+<p>维基百科上说的</p>
+<blockquote>
+<p>The server has received the request headers and the client should proceed to send the request body (in the case of a request for which a body needs to be sent; for example, a <a href="https://en.wikipedia.org/wiki/POST_(HTTP)" title="POST (HTTP)" target="_blank" rel="noopener">POST</a> request). Sending a large request body to a server after a request has been rejected for inappropriate headers would be inefficient. To have a server check the request’s headers, a client must send <code>Expect: 100-continue</code>as a header in its initial request and receive a <code>100 Continue</code> status code in response before sending the body. If the client receives an error code such as 403 (Forbidden) or 405 (Method Not Allowed) then it shouldn’t send the request’s body. The response <code>417 Expectation Failed</code> indicates that the request should be repeated without the <code>Expect</code> header as it indicates that the server doesn’t support expectations (this is the case, for example, of HTTP/1.0 servers).<sup><a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#cite_note-6" target="_blank" rel="noopener">[5]</a></sup></p>
+</blockquote>
+<h4 id="101-switching-protocols"><a class="markdownIt-Anchor" href="#101-switching-protocols"></a> 101 Switching Protocols</h4>
+<p>就是说，如果服务器发现对方在 Upgrade 中的协议，如果自己有支持更合适的，会发送 101 响应码，客户端收到后，更换协议重新访问</p>
+<blockquote>
+<p>The requester has asked the server to switch protocols and the server has agreed to do so</p>
+</blockquote>
+<h2 id="2xx-successful"><a class="markdownIt-Anchor" href="#2xx-successful"></a> 2xx Successful</h2>
+<h4 id="200-ok"><a class="markdownIt-Anchor" href="#200-ok"></a> 200 OK</h4>
+<p>通俗点说，200 表示请求成功，如果是 GET 请求，那就返回完成的数据，如果是 POST 请求，那么返回操作的执行结果</p>
+<blockquote>
+<p>Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request, the response will contain an entity describing or containing the result of the action</p>
+</blockquote>
+<h4 id="201-created"><a class="markdownIt-Anchor" href="#201-created"></a> 201 Created</h4>
+<p>通常来说，这个状态吗用于 PUT 请求的返回码，说的是资源已经创建，然后服务器可以将资源的地址写到响应头中的Location字段里，或者是数据里</p>
+<blockquote>
+<p>The request has been fulfilled and resulted in a new resource being created. The newly created resource can be referenced by the URI(s) returned in the entity of the response, with the most specific URI for the resource given by a Location header field. The response SHOULD include an entity containing a list of resource characteristics and location(s) from which the user or user agent can choose the one most appropriate. The entity format is specified by the media type given in the Content-Type header field. The origin server MUST create the resource before returning the 201 status code. If the action cannot be carried out immediately, the server SHOULD respond with 202 (Accepted) response instead.</p>
+</blockquote>
+<p>A 201 response MAY contain an ETag response header field indicating the current value of the entity tag for the requested variant just created, see section</p>
+<h4 id="202-accepted"><a class="markdownIt-Anchor" href="#202-accepted"></a> 202 Accepted</h4>
+<p>与 201 不同，202返回的话是请求没有处理完成，该请求可用于异步处理的返回码</p>
+<blockquote>
+<p>The HyperText Transfer Protocol (HTTP) 202 Accepted response status code indicates that the request has been received but not yet acted upon. It is non-committal, meaning that there is no way for the HTTP to later send an asynchronous response indicating the outcome of processing the request. It is intended for cases where another process or server handles the request, or for batch processing.</p>
+</blockquote>
+<h4 id="204-no-content"><a class="markdownIt-Anchor" href="#204-no-content"></a> 204 No Content</h4>
+<p>服务器成功响应，但是没有返回数据，客户端不应该对此做出反应，也就是说没要跳转</p>
+<blockquote>
+<p>If the client is a user agent, it SHOULD NOT change its document view from that which caused the request to be sent. This response is primarily intended to allow input for actions to take place without causing a change to the user agent’s active document view, although any new or updated metainformation SHOULD be applied to the document currently in the user agent’s active view.</p>
+</blockquote>
+<h4 id="205-reset-content"><a class="markdownIt-Anchor" href="#205-reset-content"></a> 205 Reset Content</h4>
+<p>同样也是没有数据返回，但是客户端应该重置表单</p>
+<blockquote>
+<p>The server successfully processed the request, but is not returning any content. Unlike a 204 response, this response requires that the requester reset the document view</p>
+</blockquote>
+<h4 id="206-partial-content"><a class="markdownIt-Anchor" href="#206-partial-content"></a> 206 Partial Content</h4>
+<p>返回部分数据，多用于下载数据，如果数据量过大，可能需要分段下载，在 Header 是以 Range 表示的</p>
+<blockquote>
+<p>The HTTP <strong><code>206 Partial Content</code></strong> success status response code indicates that the request has succeeded and has the body contains the requested ranges of data, as described in the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Range" title="The Range HTTP request header indicates the part of a document that the server should return. Several parts can be requested with one Range header at once, and the server may send back these ranges in a multipart document. If the server sends back ranges, it uses the 206 Partial Content for the response. If the ranges are invalid, the server returns the 416 Range Not Satisfiable error. The server can also ignore the Range header and return the whole document with a 200 status code." target="_blank" rel="noopener"><code>Range</code></a> header of the request.</p>
+</blockquote>
+<h2 id="3xx-redirect"><a class="markdownIt-Anchor" href="#3xx-redirect"></a> 3xx Redirect</h2>
+<h4 id="300-multiple-choices"><a class="markdownIt-Anchor" href="#300-multiple-choices"></a> 300 Multiple Choices</h4>
+<p>多种选择，客户端收到后应该根据 Location 选择其中一个请求进行访问</p>
+<blockquote>
+<p>The HTTP 300 Multiple Choices redirect status response code indicates that the request has more than one possible responses. The user-agent or the user should choose one of them. As there is no standardized way of choosing one of the responses, this response code is very rarely used.</p>
+</blockquote>
+<h4 id="301-moved-permanently"><a class="markdownIt-Anchor" href="#301-moved-permanently"></a> 301 Moved Permanently</h4>
+<p>永久移动地址，会在 Location 中附上新地址，客户端可以根据这个地址进行新的请求，通常用于 HEAD 和 POST 请求</p>
+<blockquote>
+<p>The HyperText Transfer Protocol (HTTP) <code>**301 Moved Permanently**</code> redirect status response code indicates that the resource requested has been definitively moved to the URL given by the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Location" title="The Location response header indicates the URL to redirect a page to. It only provides a meaning when served with a 3xx (redirection) or 201 (created) status response." target="_blank" rel="noopener"><code>Location</code></a> headers. A browser redirects to this page and search engines update their links to the resource (in ‘SEO-speak’, it is said that the ‘link-juice’ is sent to the new URL).</p>
+</blockquote>
+<p>Even if the specification requires the method (and the body) not to be altered when the redirection is performed, not all user-agents align with it - you can still find this type of bugged software out there. It is therefore recommended to use the <code>301</code> code only as a response for <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET" title="The HTTP GET method requests a representation of the specified resource. Requests using GET should only retrieve data." target="_blank" rel="noopener"><code>GET</code></a> or <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD" title="The HTTP HEAD method requests the headers that are returned if the specified resource would be requested with an HTTP GET method. Such a request can be done before deciding to download a large resource to save bandwidth, for example." target="_blank" rel="noopener"><code>HEAD</code></a> methods and to use the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308" title="The request method and the body will not be altered, whereas 301 may incorrectly sometimes be changed to a GET method." target="_blank" rel="noopener"><code>308 Permanent Redirect</code></a> for <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST" title="The HTTP POST method sends data to the server. The type of the body of the request is indicated by the Content-Type header." target="_blank" rel="noopener"><code>POST</code></a> methods instead, as the method change is explicitly prohibited with this status.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 301 Moved Permanently</span><br><span class="line">Location: http://www.example.org/index.asp</span><br></pre></td></tr></table></figure>
+<h4 id="304-not-modified"><a class="markdownIt-Anchor" href="#304-not-modified"></a> 304 Not Modified</h4>
+<p>比如说一个 css 文件，客户端第二次加载时在请求头里带上 cache-control：max-age=0，以及 If-Modified-Since，如果服务器收到后，发现请求的资源没有改变，会返回一个 304，这样客户端就可以知道使用本地的缓存资源</p>
+<blockquote>
+<p>Indicates that the resource has not been modified since the version specified by the request headers If-Modified-Since or If-None-Match. In such case, there is no need to retransmit the resource since the client still has a previously-downloaded copy.</p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wzes.github.io/2018/08/23/Network/HTTP Code 总结/" title="HTTP-Code-总结" target="_blank" rel="external">https://wzes.github.io/2018/08/23/Network/HTTP Code 总结/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wzes" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wzes" target="_blank"><span class="text-dark">爨</span><small class="ml-1x">美团点评 Android 开发</small></a></h3>
+        <div>一只会 FE 的 Android 工程师～</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/08/23/Android/OkHttp3/" title="Android OkHttp3 源码解析"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/08/23/Network/HTTP Request&Response 总结/" title="HTTP Request Response 总结"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'Iv1.446a8880ab469e45',
+    clientSecret: '06f5e0c171bd464017a20a8002e7322ac897238c',
+    repo: 'https://github.com/wzes/wzes.github.io',
+    owner: 'wzes',
+    admin: ['wzes'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>
