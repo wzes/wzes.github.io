@@ -623,7 +623,7 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     repo: 'wzes.github.io',
     owner: 'wzes',
     admin: ['wzes'],
-    id: (location.pathname).split("/").pop().substring(0, 49),
+    id: md5(location.pathname).toString().substr(0, 49),
     distractionFreeMode: true
   })
   console.log(gitalk)

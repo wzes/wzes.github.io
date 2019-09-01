@@ -134,9 +134,9 @@
     
       <category term="JavaScript" scheme="https://wzes.github.io/tags/JavaScript/"/>
     
-      <category term="Babel" scheme="https://wzes.github.io/tags/Babel/"/>
-    
       <category term="Node" scheme="https://wzes.github.io/tags/Node/"/>
+    
+      <category term="Babel" scheme="https://wzes.github.io/tags/Babel/"/>
     
   </entry>
   
@@ -460,9 +460,9 @@
       <category term="Java" scheme="https://wzes.github.io/categories/Android/Java/"/>
     
     
-      <category term="Java" scheme="https://wzes.github.io/tags/Java/"/>
-    
       <category term="Android" scheme="https://wzes.github.io/tags/Android/"/>
+    
+      <category term="Java" scheme="https://wzes.github.io/tags/Java/"/>
     
   </entry>
   
