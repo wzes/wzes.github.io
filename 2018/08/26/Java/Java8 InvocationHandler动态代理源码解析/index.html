@@ -18,18 +18,18 @@
   
   
   <title>Java8 InvocationHandler 动态代理 源码解析 | Xuantang Cun 的博客</title>
-  <meta name="description" content="Java">
+  <meta name="description" content="之前对动态代理了解仅仅在于表层，一直觉得高不可攀，今天点开了 Proxy 类，欲知故事如何，需 Read The Source Code，再加上看一些别人的文章，对照着自己对源码的理解，形成此文，通俗易懂，保你看后对动态代理又有了更加深入的理解">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java8 InvocationHandler 动态代理 源码解析">
 <meta property="og:url" content="https://wzes.github.io/2018/08/26/Java/Java8 InvocationHandler动态代理源码解析/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Java">
+<meta property="og:description" content="之前对动态代理了解仅仅在于表层，一直觉得高不可攀，今天点开了 Proxy 类，欲知故事如何，需 Read The Source Code，再加上看一些别人的文章，对照着自己对源码的理解，形成此文，通俗易懂，保你看后对动态代理又有了更加深入的理解">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-01T15:08:54.837Z">
+<meta property="og:updated_time" content="2019-09-02T12:20:58.315Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java8 InvocationHandler 动态代理 源码解析">
-<meta name="twitter:description" content="Java">
+<meta name="twitter:description" content="之前对动态代理了解仅仅在于表层，一直觉得高不可攀，今天点开了 Proxy 类，欲知故事如何，需 Read The Source Code，再加上看一些别人的文章，对照着自己对源码的理解，形成此文，通俗易懂，保你看后对动态代理又有了更加深入的理解">
   <!-- Canonical links -->
   <link rel="canonical" href="https://wzes.github.io/2018/08/26/Java/Java8 InvocationHandler动态代理源码解析/index.html">
   
@@ -60,7 +60,7 @@
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
       </div>
       
       <div class="search" id="search-form-wrap">
@@ -354,6 +354,7 @@
       Java8 InvocationHandler 动态代理 源码解析
     </h1>
   
+
 
       
       <div class="article-meta">

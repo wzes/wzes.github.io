@@ -18,19 +18,19 @@
   
   
   <title>Java8 LinkedBlockingQueue 源码解析 | Xuantang Cun 的博客</title>
-  <meta name="description" content="Java">
+  <meta name="description" content="链表阻塞队列，顾名思义，也就是一个基于队列的阻塞式的链表实现，里面的代码写的很漂亮，生产者消费者模式在这个类中用的酣畅淋漓，其作者是大名鼎鼎的 Doug Lea，掌握这个类是比较重要的。里面很多实现基于锁，可以好好学习一下">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java8 LinkedBlockingQueue 源码解析">
 <meta property="og:url" content="https://wzes.github.io/2018/08/14/Java/Java8 LinkedBlockingQueue 源码解析/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Java">
+<meta property="og:description" content="链表阻塞队列，顾名思义，也就是一个基于队列的阻塞式的链表实现，里面的代码写的很漂亮，生产者消费者模式在这个类中用的酣畅淋漓，其作者是大名鼎鼎的 Doug Lea，掌握这个类是比较重要的。里面很多实现基于锁，可以好好学习一下">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7117641-743eab10483281dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-09-01T15:08:28.314Z">
+<meta property="og:updated_time" content="2019-09-02T12:21:04.071Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java8 LinkedBlockingQueue 源码解析">
-<meta name="twitter:description" content="Java">
+<meta name="twitter:description" content="链表阻塞队列，顾名思义，也就是一个基于队列的阻塞式的链表实现，里面的代码写的很漂亮，生产者消费者模式在这个类中用的酣畅淋漓，其作者是大名鼎鼎的 Doug Lea，掌握这个类是比较重要的。里面很多实现基于锁，可以好好学习一下">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7117641-743eab10483281dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   <!-- Canonical links -->
   <link rel="canonical" href="https://wzes.github.io/2018/08/14/Java/Java8 LinkedBlockingQueue 源码解析/index.html">
@@ -62,7 +62,7 @@
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
       </div>
       
       <div class="search" id="search-form-wrap">
@@ -356,6 +356,7 @@
       Java8 LinkedBlockingQueue 源码解析
     </h1>
   
+
 
       
       <div class="article-meta">

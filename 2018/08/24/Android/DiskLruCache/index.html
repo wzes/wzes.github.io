@@ -18,18 +18,18 @@
   
   
   <title>Android DiskLruCache 源码解析 | Xuantang Cun 的博客</title>
-  <meta name="description" content="Android DiskLruCache">
+  <meta name="description" content="之前在看 LruCache 的时候，就像看看基于 Disk 版的 LruCache，当我看完 LruCache 后，如果是我自己去写，大概还是会基于 LruCache 去保留 key，根据这个 key 去做 LRU，只不过把值保存在硬盘里，这几面又有一个对应关系，Key 和 Value，如果说，一个Key 对应一个文件，那么就会好办得很多...">
 <meta name="keywords" content="Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android DiskLruCache 源码解析">
 <meta property="og:url" content="https://wzes.github.io/2018/08/24/Android/DiskLruCache/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Android DiskLruCache">
+<meta property="og:description" content="之前在看 LruCache 的时候，就像看看基于 Disk 版的 LruCache，当我看完 LruCache 后，如果是我自己去写，大概还是会基于 LruCache 去保留 key，根据这个 key 去做 LRU，只不过把值保存在硬盘里，这几面又有一个对应关系，Key 和 Value，如果说，一个Key 对应一个文件，那么就会好办得很多...">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-01T14:55:19.425Z">
+<meta property="og:updated_time" content="2019-09-02T12:18:17.487Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android DiskLruCache 源码解析">
-<meta name="twitter:description" content="Android DiskLruCache">
+<meta name="twitter:description" content="之前在看 LruCache 的时候，就像看看基于 Disk 版的 LruCache，当我看完 LruCache 后，如果是我自己去写，大概还是会基于 LruCache 去保留 key，根据这个 key 去做 LRU，只不过把值保存在硬盘里，这几面又有一个对应关系，Key 和 Value，如果说，一个Key 对应一个文件，那么就会好办得很多...">
   <!-- Canonical links -->
   <link rel="canonical" href="https://wzes.github.io/2018/08/24/Android/DiskLruCache/index.html">
   
@@ -60,7 +60,7 @@
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
       </div>
       
       <div class="search" id="search-form-wrap">
@@ -354,6 +354,7 @@
       Android DiskLruCache 源码解析
     </h1>
   
+
 
       
       <div class="article-meta">

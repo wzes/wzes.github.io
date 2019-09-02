@@ -18,18 +18,18 @@
   
   
   <title>Android AsyncTask 源码解析 | Xuantang Cun 的博客</title>
-  <meta name="description" content="Android AsyncTask">
+  <meta name="description" content="顾名思义，异步任务，就是说我们可以让我们异步执行任务，不过通常使用它是为了异步执行，主线程更新UI，我们都知道，Android 的UI更新操作，都会检查是否是主线程，如果不是的话就会报出异常，这一步是在ViewRootImpl里面做的，这里就不多说了">
 <meta name="keywords" content="Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android AsyncTask 源码解析">
 <meta property="og:url" content="https://wzes.github.io/2018/08/12/Android/AsyncTask/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Android AsyncTask">
+<meta property="og:description" content="顾名思义，异步任务，就是说我们可以让我们异步执行任务，不过通常使用它是为了异步执行，主线程更新UI，我们都知道，Android 的UI更新操作，都会检查是否是主线程，如果不是的话就会报出异常，这一步是在ViewRootImpl里面做的，这里就不多说了">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-01T15:02:26.854Z">
+<meta property="og:updated_time" content="2019-09-02T12:17:30.118Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android AsyncTask 源码解析">
-<meta name="twitter:description" content="Android AsyncTask">
+<meta name="twitter:description" content="顾名思义，异步任务，就是说我们可以让我们异步执行任务，不过通常使用它是为了异步执行，主线程更新UI，我们都知道，Android 的UI更新操作，都会检查是否是主线程，如果不是的话就会报出异常，这一步是在ViewRootImpl里面做的，这里就不多说了">
   <!-- Canonical links -->
   <link rel="canonical" href="https://wzes.github.io/2018/08/12/Android/AsyncTask/index.html">
   
@@ -60,7 +60,7 @@
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
       </div>
       
       <div class="search" id="search-form-wrap">
@@ -354,6 +354,7 @@
       Android AsyncTask 源码解析
     </h1>
   
+
 
       
       <div class="article-meta">

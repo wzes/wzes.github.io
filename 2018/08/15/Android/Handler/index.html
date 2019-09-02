@@ -18,18 +18,18 @@
   
   
   <title>Android Handler 源码解析 | Xuantang Cun 的博客</title>
-  <meta name="description" content="Android">
+  <meta name="description" content="我相信，用过Android的人基本都会使用Handler，或者多多少少会听到这个东西，在安卓里面，这东西太重要了，如果你还不会基本用法，那应该是需要反省一下。当然，用过它的人也不必沾沾自喜，我们真的很了解Handler吗，还是说只会使用？你有看过他的每一行代码？仔细思考过吗？对于我来说，确实没有，所以我带着问题，想全面了解 Handler">
 <meta name="keywords" content="Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android Handler 源码解析">
 <meta property="og:url" content="https://wzes.github.io/2018/08/15/Android/Handler/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Android">
+<meta property="og:description" content="我相信，用过Android的人基本都会使用Handler，或者多多少少会听到这个东西，在安卓里面，这东西太重要了，如果你还不会基本用法，那应该是需要反省一下。当然，用过它的人也不必沾沾自喜，我们真的很了解Handler吗，还是说只会使用？你有看过他的每一行代码？仔细思考过吗？对于我来说，确实没有，所以我带着问题，想全面了解 Handler">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-01T14:56:34.988Z">
+<meta property="og:updated_time" content="2019-09-02T12:18:28.019Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android Handler 源码解析">
-<meta name="twitter:description" content="Android">
+<meta name="twitter:description" content="我相信，用过Android的人基本都会使用Handler，或者多多少少会听到这个东西，在安卓里面，这东西太重要了，如果你还不会基本用法，那应该是需要反省一下。当然，用过它的人也不必沾沾自喜，我们真的很了解Handler吗，还是说只会使用？你有看过他的每一行代码？仔细思考过吗？对于我来说，确实没有，所以我带着问题，想全面了解 Handler">
   <!-- Canonical links -->
   <link rel="canonical" href="https://wzes.github.io/2018/08/15/Android/Handler/index.html">
   
@@ -60,7 +60,7 @@
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
       </div>
       
       <div class="search" id="search-form-wrap">
@@ -354,6 +354,7 @@
       Android Handler 源码解析
     </h1>
   
+
 
       
       <div class="article-meta">

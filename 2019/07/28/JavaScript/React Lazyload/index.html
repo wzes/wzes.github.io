@@ -18,19 +18,19 @@
   
   
   <title>React Lazyload 源码解析 | Xuantang Cun 的博客</title>
-  <meta name="description" content="React Lazyload">
+  <meta name="description" content="早在多年前，lazyload 已经出现了，懒加载在前端里边同样具有十分重要的意义。react-lazyload 的作用是当组件未出现在屏幕内时，不去挂载该组件，而是使用 placeholder 去渲染，让滚动使内容出现后，组件会被挂载。就是这么简单！">
 <meta name="keywords" content="JavaScript,React,Lazyload">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React Lazyload 源码解析">
 <meta property="og:url" content="https://wzes.github.io/2019/07/28/JavaScript/React Lazyload/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="React Lazyload">
+<meta property="og:description" content="早在多年前，lazyload 已经出现了，懒加载在前端里边同样具有十分重要的意义。react-lazyload 的作用是当组件未出现在屏幕内时，不去挂载该组件，而是使用 placeholder 去渲染，让滚动使内容出现后，组件会被挂载。就是这么简单！">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7117641-a10f694d96109cc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640">
-<meta property="og:updated_time" content="2019-09-01T14:30:38.029Z">
+<meta property="og:updated_time" content="2019-09-02T12:17:04.380Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React Lazyload 源码解析">
-<meta name="twitter:description" content="React Lazyload">
+<meta name="twitter:description" content="早在多年前，lazyload 已经出现了，懒加载在前端里边同样具有十分重要的意义。react-lazyload 的作用是当组件未出现在屏幕内时，不去挂载该组件，而是使用 placeholder 去渲染，让滚动使内容出现后，组件会被挂载。就是这么简单！">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7117641-a10f694d96109cc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640">
   <!-- Canonical links -->
   <link rel="canonical" href="https://wzes.github.io/2019/07/28/JavaScript/React Lazyload/index.html">
@@ -62,7 +62,7 @@
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
       </div>
       
       <div class="search" id="search-form-wrap">
@@ -356,6 +356,7 @@
       React Lazyload 源码解析
     </h1>
   
+
 
       
       <div class="article-meta">

@@ -18,18 +18,18 @@
   
   
   <title>Java8 ThreadLocal 源码解析 | Xuantang Cun 的博客</title>
-  <meta name="description" content="Java">
+  <meta name="description" content="ThreadLocal ，像是一个神秘的黑衣人，令人望而生畏。唯有下定决心，一探究竟，方能解开他神秘的面纱、在Android中，Handler，EventBus，ConnectionPool 等等，都曾出现它的身影">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java8 ThreadLocal 源码解析">
 <meta property="og:url" content="https://wzes.github.io/2018/08/20/Java/Java8 ThreadLocal 源码解析/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Java">
+<meta property="og:description" content="ThreadLocal ，像是一个神秘的黑衣人，令人望而生畏。唯有下定决心，一探究竟，方能解开他神秘的面纱、在Android中，Handler，EventBus，ConnectionPool 等等，都曾出现它的身影">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-01T15:07:25.013Z">
+<meta property="og:updated_time" content="2019-09-02T12:21:15.926Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java8 ThreadLocal 源码解析">
-<meta name="twitter:description" content="Java">
+<meta name="twitter:description" content="ThreadLocal ，像是一个神秘的黑衣人，令人望而生畏。唯有下定决心，一探究竟，方能解开他神秘的面纱、在Android中，Handler，EventBus，ConnectionPool 等等，都曾出现它的身影">
   <!-- Canonical links -->
   <link rel="canonical" href="https://wzes.github.io/2018/08/20/Java/Java8 ThreadLocal 源码解析/index.html">
   
@@ -60,7 +60,7 @@
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
       </div>
       
       <div class="search" id="search-form-wrap">
@@ -354,6 +354,7 @@
       Java8 ThreadLocal 源码解析
     </h1>
   
+
 
       
       <div class="article-meta">

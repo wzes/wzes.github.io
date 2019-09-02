@@ -18,18 +18,18 @@
   
   
   <title>Android OkHttp3 源码解析 | Xuantang Cun 的博客</title>
-  <meta name="description" content="Android">
+  <meta name="description" content="总觉得网络这一块不是那么的熟悉，也找不到窍门，索性看一个网络请求框架，来加深自己对网络请求的认识。这个系列应该会很长，毕竟这个库也不简单，里面包含了很多知识，我会先从使用，再到简单 API源码 的分析，再到框架内部各个模块的仔细研读这样一个顺序去分析">
 <meta name="keywords" content="Android,Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android OkHttp3 源码解析">
 <meta property="og:url" content="https://wzes.github.io/2018/08/23/Android/OkHttp3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Android">
+<meta property="og:description" content="总觉得网络这一块不是那么的熟悉，也找不到窍门，索性看一个网络请求框架，来加深自己对网络请求的认识。这个系列应该会很长，毕竟这个库也不简单，里面包含了很多知识，我会先从使用，再到简单 API源码 的分析，再到框架内部各个模块的仔细研读这样一个顺序去分析">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-01T14:58:11.148Z">
+<meta property="og:updated_time" content="2019-09-02T12:19:12.575Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android OkHttp3 源码解析">
-<meta name="twitter:description" content="Android">
+<meta name="twitter:description" content="总觉得网络这一块不是那么的熟悉，也找不到窍门，索性看一个网络请求框架，来加深自己对网络请求的认识。这个系列应该会很长，毕竟这个库也不简单，里面包含了很多知识，我会先从使用，再到简单 API源码 的分析，再到框架内部各个模块的仔细研读这样一个顺序去分析">
   <!-- Canonical links -->
   <link rel="canonical" href="https://wzes.github.io/2018/08/23/Android/OkHttp3/index.html">
   
@@ -60,7 +60,7 @@
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
       </div>
       
       <div class="search" id="search-form-wrap">
@@ -354,6 +354,7 @@
       Android OkHttp3 源码解析
     </h1>
   
+
 
       
       <div class="article-meta">

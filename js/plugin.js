@@ -6,7 +6,7 @@
  * @param str{String} dom结点ID，或者模板string
  * @param data{Object} 需要渲染的json对象，可以为空。当data为{}时，仍然返回html。
  * @return 如果无data，直接返回编译后的函数；如果有data，返回html。
- * @author wangxiao 
+ * @author wangxiao
  * @email 1988wangxiao@gmail.com
 */
 
@@ -30,7 +30,7 @@
             //HTML5规定ID可以由任何不包含空格字符的字符串组成
             var element = document.getElementById(str);
             if (element) {
-                    
+
                 //取到对应id的dom，缓存其编译后的HTML模板函数
                 if (bt.cache[str]) {
                     return bt.cache[str];
@@ -65,7 +65,7 @@
 
     //缓存  将对应id模板生成的函数缓存下来。
     bt.cache = {};
-    
+
     //自定义分隔符，可以含有正则中的字符，可以是HTML注释开头 <! !>
     bt.LEFT_DELIMITER = bt.LEFT_DELIMITER||'{%';
     bt.RIGHT_DELIMITER = bt.RIGHT_DELIMITER||'%}';
@@ -126,7 +126,7 @@
         var _right = bt._encodeReg(_right_);
 
         str = String(str)
-            
+
             //去掉分隔符中js注释
             .replace(new RegExp("("+_left+"[^"+_right+"]*)//.*\n","g"), "$1")
 
@@ -157,7 +157,7 @@
             });
 
 
-        str = str 
+        str = str
             //定义变量，如果没有分号，需要容错  <%var val='test'%>
             .replace(new RegExp("("+_left+"[\\s]*?var[\\s]*?.*?[\\s]*?[^;])[\\s]*?"+_right,"g"),"$1;"+_right_)
 
@@ -174,18 +174,18 @@
 
                 //找到 \t=任意一个字符%> 替换为 ‘，任意字符,'
                 //即替换简单变量  \t=data%> 替换为 ',data,'
-                //默认HTML转义  也支持HTML转义写法<%:h=value%>  
+                //默认HTML转义  也支持HTML转义写法<%:h=value%>
                 .replace(new RegExp("\\t=(.*?)"+_right,"g"),"',typeof($1) === 'undefined'?'':baidu.template._encodeHTML($1),'");
         }else{
             str = str
-                
+
                 //默认不转义HTML转义
                 .replace(new RegExp("\\t=(.*?)"+_right,"g"),"',typeof($1) === 'undefined'?'':$1,'");
         };
 
         str = str
 
-            //支持HTML转义写法<%:h=value%>  
+            //支持HTML转义写法<%:h=value%>
             .replace(new RegExp("\\t:h=(.*?)"+_right,"g"),"',typeof($1) === 'undefined'?'':baidu.template._encodeHTML($1),'")
 
             //支持不转义写法 <%:=value%>和<%-value%>
@@ -940,7 +940,7 @@ x();"bottom"===a.start?(c.css({top:b.outerHeight()-c.outerHeight()}),n(0,!0)):"t
           }
         }
 
-        // } else 
+        // } else
         if (options.customClass) {
           // console.log(scrolledOutAt);
           if (options.trigger === 'both') {
@@ -1564,7 +1564,6 @@ x();"bottom"===a.start?(c.css({top:b.outerHeight()-c.outerHeight()}),n(0,!0)):"t
  * Copyright 2011-2016 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
-
 
 +function ($) {
   'use strict';

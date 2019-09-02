@@ -18,21 +18,21 @@
   
   
   <title>Java8 Unsafe 解开你神秘的面纱 | Xuantang Cun 的博客</title>
-  <meta name="description" content="Java">
+  <meta name="description" content="Unsafe 类一直是个很神秘的角色，我们普通开发者几乎不会碰到，顶多也是使用了并发包之类的系统类库，间接使用到了而已。那它到底是用来做什么的呢？它提供了我们直接操作内存的接口。Java 本身作为一个内存自动管理的工具，内存的开辟释放由虚拟机代为管理，然而，HotSpot 的设计者留下了 Unsafe 的类，用于扩展，它可以直接开辟内存，释放内存，读取任意地址的内存，而不受 Java 堆内存的限制">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java8 Unsafe 解开你神秘的面纱">
 <meta property="og:url" content="https://wzes.github.io/2018/09/17/Java/Java8 Unsafe 解开你神秘的面纱/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Java">
+<meta property="og:description" content="Unsafe 类一直是个很神秘的角色，我们普通开发者几乎不会碰到，顶多也是使用了并发包之类的系统类库，间接使用到了而已。那它到底是用来做什么的呢？它提供了我们直接操作内存的接口。Java 本身作为一个内存自动管理的工具，内存的开辟释放由虚拟机代为管理，然而，HotSpot 的设计者留下了 Unsafe 的类，用于扩展，它可以直接开辟内存，释放内存，读取任意地址的内存，而不受 Java 堆内存的限制">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7117641-ce223b93dc352337.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7117641-b57b7a4e6597503a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7117641-62cb37b125863ad1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-09-01T15:14:33.833Z">
+<meta property="og:updated_time" content="2019-09-02T12:21:22.388Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java8 Unsafe 解开你神秘的面纱">
-<meta name="twitter:description" content="Java">
+<meta name="twitter:description" content="Unsafe 类一直是个很神秘的角色，我们普通开发者几乎不会碰到，顶多也是使用了并发包之类的系统类库，间接使用到了而已。那它到底是用来做什么的呢？它提供了我们直接操作内存的接口。Java 本身作为一个内存自动管理的工具，内存的开辟释放由虚拟机代为管理，然而，HotSpot 的设计者留下了 Unsafe 的类，用于扩展，它可以直接开辟内存，释放内存，读取任意地址的内存，而不受 Java 堆内存的限制">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7117641-ce223b93dc352337.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   <!-- Canonical links -->
   <link rel="canonical" href="https://wzes.github.io/2018/09/17/Java/Java8 Unsafe 解开你神秘的面纱/index.html">
@@ -64,7 +64,7 @@
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
       </div>
       
       <div class="search" id="search-form-wrap">
@@ -358,6 +358,7 @@
       Java8 Unsafe 解开你神秘的面纱
     </h1>
   
+
 
       
       <div class="article-meta">

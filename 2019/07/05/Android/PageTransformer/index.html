@@ -18,22 +18,22 @@
   
   
   <title>Android PageTransformer 源码解析 | Xuantang Cun 的博客</title>
-  <meta name="description" content="Android ViewPager">
+  <meta name="description" content="作为一个很久没写过 Android 业务的人，心里有点慌了，于是拿起 Android Studio，还是找点东西学习一下，并且记录一下。一直觉得 ViewPager 是个好东西，偶然间看到一些很好的案例，很酷炫的翻页效果。直到了解了这个东西的实现原来没有想象中的那么复杂">
 <meta name="keywords" content="Android,ViewPager">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android PageTransformer 源码解析">
 <meta property="og:url" content="https://wzes.github.io/2019/07/05/Android/PageTransformer/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Android ViewPager">
+<meta property="og:description" content="作为一个很久没写过 Android 业务的人，心里有点慌了，于是拿起 Android Studio，还是找点东西学习一下，并且记录一下。一直觉得 ViewPager 是个好东西，偶然间看到一些很好的案例，很酷炫的翻页效果。直到了解了这个东西的实现原来没有想象中的那么复杂">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7117641-ca06163fe13e1f15.gif?imageMogr2/auto-orient/strip">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7117641-a9868f1c4f6cd870.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7117641-d9f22c656de352bc.gif?imageMogr2/auto-orient/strip">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7117641-af318d5c1ab4d301.gif?imageMogr2/auto-orient/strip">
-<meta property="og:updated_time" content="2019-09-01T15:01:55.997Z">
+<meta property="og:updated_time" content="2019-09-02T12:19:17.763Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android PageTransformer 源码解析">
-<meta name="twitter:description" content="Android ViewPager">
+<meta name="twitter:description" content="作为一个很久没写过 Android 业务的人，心里有点慌了，于是拿起 Android Studio，还是找点东西学习一下，并且记录一下。一直觉得 ViewPager 是个好东西，偶然间看到一些很好的案例，很酷炫的翻页效果。直到了解了这个东西的实现原来没有想象中的那么复杂">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7117641-ca06163fe13e1f15.gif?imageMogr2/auto-orient/strip">
   <!-- Canonical links -->
   <link rel="canonical" href="https://wzes.github.io/2019/07/05/Android/PageTransformer/index.html">
@@ -65,7 +65,7 @@
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
       </div>
       
       <div class="search" id="search-form-wrap">
@@ -359,6 +359,7 @@
       Android PageTransformer 源码解析
     </h1>
   
+
 
       
       <div class="article-meta">

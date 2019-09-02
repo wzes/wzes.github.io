@@ -18,19 +18,19 @@
   
   
   <title>Android EventBus 源码解析 | Xuantang Cun 的博客</title>
-  <meta name="description" content="Android">
+  <meta name="description" content="之前分析的都是官方库的一些源码，现在打算尝试分析一些比较优秀的第三方开源库，选择分析EventBus，一方面是因为他的库不大，容易理解，这样我们也容易接受，如果一开始就项分析很大的库，会比较难吧">
 <meta name="keywords" content="Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android EventBus 源码解析">
 <meta property="og:url" content="https://wzes.github.io/2018/08/19/Android/EventBus/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Android">
+<meta property="og:description" content="之前分析的都是官方库的一些源码，现在打算尝试分析一些比较优秀的第三方开源库，选择分析EventBus，一方面是因为他的库不大，容易理解，这样我们也容易接受，如果一开始就项分析很大的库，会比较难吧">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7117641-1cf432119c357fe8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-09-01T14:56:00.810Z">
+<meta property="og:updated_time" content="2019-09-02T12:18:23.891Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android EventBus 源码解析">
-<meta name="twitter:description" content="Android">
+<meta name="twitter:description" content="之前分析的都是官方库的一些源码，现在打算尝试分析一些比较优秀的第三方开源库，选择分析EventBus，一方面是因为他的库不大，容易理解，这样我们也容易接受，如果一开始就项分析很大的库，会比较难吧">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7117641-1cf432119c357fe8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
   <!-- Canonical links -->
   <link rel="canonical" href="https://wzes.github.io/2018/08/19/Android/EventBus/index.html">
@@ -62,7 +62,7 @@
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
       </div>
       
       <div class="search" id="search-form-wrap">
@@ -356,6 +356,7 @@
       Android EventBus 源码解析
     </h1>
   
+
 
       
       <div class="article-meta">

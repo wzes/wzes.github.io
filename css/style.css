@@ -9,7 +9,7 @@
  */
 
 /**
- * 
+ *
  */
 
 /* Mixins */
@@ -6407,11 +6407,11 @@ body.no-sidebar .sidebar {
 }
 
 .article-header {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .article-footer {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 /**
@@ -6440,6 +6440,13 @@ body.no-sidebar .sidebar {
 
 .article-list .article-title {
   font-size: 18px;
+  font-weight: bold;
+}
+
+.article-list .article-description {
+  font-size: 13px;
+  color: #999;
+  margin: 10px 0;
 }
 
 .article-toc .toc-title {

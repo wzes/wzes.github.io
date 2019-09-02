@@ -18,18 +18,18 @@
   
   
   <title>SparseArray 源码解析 | Xuantang Cun 的博客</title>
-  <meta name="description" content="Android">
+  <meta name="description" content="LRU 咋一看这么熟悉，操作系统里面内存管理，页面置换时替换算法之一，英文全拼为 Least Recently Used 以为最近最少使用，简单来说，就是替换掉最老的数据。其核心思想为如果数据最近被访问过，那么将来被访问的几率也更高。另外一个比较简单的算法是 FIFO">
 <meta name="keywords" content="Android,Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SparseArray 源码解析">
 <meta property="og:url" content="https://wzes.github.io/2018/07/26/Android/LruCache/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Android">
+<meta property="og:description" content="LRU 咋一看这么熟悉，操作系统里面内存管理，页面置换时替换算法之一，英文全拼为 Least Recently Used 以为最近最少使用，简单来说，就是替换掉最老的数据。其核心思想为如果数据最近被访问过，那么将来被访问的几率也更高。另外一个比较简单的算法是 FIFO">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-01T14:53:44.146Z">
+<meta property="og:updated_time" content="2019-09-02T12:19:07.920Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SparseArray 源码解析">
-<meta name="twitter:description" content="Android">
+<meta name="twitter:description" content="LRU 咋一看这么熟悉，操作系统里面内存管理，页面置换时替换算法之一，英文全拼为 Least Recently Used 以为最近最少使用，简单来说，就是替换掉最老的数据。其核心思想为如果数据最近被访问过，那么将来被访问的几率也更高。另外一个比较简单的算法是 FIFO">
   <!-- Canonical links -->
   <link rel="canonical" href="https://wzes.github.io/2018/07/26/Android/LruCache/index.html">
   
@@ -60,7 +60,7 @@
         </a>
         <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
         <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
-        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Shanghai, China</small>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
       </div>
       
       <div class="search" id="search-form-wrap">
@@ -354,6 +354,7 @@
       SparseArray 源码解析
     </h1>
   
+
 
       
       <div class="article-meta">
