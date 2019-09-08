@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://wzes.github.io/2019/09/08/JavaScript/koa-bodyparser/</loc>
+    <lastmod>2019-09-08</lastmod>
+  </url>  <url>
+    <loc>https://wzes.github.io/2019/09/01/JavaScript/JavaScript%20Array/</loc>
+    <lastmod>2019-09-07</lastmod>
+  </url>  <url>
     <loc>https://wzes.github.io/2018/08/13/SQLite/Sqlite%20%E9%94%81%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2019-09-02</lastmod>
   </url>  <url>
@@ -113,9 +119,6 @@
     <lastmod>2019-09-02</lastmod>
   </url>  <url>
     <loc>https://wzes.github.io/2019/08/18/JavaScript/KoaJs/</loc>
-    <lastmod>2019-09-02</lastmod>
-  </url>  <url>
-    <loc>https://wzes.github.io/2019/09/01/JavaScript/JavaScript%20Array/</loc>
     <lastmod>2019-09-02</lastmod>
   </url>  <url>
     <loc>https://wzes.github.io/2019/08/04/JavaScript/Babel%20Loader/</loc>
