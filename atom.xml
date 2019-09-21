@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wzes.github.io/"/>
-  <updated>2019-09-08T15:31:51.951Z</updated>
+  <updated>2019-09-21T13:30:46.922Z</updated>
   <id>https://wzes.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Browser Window 扫盲</title>
+    <link href="https://wzes.github.io/2019/09/22/JavaScript/Browser%20Window/"/>
+    <id>https://wzes.github.io/2019/09/22/JavaScript/Browser Window/</id>
+    <published>2019-09-22T10:56:00.000Z</published>
+    <updated>2019-09-21T13:30:46.922Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h3><p>作为一个 Node 开发工程师，似乎对于 Window 并不需要关心，但作为一个前端工程师，Window 是个啥子东东，还是需要花时间理一理的。本期看点，深入了解 Window 的 API ～</p><h3 id="window"><a class="markdownIt-Anchor" href="#window"></a> Window</h3><p>所有的浏览器都有 Window 对象，每个窗口都会具有一个 Window，通常在浏览器开发者模式中，可以使用 window 拿到这个对象。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window</span><br></pre></td></tr></table></figure><p>window 具有很多属性和方法，常见的有</p><ul><li><p>navigator 导航器</p></li><li><p>screen 显示器</p></li><li><p>history 历史对象</p></li><li><p>location 位置对象</p></li><li><p>document 文档对象</p></li><li><p>方法</p><ul><li><p>open</p></li><li><p>close</p></li><li><p>setTimeout</p></li><li><p>setInterval</p><p>…</p></li></ul></li></ul><p>在浏览器中，我们使用这些对象和方法，完整的用法是 <strong>window.xx</strong>，但我们可以省略 window，直接使用 xx 即可，对于新手来说可能觉得很奇怪。</p><p>复习一下方法调用， Javascript 的方法执行最终都会是以  <strong>xx.call(this, args…)</strong> 的形式，这里的 this 就是方法的上下文，通常是调用的对象</p><p>在浏览器里，如果我们直接使用一个属性或者方法，那么执行这个方法的上下文通常都是 window 对象，所以我们可以直接使用这些对象和方法，因为上下文环境就是 window，最后取的都是 window 的属性和方法。</p><p>放一张比较完整的图～</p><p><img src="/Users/xuantang/GithubPages/wzes.github.io/source/_posts/images/window.gif" alt="Window 预览"></p><h3 id="document"><a class="markdownIt-Anchor" href="#document"></a> document</h3><p>document 是我们的文档对象，我们可以使用开发者模式直接打印 document，document 打印出来（toString）就是我们的 html，实际上 document 对象也具有很多方法和属性。</p><p><img src="../images/document.jpg" alt="image-20190921205159737"></p><h4 id="createelement"><a class="markdownIt-Anchor" href="#createelement"></a> createElement</h4><p>创建元素</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const div = document.createElement(&apos;div&apos;)</span><br><span class="line">div.appendChild()</span><br></pre></td></tr></table></figure><h4 id="getelementbyid"><a class="markdownIt-Anchor" href="#getelementbyid"></a> getElementById</h4><p>获取元素</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const div = document.getElementById(&apos;id&apos;)</span><br><span class="line">div.appendChild()</span><br></pre></td></tr></table></figure><p>利用这些方法创建元素，然后将元素挂载到已有的 dom (app)上，React，Vue 框架最核心的原理不过如此</p><h4 id="cookie"><a class="markdownIt-Anchor" href="#cookie"></a> cookie</h4><p>cookie 对象是 document 的属性，当访问同源的网站是，浏览器会自动帮我们吧 cookie 对象传过去，cookie 对象通常包含了用户信息，服务端可以通过 cookie 判断用户的状态，cookie 默认是持久化保存的</p><h4 id="location"><a class="markdownIt-Anchor" href="#location"></a> location</h4><p>location 对象即 window 的 location 对象</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">document.location == window.location</span><br><span class="line">// true</span><br></pre></td></tr></table></figure><h4 id="url"><a class="markdownIt-Anchor" href="#url"></a> URL</h4><p>返回当前的 url</p><h4 id="open"><a class="markdownIt-Anchor" href="#open"></a> open</h4><p>与 window 的 open 不同， document 的 open 是操作 document 对象，打开一个 document 的输入流，open 将会清空当前的文档</p><h4 id="close"><a class="markdownIt-Anchor" href="#close"></a> close</h4><p>关闭文档流</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">document.open(); </span><br><span class="line">document.write(&quot;&lt;p&gt;Hello world!&lt;/p&gt;&quot;);</span><br><span class="line">document.write(&quot;&lt;p&gt;I am a fish&lt;/p&gt;&quot;);</span><br><span class="line">document.write(&quot;&lt;p&gt;The number is 42&lt;/p&gt;&quot;); </span><br><span class="line">document.close();</span><br></pre></td></tr></table></figure><p><img src="/Users/xuantang/GithubPages/wzes.github.io/source/_posts/images/open_close.jpg" alt></p><h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3><p>window 对象博大精深～</p>]]></content>
+    
+    <summary type="html">
+    
+      作为一个 Node 开发工程师，似乎对于 Window 并不需要关心，但作为一个前端工程师，Window 是个啥子东东，还是需要花时间理一理的。本期看点，深入了解 Window 的 API ～～
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="https://wzes.github.io/categories/JavaScript/"/>
+    
+    
+      <category term="JavaScript" scheme="https://wzes.github.io/tags/JavaScript/"/>
+    
+  </entry>
   
   <entry>
     <title>koa-bodyparser 源码解析</title>
@@ -461,32 +483,6 @@
     
       <category term="Java" scheme="https://wzes.github.io/categories/Java/"/>
     
-    
-      <category term="Java" scheme="https://wzes.github.io/tags/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Android Rxjava 源码解析</title>
-    <link href="https://wzes.github.io/2018/09/05/Android/Android%20Rxjava/"/>
-    <id>https://wzes.github.io/2018/09/05/Android/Android Rxjava/</id>
-    <published>2018-09-04T16:15:16.000Z</published>
-    <updated>2019-09-02T12:17:44.173Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h3><p>RxJava 这个名字，想必做过 Android 的人都有所了解，简单的使用几乎不成问题，但里面的知识点却一向令人望而生畏，接下来几日我便想慢慢解开这层面纱</p><h3 id="先来回归一下简单的例子"><a class="markdownIt-Anchor" href="#先来回归一下简单的例子"></a> 先来回归一下简单的例子</h3><p>没有线程切换的最简单的版本，初学者一定很困惑，这段代码是怎么运行起来的，这段代码中最具核心的是 Observable，Observable 有一个方法是 subcribe，当调用这个方法时便调用了 ObservableOnSubscribe.subscibe 方法，里面调用了 e.onNext()，也就是调用了 Obersver 的 onNext 方法，整个的流程便是这样，围绕这个流程，便衍生出了线程切换，各种类型的任务，背压。。。。。。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">Observable.create(new ObservableOnSubscribe&lt;String&gt;() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void subscribe(@NonNull ObservableEmitter&lt;String&gt; e) throws Exception &#123;</span><br><span class="line">        e.onNext(&quot;hello&quot;);</span><br><span class="line">        e.onNext(&quot;world&quot;);</span><br><span class="line">        e.onComplete();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;).subscribe(new Observer&lt;String&gt;() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void onSubscribe(Disposable d) &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onNext(String o) &#123;</span><br><span class="line">        System.out.println(o.toString());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onError(Throwable e) &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onComplete() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure><h3 id="map"><a class="markdownIt-Anchor" href="#map"></a> map</h3><p>为了方便理解，举一个简单的例子，实际的Rajava 与之类似<br>映射，将一个 Observable 转化成另一个 Observable 的过程，主要是 onNext 的调用链的关系，实际想起来还是挺复杂的，一个递归的结构，每一个 map 操作都会封装一个 Observable 而他的参数是 MapSubscribe 的发射器，里面在调用 onNext 时穿进去的参数是 transformer.call 的结果，这就说明了如果有 map 存在，首先会递归到开始，然后调用离之最近的 mapSubcriber 的 call 函数，获取结果，并调用下一个发射器的onNext函数，知道调用最顶层的Subcriber的回调函数，该过程还是很有意思的</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">Observable.create(new Observable.OnSubscribe&lt;Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void call(Subscriber&lt;? super Integer&gt; subscriber) &#123;</span><br><span class="line">                subscriber.onNext(10);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).map(new Observable.Transformer&lt;Integer, String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public String call(Integer from) &#123;</span><br><span class="line">                return String.valueOf(from);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).map(new Observable.Transformer&lt;String, String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public String call(String from) &#123;</span><br><span class="line">                return String.valueOf(from + 10);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).map(new Observable.Transformer&lt;String, String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public String call(String from) &#123;</span><br><span class="line">                return String.valueOf(from + 10);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).subscribeOn(Schedulers.io()).subscribe(new Subscriber&lt;String&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onStart() &#123;</span><br><span class="line">                System.out.println(&quot;onStart called&quot;+ &quot; &quot; + Thread.currentThread());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onCompleted() &#123;</span><br><span class="line">                System.out.println(&quot;onComplete called&quot;+ &quot; &quot; + Thread.currentThread());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onNext(String object) &#123;</span><br><span class="line">                System.out.println(object + &quot; &quot; + Thread.currentThread());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void onError(Throwable t) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      RxJava 这个名字，想必做过 Android 的人都有所了解，简单的使用几乎不成问题，但里面的知识点却一向令人望而生畏，接下来几日我便想慢慢解开这层面纱
-    
-    </summary>
-    
-      <category term="Android" scheme="https://wzes.github.io/categories/Android/"/>
-    
-      <category term="Java" scheme="https://wzes.github.io/categories/Android/Java/"/>
-    
-    
-      <category term="Android" scheme="https://wzes.github.io/tags/Android/"/>
     
       <category term="Java" scheme="https://wzes.github.io/tags/Java/"/>
     

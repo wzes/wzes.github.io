@@ -17,16 +17,25 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>Xuantang Cun 的博客</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wzes.github.io/page/2/index.html">
+  <title>Browser Window 扫盲 | Xuantang Cun 的博客</title>
+  <meta name="description" content="作为一个 Node 开发工程师，似乎对于 Window 并不需要关心，但作为一个前端工程师，Window 是个啥子东东，还是需要花时间理一理的。本期看点，深入了解 Window 的 API ～～">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Browser Window 扫盲">
+<meta property="og:url" content="https://wzes.github.io/2019/09/22/JavaScript/Browser Window/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="作为一个 Node 开发工程师，似乎对于 Window 并不需要关心，但作为一个前端工程师，Window 是个啥子东东，还是需要花时间理一理的。本期看点，深入了解 Window 的 API ～～">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://wzes.github.io/Users/xuantang/GithubPages/wzes.github.io/source/_posts/images/window.gif">
+<meta property="og:image" content="https://wzes.github.io/2019/09/22/JavaScript/images/document.jpg">
+<meta property="og:image" content="https://wzes.github.io/Users/xuantang/GithubPages/wzes.github.io/source/_posts/images/open_close.jpg">
+<meta property="og:updated_time" content="2019-09-21T13:30:46.922Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="Browser Window 扫盲">
+<meta name="twitter:description" content="作为一个 Node 开发工程师，似乎对于 Window 并不需要关心，但作为一个前端工程师，Window 是个啥子东东，还是需要花时间理一理的。本期看点，深入了解 Window 的 API ～～">
+<meta name="twitter:image" content="https://wzes.github.io/Users/xuantang/GithubPages/wzes.github.io/source/_posts/images/window.gif">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://wzes.github.io/page/2/index.html">
+  <link rel="canonical" href="https://wzes.github.io/2019/09/22/JavaScript/Browser Window/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -336,549 +345,251 @@
 </aside>
 
   
-  <main class="main" role="main">
   
-  <div class="content article-list">
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-JavaScript/Browser Window" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
+    <div class="article-header">
+      
+        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/05/Android/PageTransformer/">Android PageTransformer 源码解析</a>
+    <h1 class="article-title" itemprop="name">
+      Browser Window 扫盲
     </h1>
   
 
 
-  </div>
-  
-  
-    <div class="article-description">
-      作为一个很久没写过 Android 业务的人，心里有点慌了，于是拿起 Android Studio，还是找点东西学习一下，并且记录一下。一直觉得 ViewPager 是个好东西，偶然间看到一些很好的案例，很酷炫的翻页效果。直到了解了这个东西的实现原来没有想象中的那么复杂
-    </div>
-  
-
-  <p class="article-meta">
-    <span class="article-date">
+      
+      <div class="article-meta">
+        <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2019/07/05/Android/PageTransformer/" class="article-date">
-	  <time datetime="2019-07-05T12:35:00.000Z" itemprop="datePublished">2019-07-05</time>
+	<a href="/2019/09/22/JavaScript/Browser Window/" class="article-date">
+	  <time datetime="2019-09-22T10:56:00.000Z" itemprop="datePublished">2019-09-22</time>
 	</a>
 </span>
-    
+        
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Android/">Android</a>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
   </span>
 
-    
+        
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Android/">Android</a>, <a class="article-tag-link" href="/tags/ViewPager/">ViewPager</a>
+	<a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
   </span>
 
 
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/07/05/Android/PageTransformer/#comments" class="article-comment-link">评论</a></span>
-    
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/09/22/JavaScript/Browser Window/#comments" class="article-comment-link">评论</a></span>
+        
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.2k(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 5(分)</span>
-	
-
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/21/Android/TabLayout/">Android TabLayout 源码解析</a>
-    </h1>
-  
-
-
-  </div>
-  
-  
-    <div class="article-description">
-      很久很久没写过源码解析了，不是自己没有看了，只是没有记录了，却发现不记录的话，似懂非懂，时间久了就忘得差不多了，用到了还是得再学一遍，忍住提笔一篇 TabLayout 源码学习
-    </div>
-  
-
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2019/02/21/Android/TabLayout/" class="article-date">
-	  <time datetime="2019-02-21T07:36:00.000Z" itemprop="datePublished">2019-02-21</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Android/">Android</a>, <a class="article-tag-link" href="/tags/TabLayout/">TabLayout</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/02/21/Android/TabLayout/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.5k(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 13(分)</span>
-	
-
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/12/Android/Android Recycview Devider/">Android Recycview 分割线</a>
-    </h1>
-  
-
-
-  </div>
-  
-  
-    <div class="article-description">
-      最近有一个需求需要做分割线，网上有一些大致的做法，但感觉都不是那么通俗易懂，然后自己想了想，干脆自己弄吧，后面发现了一个比较好的，非常简洁，分享给大家
-    </div>
-  
-
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2018/10/12/Android/Android Recycview Devider/" class="article-date">
-	  <time datetime="2018-10-12T12:35:00.000Z" itemprop="datePublished">2018-10-12</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Android/">Android</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/10/12/Android/Android Recycview Devider/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 199(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
-	
-
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/30/Book Notes/Effective Java3 介绍/">Effective Java3 介绍（翻译）</a>
-    </h1>
-  
-
-
-  </div>
-  
-  
-    <div class="article-description">
-      本书旨在帮助您有效地使用 Java 编程语言及其基础库：java.lang，java.util 和 java.io，以及 java.util.concurrent 和 java.util.function等子包。 也会涉及到其他的类库
-    </div>
-  
-
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2018/09/30/Book Notes/Effective Java3 介绍/" class="article-date">
-	  <time datetime="2018-09-30T14:18:00.000Z" itemprop="datePublished">2018-09-30</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Java/">Java</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/09/30/Book Notes/Effective Java3 介绍/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.6k(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 5(分)</span>
-	
-
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/17/Java/Java8 Unsafe 解开你神秘的面纱/">Java8 Unsafe 解开你神秘的面纱</a>
-    </h1>
-  
-
-
-  </div>
-  
-  
-    <div class="article-description">
-      Unsafe 类一直是个很神秘的角色，我们普通开发者几乎不会碰到，顶多也是使用了并发包之类的系统类库，间接使用到了而已。那它到底是用来做什么的呢？它提供了我们直接操作内存的接口。Java 本身作为一个内存自动管理的工具，内存的开辟释放由虚拟机代为管理，然而，HotSpot 的设计者留下了 Unsafe 的类，用于扩展，它可以直接开辟内存，释放内存，读取任意地址的内存，而不受 Java 堆内存的限制。尽管如此，它并不能为我们所用，加载这个类只能由系统的类加载器执行，但我们可以通过反射获取到它的实例对象，Java 反射的确很牛啊
-    </div>
-  
-
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2018/09/17/Java/Java8 Unsafe 解开你神秘的面纱/" class="article-date">
-	  <time datetime="2018-09-16T16:05:00.000Z" itemprop="datePublished">2018-09-17</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Java/">Java</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/09/17/Java/Java8 Unsafe 解开你神秘的面纱/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.1k(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 4(分)</span>
-	
-
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/13/Java/Java8 ArrayList&LinkedList 要点/">Java8 ArrayList &amp; LinkedList 要点</a>
-    </h1>
-  
-
-
-  </div>
-  
-  
-    <div class="article-description">
-      为什么会想写这东西呢？这是我们都非常常用的数据结构，然而平时除了添加，遍历操作，很少使用其他功能，即使是这样，我们也存在万般理由搞清楚他们的 API，这对于我们在编程时如何选择二者具有良好的指导意义。所以，我觉得好好看看这二者的区别
-    </div>
-  
-
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2018/09/13/Java/Java8 ArrayList&LinkedList 要点/" class="article-date">
-	  <time datetime="2018-09-13T11:03:00.000Z" itemprop="datePublished">2018-09-13</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Java/">Java</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/09/13/Java/Java8 ArrayList&LinkedList 要点/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.7k(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 8(分)</span>
-	
-
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/12/Java/Java8 ArrayDeque 源码解析/">Java8 ArrayDeque 源码解析</a>
-    </h1>
-  
-
-
-  </div>
-  
-  
-    <div class="article-description">
-      今天我们来看看 ArrayDeque，可以说，之前使用的队列的场景不多，所以也没有深入研究队列，但最近在做 LeetCode 的时候，很多时候使用队列会有想不到的功效，比如我们在写 BFS 广度优先遍历的时候，或者在写 二叉树的层次遍历，非递归前序，中序，后序遍历，都会用到这个结构，如果还不会的同学，赶紧去复习一波吧，非常总要，也能为你的笔面试加不少分
-    </div>
-  
-
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2018/09/12/Java/Java8 ArrayDeque 源码解析/" class="article-date">
-	  <time datetime="2018-09-12T15:36:00.000Z" itemprop="datePublished">2018-09-12</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Java/">Java</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/09/12/Java/Java8 ArrayDeque 源码解析/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.6k(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 6(分)</span>
-	
-
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/06/Android/IntentService/">Android IntentService 源码解析</a>
-    </h1>
-  
-
-
-  </div>
-  
-  
-    <div class="article-description">
-      顾名思义，是一个 Service，先说和普通的 Service 的区别吧，普通的 Service 通常运行在主线程，而 IntentService 的处理逻辑在子线程里，另外 Service 需要自己去 destroy，而 IntentService 在处理完自己的逻辑时会自动结束，那他是怎么实现线程切换，主要还是 Handler 机制
-    </div>
-  
-
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2018/09/06/Android/IntentService/" class="article-date">
-	  <time datetime="2018-09-06T15:04:00.000Z" itemprop="datePublished">2018-09-06</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Android/">Android</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Android/">Android</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/09/06/Android/IntentService/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 750(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 3(分)</span>
-	
-
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/06/Backend/BloomFilter&Hyperloglog 去重&统计/">BloomFilter&amp;Hyperloglog 去重&amp;统计</a>
-    </h1>
-  
-
-
-  </div>
-  
-  
-    <div class="article-description">
-      最近在做爬虫的时候，遇到了去重的问题，关于去重，有很多地方可以做，比如, 内存级别，利用 hashmap，准确，性能好但是内存有限
-    </div>
-  
-
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2018/09/06/Backend/BloomFilter&Hyperloglog 去重&统计/" class="article-date">
-	  <time datetime="2018-09-06T04:53:00.000Z" itemprop="datePublished">2018-09-06</time>
-	</a>
-</span>
-    
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </span>
-
-    
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Java/">Java</a>
-  </span>
-
-
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/09/06/Backend/BloomFilter&Hyperloglog 去重&统计/#comments" class="article-comment-link">评论</a></span>
-    
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 576(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 647(字)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
 	
 
-  </p>
-</article>
-
-    
-      <article class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="article-header">
-    
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/06/Backend/Geohash&Haversine 附近功能/">Geohash&amp;Haversine 附近功能</a>
-    </h1>
-  
-
-
-  </div>
-  
-  
-    <div class="article-description">
-      最近偶然间看到了 Geohash 算法，才想起来之前自己做过的**附近**的功能简直不堪一击，竟然是计算所有与目标点的距离，再排序。想必有经验的人早就笑出声了吧，按照以前的水平，如果不这样做，那也得找出比较相近的，先不计算球面距离，然后得到一个小一点的集合，再计算距
+      </div>
     </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h3>
+<p>作为一个 Node 开发工程师，似乎对于 Window 并不需要关心，但作为一个前端工程师，Window 是个啥子东东，还是需要花时间理一理的。本期看点，深入了解 Window 的 API ～</p>
+<h3 id="window"><a class="markdownIt-Anchor" href="#window"></a> Window</h3>
+<p>所有的浏览器都有 Window 对象，每个窗口都会具有一个 Window，通常在浏览器开发者模式中，可以使用 window 拿到这个对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">window</span><br></pre></td></tr></table></figure>
+<p>window 具有很多属性和方法，常见的有</p>
+<ul>
+<li>
+<p>navigator 导航器</p>
+</li>
+<li>
+<p>screen 显示器</p>
+</li>
+<li>
+<p>history 历史对象</p>
+</li>
+<li>
+<p>location 位置对象</p>
+</li>
+<li>
+<p>document 文档对象</p>
+</li>
+<li>
+<p>方法</p>
+<ul>
+<li>
+<p>open</p>
+</li>
+<li>
+<p>close</p>
+</li>
+<li>
+<p>setTimeout</p>
+</li>
+<li>
+<p>setInterval</p>
+<p>…</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>在浏览器中，我们使用这些对象和方法，完整的用法是 <strong>window.xx</strong>，但我们可以省略 window，直接使用 xx 即可，对于新手来说可能觉得很奇怪。</p>
+<p>复习一下方法调用， Javascript 的方法执行最终都会是以  <strong>xx.call(this, args…)</strong> 的形式，这里的 this 就是方法的上下文，通常是调用的对象</p>
+<p>在浏览器里，如果我们直接使用一个属性或者方法，那么执行这个方法的上下文通常都是 window 对象，所以我们可以直接使用这些对象和方法，因为上下文环境就是 window，最后取的都是 window 的属性和方法。</p>
+<p>放一张比较完整的图～</p>
+<p><img src="/Users/xuantang/GithubPages/wzes.github.io/source/_posts/images/window.gif" alt="Window 预览"></p>
+<h3 id="document"><a class="markdownIt-Anchor" href="#document"></a> document</h3>
+<p>document 是我们的文档对象，我们可以使用开发者模式直接打印 document，document 打印出来（toString）就是我们的 html，实际上 document 对象也具有很多方法和属性。</p>
+<p><img src="../images/document.jpg" alt="image-20190921205159737"></p>
+<h4 id="createelement"><a class="markdownIt-Anchor" href="#createelement"></a> createElement</h4>
+<p>创建元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const div = document.createElement(&apos;div&apos;)</span><br><span class="line">div.appendChild()</span><br></pre></td></tr></table></figure>
+<h4 id="getelementbyid"><a class="markdownIt-Anchor" href="#getelementbyid"></a> getElementById</h4>
+<p>获取元素</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const div = document.getElementById(&apos;id&apos;)</span><br><span class="line">div.appendChild()</span><br></pre></td></tr></table></figure>
+<p>利用这些方法创建元素，然后将元素挂载到已有的 dom (app)上，React，Vue 框架最核心的原理不过如此</p>
+<h4 id="cookie"><a class="markdownIt-Anchor" href="#cookie"></a> cookie</h4>
+<p>cookie 对象是 document 的属性，当访问同源的网站是，浏览器会自动帮我们吧 cookie 对象传过去，cookie 对象通常包含了用户信息，服务端可以通过 cookie 判断用户的状态，cookie 默认是持久化保存的</p>
+<h4 id="location"><a class="markdownIt-Anchor" href="#location"></a> location</h4>
+<p>location 对象即 window 的 location 对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">document.location == window.location</span><br><span class="line">// true</span><br></pre></td></tr></table></figure>
+<h4 id="url"><a class="markdownIt-Anchor" href="#url"></a> URL</h4>
+<p>返回当前的 url</p>
+<h4 id="open"><a class="markdownIt-Anchor" href="#open"></a> open</h4>
+<p>与 window 的 open 不同， document 的 open 是操作 document 对象，打开一个 document 的输入流，open 将会清空当前的文档</p>
+<h4 id="close"><a class="markdownIt-Anchor" href="#close"></a> close</h4>
+<p>关闭文档流</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">document.open(); </span><br><span class="line">document.write(&quot;&lt;p&gt;Hello world!&lt;/p&gt;&quot;);</span><br><span class="line">document.write(&quot;&lt;p&gt;I am a fish&lt;/p&gt;&quot;);</span><br><span class="line">document.write(&quot;&lt;p&gt;The number is 42&lt;/p&gt;&quot;); </span><br><span class="line">document.close();</span><br></pre></td></tr></table></figure>
+<p><img src="/Users/xuantang/GithubPages/wzes.github.io/source/_posts/images/open_close.jpg" alt></p>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>window 对象博大精深～</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wzes.github.io/2019/09/22/JavaScript/Browser Window/" title="Browser Window 扫盲" target="_blank" rel="external">https://wzes.github.io/2019/09/22/JavaScript/Browser Window/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wzes" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wzes" target="_blank"><span class="text-dark">爨</span><small class="ml-1x">美团点评 Android 开发</small></a></h3>
+        <div>一只会 FE 的 Android 工程师～</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
   
-
-  <p class="article-meta">
-    <span class="article-date">
-    <i class="icon icon-calendar-check"></i>
-	<a href="/2018/09/06/Backend/Geohash&Haversine 附近功能/" class="article-date">
-	  <time datetime="2018-09-06T01:13:00.000Z" itemprop="datePublished">2018-09-06</time>
-	</a>
-</span>
     
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </span>
-
+  <section id="comments">
+  	
+           
     
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Java/">Java</a>
-  </span>
+  </section>
 
 
-    <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/09/06/Backend/Geohash&Haversine 附近功能/#comments" class="article-comment-link">评论</a></span>
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
     
-	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 472(字)</span>
-	
-	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
-	
-
-  </p>
-</article>
-
+    
+    <li class="next">
+      <a href="/2019/09/08/JavaScript/koa-bodyparser/" title="koa-bodyparser 源码解析"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
     
   </div>
-
+  </div>
+</nav>
   
-    
-    <nav class="bar bar-footer clearfix" data-stick-bottom>
-        <div class="bar-inner">
-        <ul class="pager pull-left">
-            
-            <li class="prev">
-                <a href="/">
-                    <i class="icon icon-angle-left"></i>
-                    上一页
-                </a>
-            </li>
-            
-            
-            <li class="next">
-                <a href="/page/3/">
-                    下一页
-                    <i class="icon icon-angle-right"></i>
-                </a>
-            </li>
-            
-        </ul>
-        <div class="total-article bar-right">Page 2 of 5</div>
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
         </div>
-    </nav>
-    
- 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 </main>
 
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
@@ -933,6 +644,27 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
    
 
 
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '5e22a8877cbd25268283',
+    clientSecret: 'f47449129237f1d2c9c4fa92f9a6764c029f910a',
+    repo: 'gitalk_blog',
+    owner: 'wzes',
+    admin: ['wzes'],
+    id: md5(location.pathname).toString().substr(0, 49),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
 
 
 
