@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>iScroll 源码学习 | Xuantang Cun 的博客</title>
+  <meta name="description" content="强大的 iScroll 啊，功能的确多，但我只想看看你的 flinger 滑动处理的精髓！感觉 iscroll 的滑动处理的还可以吧，虽然比不上系统的 scroll，但也不至于很难受，学会了这招，可以出去吹吹牛（招摇撞骗）了">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iScroll 源码学习">
+<meta property="og:url" content="https://wzes.github.io/2019/10/23/JavaScript/iScroll/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="强大的 iScroll 啊，功能的确多，但我只想看看你的 flinger 滑动处理的精髓！感觉 iscroll 的滑动处理的还可以吧，虽然比不上系统的 scroll，但也不至于很难受，学会了这招，可以出去吹吹牛（招摇撞骗）了">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-24T06:15:03.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iScroll 源码学习">
+<meta name="twitter:description" content="强大的 iScroll 啊，功能的确多，但我只想看看你的 flinger 滑动处理的精髓！感觉 iscroll 的滑动处理的还可以吧，虽然比不上系统的 scroll，但也不至于很难受，学会了这招，可以出去吹吹牛（招摇撞骗）了">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wzes.github.io/2019/10/23/JavaScript/iScroll/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wzes" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎加入美团点评的大家庭～～内推找18001997427（微信 备注Github）</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Java/">Java</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTTP/">HTTP</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQLite/">SQLite</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Array/">Array</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Babel/">Babel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/">DOM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">12</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Koa/">Koa</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lazyload/">Lazyload</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/">Node</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/">Redux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewPager/">ViewPager</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Android/" style="font-size: 13.8px;">Android</a> <a href="/tags/Array/" style="font-size: 13px;">Array</a> <a href="/tags/Babel/" style="font-size: 13px;">Babel</a> <a href="/tags/DOM/" style="font-size: 13px;">DOM</a> <a href="/tags/HTML/" style="font-size: 13px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.2px;">HTTP</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 13.6px;">JavaScript</a> <a href="/tags/Koa/" style="font-size: 13.2px;">Koa</a> <a href="/tags/Lazyload/" style="font-size: 13px;">Lazyload</a> <a href="/tags/MySQL/" style="font-size: 13px;">MySQL</a> <a href="/tags/Node/" style="font-size: 13.4px;">Node</a> <a href="/tags/React/" style="font-size: 13.2px;">React</a> <a href="/tags/Redux/" style="font-size: 13px;">Redux</a> <a href="/tags/SQLite/" style="font-size: 13px;">SQLite</a> <a href="/tags/TabLayout/" style="font-size: 13px;">TabLayout</a> <a href="/tags/ViewPager/" style="font-size: 13px;">ViewPager</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/23/JavaScript/iScroll/" class="title">iScroll 源码学习</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-23T10:30:16.000Z" itemprop="datePublished">2019-10-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/20/JavaScript/Gulp/" class="title">Gulp 入门指南</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-20T07:30:16.000Z" itemprop="datePublished">2019-10-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/09/30/JavaScript/JavaScript Event/" class="title">JavaScript Event preventDefault和stopPropagation</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-30T07:30:16.000Z" itemprop="datePublished">2019-09-30</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/09/22/JavaScript/BrowserWindow/" class="title">Browser Window 扫盲</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-22T10:56:00.000Z" itemprop="datePublished">2019-09-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/09/08/JavaScript/koa-bodyparser/" class="title">koa-bodyparser 源码解析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-08T10:56:00.000Z" itemprop="datePublished">2019-09-08</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-JavaScript/iScroll" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iScroll 源码学习
+    </h1>
+  
+
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/10/23/JavaScript/iScroll/" class="article-date">
+	  <time datetime="2019-10-23T10:30:16.000Z" itemprop="datePublished">2019-10-23</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/10/23/JavaScript/iScroll/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.9k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 14(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h3>
+<p>强大的 iScroll 啊，功能的确多，但我只想看看你的 flinger 滑动处理的精髓！感觉 iscroll 的滑动处理的还可以吧，虽然比不上系统的 scroll，但也不至于很难受，学会了这招，可以出去吹吹牛（招摇撞骗）了。</p>
+<h3 id="须知"><a class="markdownIt-Anchor" href="#须知"></a> 须知</h3>
+<p>通常如果我们给容器设置一个高度，如果子节点的高度超出了父容器的高度，那么内容就可以进行滚动，原因在于 <code>overflow</code> 属性默认为 <code>auto</code>，当然最好将父容器设置为 <code>overflow: scroll</code>，子内容就可以进行滚动。还可以单独设置 X 或 Y 轴的滚动，<code>overflow-x:scroll</code> 或 <code>overflow-y:scroll</code>，如果不想让内容滚动，则设置 <code>overflow: hidden</code></p>
+<h3 id="是什么"><a class="markdownIt-Anchor" href="#是什么"></a> 是什么</h3>
+<p>iScroll 是一种高性能，占用空间小，无依赖的多平台 javascript 滚动器。</p>
+<blockquote>
+<p>它适用于台式机，移动电视和智能电视。它已针对性能和尺寸进行了优化，以在现代和旧设备上提供最平滑的结果。</p>
+<p>iScroll不仅可以滚动。它可以处理需要通过用户交互移动的任何元素。它为您的项目添加了滚动，缩放，平移，无限滚动，视差滚动，轮播，并且仅以4kb的速度做到了这一点。给它扫帚，它也会打扫你的办公室。</p>
+<p>即使在本机滚动足以胜任的平台上，iScroll也会添加原本无法实现的功能。特别：</p>
+<p>即使在动量期间，也可以对滚动位置进行精细控制。您始终可以获取并设置滚动条的x，y坐标。<br>
+可以使用用户定义的缓动功能（弹跳，弹性，后退…）自定义动画。<br>
+您可以轻松地挂钩到大量自定义事件（onBeforeScrollStart，onScrollStart，onScroll，onScrollEnd，flick等）。<br>
+开箱即用的多平台支持。从较旧的Android设备到最新的iPhone，从Chrome到Internet Explorer。</p>
+</blockquote>
+<h3 id="get-started"><a class="markdownIt-Anchor" href="#get-started"></a> Get started</h3>
+<p>假设我们的元素长这个样子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;wrapper&quot;&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">        &lt;li&gt;...&lt;/li&gt;</span><br><span class="line">        &lt;li&gt;...&lt;/li&gt;</span><br><span class="line">        ...</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>那我们只需要在脚本中使用 <code>new IScroll</code> 即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myScroll = new IScroll(&apos;#wrapper&apos;);</span><br></pre></td></tr></table></figure>
+<p>当然，他还有很多属性（只可意会）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">this.options = &#123;</span><br><span class="line">		disablePointer : !utils.hasPointer,</span><br><span class="line">		disableTouch : utils.hasPointer || !utils.hasTouch,</span><br><span class="line">		disableMouse : utils.hasPointer || utils.hasTouch,</span><br><span class="line">		startX: 0, // 开始滚动的值</span><br><span class="line">		startY: 0,</span><br><span class="line">		scrollY: true,</span><br><span class="line">		directionLockThreshold: 5,</span><br><span class="line">		momentum: true,  // 对其 Native 的 flinger(手指放开后还会继续滚动一段距离)</span><br><span class="line">		bounce: true,   // 滚动回弹</span><br><span class="line">		bounceTime: 600,</span><br><span class="line">		bounceEasing: &apos;&apos;,</span><br><span class="line">		preventDefault: true,</span><br><span class="line">		preventDefaultException: &#123; tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ &#125;,</span><br><span class="line">		HWCompositing: true,</span><br><span class="line">		useTransition: true,</span><br><span class="line">		useTransform: true,</span><br><span class="line">		bindToWrapper: typeof window.onmousedown === &quot;undefined&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="原理概括"><a class="markdownIt-Anchor" href="#原理概括"></a> 原理概括</h3>
+<p>iScroll 当然没有使用系统的 scroll，原因有很多点，上面也提到过。</p>
+<p>iScroll 使用了 <code>transform: translate(px, px)</code>来实现滚动，完全是通过自己计算来实现的，当然，如果系统支持 <code>transation</code>，那么 iScroll 的松手后滚动将借助 <code>transitionTimingFunction</code>，否则就自定义动画，完成平滑滚动。</p>
+<h3 id="源码解析"><a class="markdownIt-Anchor" href="#源码解析"></a> 源码解析</h3>
+<h4 id="入口"><a class="markdownIt-Anchor" href="#入口"></a> 入口</h4>
+<p>IScroll 是一个方法，调用了以后会创建属性，进行初始化，其中 <code>this.x</code> 和 <code>this.y</code> 分别记录了x 轴 与 y 轴的滚动距离。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">function IScroll (el, options) &#123;</span><br><span class="line">	this.wrapper = typeof el == &apos;string&apos; ? document.querySelector(el) : el;</span><br><span class="line">	this.scroller = this.wrapper.children[0];</span><br><span class="line">	this.scrollerStyle = this.scroller.style;		// cache style for better performance</span><br><span class="line"></span><br><span class="line">	// 此处省略了 this.options 的赋值</span><br><span class="line">	</span><br><span class="line">	// Some defaults</span><br><span class="line">	this.x = 0;  </span><br><span class="line">	this.y = 0;</span><br><span class="line">	this.directionX = 0;</span><br><span class="line">	this.directionY = 0;</span><br><span class="line">	this._events = &#123;&#125;;</span><br><span class="line">	</span><br><span class="line">	this._init();</span><br><span class="line">	this.refresh();</span><br><span class="line"></span><br><span class="line">	this.scrollTo(this.options.startX, this.options.startY);</span><br><span class="line">	this.enable();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="初始化事件"><a class="markdownIt-Anchor" href="#初始化事件"></a> 初始化事件</h4>
+<p>在 <code>this._init();</code> 中初始化了事件监听，在手机端主要是  <code>touch</code> 开头的事件，PC 端主要是 <code>mouse</code> 事件，<code>pointer</code> 是指针事件，此外，还会监听 <code>transitionend</code> 事件，用于滚动结束事件的监听。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">_initEvents: function (remove) &#123;</span><br><span class="line">		var eventType = remove ? utils.removeEvent : utils.addEvent,</span><br><span class="line">			target = this.options.bindToWrapper ? this.wrapper : window;</span><br><span class="line"></span><br><span class="line">		eventType(window, &apos;orientationchange&apos;, this);</span><br><span class="line">		eventType(window, &apos;resize&apos;, this);</span><br><span class="line"></span><br><span class="line">		if ( this.options.click ) &#123;</span><br><span class="line">			eventType(this.wrapper, &apos;click&apos;, this, true);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if ( !this.options.disableMouse ) &#123;</span><br><span class="line">			eventType(this.wrapper, &apos;mousedown&apos;, this);</span><br><span class="line">			eventType(target, &apos;mousemove&apos;, this);</span><br><span class="line">			eventType(target, &apos;mousecancel&apos;, this);</span><br><span class="line">			eventType(target, &apos;mouseup&apos;, this);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if ( utils.hasPointer &amp;&amp; !this.options.disablePointer ) &#123;</span><br><span class="line">			eventType(this.wrapper, utils.prefixPointerEvent(&apos;pointerdown&apos;), this);</span><br><span class="line">			eventType(target, utils.prefixPointerEvent(&apos;pointermove&apos;), this);</span><br><span class="line">			eventType(target, utils.prefixPointerEvent(&apos;pointercancel&apos;), this);</span><br><span class="line">			eventType(target, utils.prefixPointerEvent(&apos;pointerup&apos;), this);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if ( utils.hasTouch &amp;&amp; !this.options.disableTouch ) &#123;</span><br><span class="line">			eventType(this.wrapper, &apos;touchstart&apos;, this);</span><br><span class="line">			eventType(target, &apos;touchmove&apos;, this);</span><br><span class="line">			eventType(target, &apos;touchcancel&apos;, this);</span><br><span class="line">			eventType(target, &apos;touchend&apos;, this);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		eventType(this.scroller, &apos;transitionend&apos;, this);</span><br><span class="line">		eventType(this.scroller, &apos;webkitTransitionEnd&apos;, this);</span><br><span class="line">		eventType(this.scroller, &apos;oTransitionEnd&apos;, this);</span><br><span class="line">		eventType(this.scroller, &apos;MSTransitionEnd&apos;, this);</span><br><span class="line">	&#125;,</span><br></pre></td></tr></table></figure>
+<h4 id="初始化变量"><a class="markdownIt-Anchor" href="#初始化变量"></a> 初始化变量</h4>
+<p>计算容器高度、宽度，滚动内容高度、宽度，最大滚动距离（X轴，Y轴）等等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">	refresh: function () &#123;</span><br><span class="line">		utils.getRect(this.wrapper);		// Force reflow</span><br><span class="line"></span><br><span class="line">		this.wrapperWidth	= this.wrapper.clientWidth;</span><br><span class="line">		this.wrapperHeight	= this.wrapper.clientHeight;</span><br><span class="line"></span><br><span class="line">		var rect = utils.getRect(this.scroller);</span><br><span class="line">/* REPLACE START: refresh */</span><br><span class="line"></span><br><span class="line">		this.scrollerWidth	= rect.width;</span><br><span class="line">		this.scrollerHeight	= rect.height;</span><br><span class="line"></span><br><span class="line">		this.maxScrollX		= this.wrapperWidth - this.scrollerWidth;</span><br><span class="line">		this.maxScrollY		= this.wrapperHeight - this.scrollerHeight;</span><br><span class="line"></span><br><span class="line">/* REPLACE END: refresh */</span><br><span class="line"></span><br><span class="line">		this.hasHorizontalScroll	= this.options.scrollX &amp;&amp; this.maxScrollX &lt; 0;</span><br><span class="line">		this.hasVerticalScroll		= this.options.scrollY &amp;&amp; this.maxScrollY &lt; 0;</span><br><span class="line">		</span><br><span class="line">		if ( !this.hasHorizontalScroll ) &#123;</span><br><span class="line">			this.maxScrollX = 0;</span><br><span class="line">			this.scrollerWidth = this.wrapperWidth;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if ( !this.hasVerticalScroll ) &#123;</span><br><span class="line">			this.maxScrollY = 0;</span><br><span class="line">			this.scrollerHeight = this.wrapperHeight;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		this.endTime = 0;</span><br><span class="line">		this.directionX = 0;</span><br><span class="line">		this.directionY = 0;</span><br><span class="line">		</span><br><span class="line">		if(utils.hasPointer &amp;&amp; !this.options.disablePointer) &#123;</span><br><span class="line">			// The wrapper should have `touchAction` property for using pointerEvent.</span><br><span class="line">			this.wrapper.style[utils.style.touchAction] = utils.getTouchAction(this.options.eventPassthrough, true);</span><br><span class="line"></span><br><span class="line">			// case. not support &apos;pinch-zoom&apos;</span><br><span class="line">			// https://github.com/cubiq/iscroll/issues/1118#issuecomment-270057583</span><br><span class="line">			if (!this.wrapper.style[utils.style.touchAction]) &#123;</span><br><span class="line">				this.wrapper.style[utils.style.touchAction] = utils.getTouchAction(this.options.eventPassthrough, false);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		this.wrapperOffset = utils.offset(this.wrapper);</span><br><span class="line"></span><br><span class="line">		this._execEvent(&apos;refresh&apos;);</span><br><span class="line"></span><br><span class="line">		this.resetPosition();</span><br><span class="line"></span><br><span class="line">// INSERT POINT: _refresh</span><br><span class="line"></span><br><span class="line">	&#125;,</span><br></pre></td></tr></table></figure>
+<h4 id="滚动函数"><a class="markdownIt-Anchor" href="#滚动函数"></a> 滚动函数</h4>
+<p>给定一个 x，y，滚动时间 time，滚动效果 easing；</p>
+<p>如果 time 为 0，则为瞬时滚动，使用 <code>_translate</code> 改变位置，如果环境支持 <code>transition</code> , 那么将使用 transition 属性实现动画。</p>
+<p>如果浏览器不支持 transition，time 又不为 0，那么则自定义动画实现滚动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">scrollTo: function (x, y, time, easing) &#123;</span><br><span class="line">	easing = easing || utils.ease.circular;</span><br><span class="line"></span><br><span class="line">	this.isInTransition = this.options.useTransition &amp;&amp; time &gt; 0;</span><br><span class="line">	var transitionType = this.options.useTransition &amp;&amp; easing.style;</span><br><span class="line">	if ( !time || transitionType ) &#123;</span><br><span class="line">			if(transitionType) &#123;</span><br><span class="line">				this._transitionTimingFunction(easing.style);</span><br><span class="line">				this._transitionTime(time);</span><br><span class="line">			&#125;</span><br><span class="line">		this._translate(x, y);</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		this._animate(x, y, time, easing.fn);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h4 id="移动实现"><a class="markdownIt-Anchor" href="#移动实现"></a> 移动实现</h4>
+<p>如果元素支持 transform 给元素赋值 transform 属性即可，否则使用 left 属性。然后将 <code>x</code> , <code>y</code> 设置为目标位置，既目前滚动位置，通常都是为<strong>负值</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">	_translate: function (x, y) &#123;</span><br><span class="line">		if ( this.options.useTransform ) &#123;</span><br><span class="line"></span><br><span class="line">/* REPLACE START: _translate */</span><br><span class="line"></span><br><span class="line">			this.scrollerStyle[utils.style.transform] = &apos;translate(&apos; + x + &apos;px,&apos; + y + &apos;px)&apos; + this.translateZ;</span><br><span class="line"></span><br><span class="line">/* REPLACE END: _translate */</span><br><span class="line"></span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			x = Math.round(x);</span><br><span class="line">			y = Math.round(y);</span><br><span class="line">			this.scrollerStyle.left = x + &apos;px&apos;;</span><br><span class="line">			this.scrollerStyle.top = y + &apos;px&apos;;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		this.x = x;</span><br><span class="line">		this.y = y;</span><br><span class="line"></span><br><span class="line">// INSERT POINT: _translate</span><br><span class="line"></span><br><span class="line">	&#125;,</span><br></pre></td></tr></table></figure>
+<h4 id="触摸事件处理-core"><a class="markdownIt-Anchor" href="#触摸事件处理-core"></a> 触摸事件处理 Core</h4>
+<p>便于分析，我只考虑y方向的滑动，x方向同理（会删除掉 x 方向的代码）</p>
+<h5 id="startmovestartmousedown"><a class="markdownIt-Anchor" href="#startmovestartmousedown"></a> start（movestart，mousedown…）</h5>
+<p>其中比较重要的是 startY，startTime，记录下目前滚动位置，滚动时刻 pointY 则是点击位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">_start: function (e) &#123;</span><br><span class="line"> var point = e.touches ? e.touches[0] : e,</span><br><span class="line">  pos;</span><br><span class="line"></span><br><span class="line"> this.initiated = utils.eventType[e.type];</span><br><span class="line"> this.moved  = false;</span><br><span class="line"> this.distY  = 0;</span><br><span class="line"> this.directionY = 0;</span><br><span class="line"> this.directionLocked = 0;</span><br><span class="line"></span><br><span class="line"> this.startTime = utils.getTime();</span><br><span class="line"></span><br><span class="line"> if ( this.options.useTransition &amp;&amp; this.isInTransition ) &#123;</span><br><span class="line">  this._transitionTime();</span><br><span class="line">  this.isInTransition = false;</span><br><span class="line">  pos = this.getComputedPosition();</span><br><span class="line">  this._translate(Math.round(pos.x), Math.round(pos.y));</span><br><span class="line">  this._execEvent(&apos;scrollEnd&apos;);</span><br><span class="line"> &#125; else if ( !this.options.useTransition &amp;&amp; this.isAnimating ) &#123;</span><br><span class="line">  this.isAnimating = false;</span><br><span class="line">  this._execEvent(&apos;scrollEnd&apos;);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> this.startY    = this.y;</span><br><span class="line"> this.absStartY = this.y;</span><br><span class="line"> this.pointY    = point.pageY;</span><br><span class="line"></span><br><span class="line"> this._execEvent(&apos;beforeScrollStart&apos;);</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h5 id="move"><a class="markdownIt-Anchor" href="#move"></a> move</h5>
+<p>通常，手指不松开，屏幕滚动是跟随手指移动的，手指怎么移动，屏幕就怎么移动。</p>
+<p>首先会判断该次滑动是否有效，然后锁定滑动方向，最后计算 newY，需要滑动的位置 <code>newY = this.y + deltaY</code> 是通过 delta 来计算的。然后使用 translate 函数移动进行瞬时移动。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">	_move: function (e) &#123;</span><br><span class="line">		var point		= e.touches ? e.touches[0] : e,</span><br><span class="line">			deltaY		= point.pageY - this.pointY,</span><br><span class="line">			timestamp	= utils.getTime(),</span><br><span class="line">			newY,</span><br><span class="line">			absDistY;</span><br><span class="line"></span><br><span class="line">		this.pointY		= point.pageY;</span><br><span class="line">		this.distY		+= deltaY;</span><br><span class="line">		absDistY		= Math.abs(this.distY);</span><br><span class="line"></span><br><span class="line">		// We need to move at least 10 pixels for the scrolling to initiate</span><br><span class="line">		if ( timestamp - this.endTime &gt; 300 &amp;&amp; (absDistX &lt; 10 &amp;&amp; absDistY &lt; 10) ) &#123;</span><br><span class="line">			return;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		// If you are scrolling in one direction lock the other</span><br><span class="line">		if ( !this.directionLocked &amp;&amp; !this.options.freeScroll ) &#123;</span><br><span class="line">			if ( absDistX &gt; absDistY + this.options.directionLockThreshold ) &#123;</span><br><span class="line">				this.directionLocked = &apos;h&apos;;		// lock horizontally</span><br><span class="line">			&#125; else if ( absDistY &gt;= absDistX + this.options.directionLockThreshold ) &#123;</span><br><span class="line">				this.directionLocked = &apos;v&apos;;		// lock vertically</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				this.directionLocked = &apos;n&apos;;		// no lock</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if ( this.directionLocked == &apos;h&apos; ) &#123;</span><br><span class="line">			if ( this.options.eventPassthrough == &apos;vertical&apos; ) &#123;</span><br><span class="line">				e.preventDefault();</span><br><span class="line">			&#125; else if ( this.options.eventPassthrough == &apos;horizontal&apos; ) &#123;</span><br><span class="line">				this.initiated = false;</span><br><span class="line">				return;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			deltaY = 0;</span><br><span class="line">		&#125; else if ( this.directionLocked == &apos;v&apos; ) &#123;</span><br><span class="line">			if ( this.options.eventPassthrough == &apos;horizontal&apos; ) &#123;</span><br><span class="line">				e.preventDefault();</span><br><span class="line">			&#125; else if ( this.options.eventPassthrough == &apos;vertical&apos; ) &#123;</span><br><span class="line">				this.initiated = false;</span><br><span class="line">				return;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			deltaX = 0;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		deltaY = this.hasVerticalScroll ? deltaY : 0;</span><br><span class="line">		newY = this.y + deltaY;</span><br><span class="line"></span><br><span class="line">		// Slow down if outside of the boundaries</span><br><span class="line">		if ( newY &gt; 0 || newY &lt; this.maxScrollY ) &#123;</span><br><span class="line">			newY = this.options.bounce ? this.y + deltaY / 3 : newY &gt; 0 ? 0 : this.maxScrollY;</span><br><span class="line">		&#125;</span><br><span class="line">		this.directionY = deltaY &gt; 0 ? -1 : deltaY &lt; 0 ? 1 : 0;</span><br><span class="line">		if ( !this.moved ) &#123;</span><br><span class="line">			this._execEvent(&apos;scrollStart&apos;);</span><br><span class="line">		&#125;</span><br><span class="line">		this.moved = true;</span><br><span class="line">		this._translate(newX, newY);</span><br><span class="line"></span><br><span class="line">/* REPLACE START: _move */</span><br><span class="line"></span><br><span class="line">		if ( timestamp - this.startTime &gt; 300 ) &#123;</span><br><span class="line">			this.startTime = timestamp;</span><br><span class="line">			this.startX = this.x;</span><br><span class="line">			this.startY = this.y;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">/* REPLACE END: _move */</span><br><span class="line"></span><br><span class="line">	&#125;,</span><br></pre></td></tr></table></figure>
+<p>其中一个比较重要的是，如果这次 move 的时刻与上一次（start）的时间超过 300 ms，会进行重置（太妙了！！）这与接下来的 end 有着非常重要的意义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if ( timestamp - this.startTime &gt; 300 ) &#123;</span><br><span class="line">			this.startTime = timestamp;</span><br><span class="line">			this.startY = this.y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="end"><a class="markdownIt-Anchor" href="#end"></a> end</h5>
+<p>在 end 中将进行动量滚动（松开后还能进行滚动）</p>
+<p>动量滚动最重要的是计算两个值，松开后滚动的 <code>时间</code> 和 <code>距离</code>，也是 iscroll 最核心的部分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">	_end: function (e) &#123;</span><br><span class="line">		var point = e.changedTouches ? e.changedTouches[0] : e,</span><br><span class="line">			momentumY,</span><br><span class="line">			duration = utils.getTime() - this.startTime,</span><br><span class="line">			newY = Math.round(this.y),</span><br><span class="line">			distanceY = Math.abs(newY - this.startY),</span><br><span class="line">			time = 0,</span><br><span class="line">			easing = &apos;&apos;;</span><br><span class="line"></span><br><span class="line">		this.isInTransition = 0;</span><br><span class="line">		this.initiated = 0;</span><br><span class="line">		this.endTime = utils.getTime();</span><br><span class="line"></span><br><span class="line">		// reset if we are outside of the boundaries</span><br><span class="line">		if ( this.resetPosition(this.options.bounceTime) ) &#123;</span><br><span class="line">			return;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		this.scrollTo(newX, newY);	// ensures that the last position is rounded</span><br><span class="line"></span><br><span class="line">		// we scrolled less than 10 pixels</span><br><span class="line">		if ( !this.moved ) &#123;</span><br><span class="line">			if ( this.options.tap ) &#123;</span><br><span class="line">				utils.tap(e, this.options.tap);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			if ( this.options.click ) &#123;</span><br><span class="line">				utils.click(e);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			this._execEvent(&apos;scrollCancel&apos;);</span><br><span class="line">			return;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		if ( this._events.flick &amp;&amp; duration &lt; 200 &amp;&amp; distanceX &lt; 100 &amp;&amp; distanceY &lt; 100 ) &#123;</span><br><span class="line">			this._execEvent(&apos;flick&apos;);</span><br><span class="line">			return;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		// start momentum animation if needed</span><br><span class="line">		if ( this.options.momentum &amp;&amp; duration &lt; 300 ) &#123;</span><br><span class="line">			momentumY = this.hasVerticalScroll ? utils.momentum(this.y, this.startY, duration, this.maxScrollY, this.options.bounce ? this.wrapperHeight : 0, this.options.deceleration) : &#123; destination: newY, duration: 0 &#125;;</span><br><span class="line">			newY = momentumY.destination;</span><br><span class="line">			time = Math.max(momentumX.duration, momentumY.duration);</span><br><span class="line">			this.isInTransition = 1;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">// INSERT POINT: _end</span><br><span class="line"></span><br><span class="line">		if ( newX != this.x || newY != this.y ) &#123;</span><br><span class="line">			// change easing function when scroller goes out of the boundaries</span><br><span class="line">			if ( newX &gt; 0 || newX &lt; this.maxScrollX || newY &gt; 0 || newY &lt; this.maxScrollY ) &#123;</span><br><span class="line">				easing = utils.ease.quadratic;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			this.scrollTo(newX, newY, time, easing);</span><br><span class="line">			return;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		this._execEvent(&apos;scrollEnd&apos;);</span><br><span class="line">	&#125;,</span><br></pre></td></tr></table></figure>
+<p>计算使用了 util.momentum</p>
+<p>输入，现在的滚动位置 y，上一次开始的 startY（该位置会在 move 中重置），time（距离上一次 start 的时间），lowerMargin 最大的滚动距离，wrapperSize 容器的尺寸，deceleration 插值器</p>
+<p>话不多说，自己欣赏吧。返回滚动时间和目标滚动位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">momentum = function (current, start, time, lowerMargin, wrapperSize, deceleration) &#123;</span><br><span class="line">		var distance = current - start,</span><br><span class="line">			speed = Math.abs(distance) / time,</span><br><span class="line">			destination,</span><br><span class="line">			duration;</span><br><span class="line"></span><br><span class="line">		deceleration = deceleration === undefined ? 0.0006 : deceleration;</span><br><span class="line"></span><br><span class="line">		destination = current + ( speed * speed ) / ( 2 * deceleration ) * ( distance &lt; 0 ? -1 : 1 );</span><br><span class="line">		duration = speed / deceleration;</span><br><span class="line"></span><br><span class="line">		if ( destination &lt; lowerMargin ) &#123;</span><br><span class="line">			destination = wrapperSize ? lowerMargin - ( wrapperSize / 2.5 * ( speed / 8 ) ) : lowerMargin;</span><br><span class="line">			distance = Math.abs(destination - current);</span><br><span class="line">			duration = distance / speed;</span><br><span class="line">		&#125; else if ( destination &gt; 0 ) &#123;</span><br><span class="line">			destination = wrapperSize ? wrapperSize / 2.5 * ( speed / 8 ) : 0;</span><br><span class="line">			distance = Math.abs(current) + destination;</span><br><span class="line">			duration = distance / speed;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		return &#123;</span><br><span class="line">			destination: Math.round(destination),</span><br><span class="line">			duration: duration</span><br><span class="line">		&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后就是使用 scrollTo 函数进行动量滚动了。<code>this.isInTransition</code> 标志正在进行动量滚动，如果期间存在 touchdown 事件，则会立刻停止滚动。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">if ( this.options.useTransition &amp;&amp; this.isInTransition ) &#123;</span><br><span class="line">			this._transitionTime();</span><br><span class="line">			this.isInTransition = false;</span><br><span class="line">			pos = this.getComputedPosition();</span><br><span class="line">			this._translate(Math.round(pos.x), Math.round(pos.y));</span><br><span class="line">			this._execEvent(&apos;scrollEnd&apos;);</span><br><span class="line">		&#125; else if ( !this.options.useTransition &amp;&amp; this.isAnimating ) &#123;</span><br><span class="line">			this.isAnimating = false;</span><br><span class="line">			this._execEvent(&apos;scrollEnd&apos;);</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至此，核心功能差不多了</p>
+<p>但 iscroll 还有其他很多功能，比如</p>
+<ul>
+<li>轮播图</li>
+<li>放大缩小</li>
+<li>…</li>
+</ul>
+<h3 id="最后"><a class="markdownIt-Anchor" href="#最后"></a> 最后</h3>
+<p>其实吧，iScroll 也也就那么回事。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wzes.github.io/2019/10/23/JavaScript/iScroll/" title="iScroll 源码学习" target="_blank" rel="external">https://wzes.github.io/2019/10/23/JavaScript/iScroll/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wzes" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wzes" target="_blank"><span class="text-dark">爨</span><small class="ml-1x">美团点评 Android 开发</small></a></h3>
+        <div>一只会 FE 的 Android 工程师～</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2019/10/20/JavaScript/Gulp/" title="Gulp 入门指南"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '5e22a8877cbd25268283',
+    clientSecret: 'f47449129237f1d2c9c4fa92f9a6764c029f910a',
+    repo: 'gitalk_blog',
+    owner: 'wzes',
+    admin: ['wzes'],
+    id: md5(location.pathname).toString().substr(0, 49),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>
