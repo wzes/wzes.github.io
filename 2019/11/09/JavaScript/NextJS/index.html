@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>NextJS 入门指南 | Xuantang Cun 的博客</title>
+  <meta name="description" content="最近在研究SSR服务端渲染，NextJS 算是比较经典的框架了，所以了解了解其用法对SSR或许能加深理解。如果能了解其实现原理，那就更好了">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NextJS 入门指南">
+<meta property="og:url" content="https://wzes.github.io/2019/11/09/JavaScript/NextJS/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="最近在研究SSR服务端渲染，NextJS 算是比较经典的框架了，所以了解了解其用法对SSR或许能加深理解。如果能了解其实现原理，那就更好了">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-10T07:50:48.873Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NextJS 入门指南">
+<meta name="twitter:description" content="最近在研究SSR服务端渲染，NextJS 算是比较经典的框架了，所以了解了解其用法对SSR或许能加深理解。如果能了解其实现原理，那就更好了">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wzes.github.io/2019/11/09/JavaScript/NextJS/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wzes" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎加入美团点评的大家庭～～内推找18001997427（微信 备注Github）</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Java/">Java</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTTP/">HTTP</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQLite/">SQLite</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Array/">Array</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Babel/">Babel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/">DOM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Koa/">Koa</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lazyload/">Lazyload</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/">Node</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/">Redux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewPager/">ViewPager</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Android/" style="font-size: 13.8px;">Android</a> <a href="/tags/Array/" style="font-size: 13px;">Array</a> <a href="/tags/Babel/" style="font-size: 13px;">Babel</a> <a href="/tags/DOM/" style="font-size: 13px;">DOM</a> <a href="/tags/HTML/" style="font-size: 13px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.2px;">HTTP</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 13.6px;">JavaScript</a> <a href="/tags/Koa/" style="font-size: 13.2px;">Koa</a> <a href="/tags/Lazyload/" style="font-size: 13px;">Lazyload</a> <a href="/tags/MySQL/" style="font-size: 13px;">MySQL</a> <a href="/tags/Node/" style="font-size: 13.4px;">Node</a> <a href="/tags/React/" style="font-size: 13.2px;">React</a> <a href="/tags/Redux/" style="font-size: 13px;">Redux</a> <a href="/tags/SQLite/" style="font-size: 13px;">SQLite</a> <a href="/tags/TabLayout/" style="font-size: 13px;">TabLayout</a> <a href="/tags/ViewPager/" style="font-size: 13px;">ViewPager</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/11/09/JavaScript/NextJS/" class="title">NextJS 入门指南</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-11-09T10:30:16.000Z" itemprop="datePublished">2019-11-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/26/JavaScript/IntersectionObserverAPI/" class="title">Intersection Obersever API 中文</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-26T07:30:16.000Z" itemprop="datePublished">2019-10-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/23/JavaScript/iScroll/" class="title">iScroll 源码学习</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-23T10:30:16.000Z" itemprop="datePublished">2019-10-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/20/JavaScript/Gulp/" class="title">Gulp 入门指南</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-20T07:30:16.000Z" itemprop="datePublished">2019-10-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/09/30/JavaScript/JavaScript Event/" class="title">JavaScript Event preventDefault和stopPropagation</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-30T07:30:16.000Z" itemprop="datePublished">2019-09-30</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-JavaScript/NextJS" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      NextJS 入门指南
+    </h1>
+  
+
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/09/JavaScript/NextJS/" class="article-date">
+	  <time datetime="2019-11-09T10:30:16.000Z" itemprop="datePublished">2019-11-09</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/09/JavaScript/NextJS/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.9k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 10(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h3>
+<p>最近在研究SSR服务端渲染，NextJS 算是比较经典的框架了，所以了解了解其用法对SSR或许能加深理解。如果能了解其实现原理，那就更好了。</p>
+<h3 id="服务端渲染"><a class="markdownIt-Anchor" href="#服务端渲染"></a> 服务端渲染</h3>
+<p>简单理解就是：你访问网页的时候，会一次性把完整的HTML返回给你。区别于 React，Vue 项目，HTML 文档只是一个壳子，需要运行 js 才能得到首屏的 Dom。</p>
+<h3 id="简介"><a class="markdownIt-Anchor" href="#简介"></a> 简介</h3>
+<p><strong>Next.js</strong> 是一个轻量级的 React 服务端渲染应用框架。</p>
+<h3 id="get-started"><a class="markdownIt-Anchor" href="#get-started"></a> Get Started</h3>
+<p>初始化项目，安装 next</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save next react react-dom</span><br></pre></td></tr></table></figure>
+<p>将下面脚本添加到 package.json 中:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;dev&quot;: &quot;next&quot;,</span><br><span class="line">    &quot;build&quot;: &quot;next build&quot;,</span><br><span class="line">    &quot;start&quot;: &quot;next start&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>新建 <code>./pages/index.js</code> 到你的项目中:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export default () =&gt; &lt;div&gt;Welcome to next.js!&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>运行 <code>npm run dev</code> 命令并打开 <code>http://localhost:3000</code>。 如果你想使用其他端口，可运行 <code>npm run dev -- -p &lt;设置端口号&gt;</code>.</p>
+<h3 id="如何使用服务端渲染"><a class="markdownIt-Anchor" href="#如何使用服务端渲染"></a> 如何使用服务端渲染？</h3>
+<p>默认支持服务端渲染，获取网络请求写在 getInitialProps 内部，就可以在 render 中获取数据，直接渲染。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;</span><br><span class="line"></span><br><span class="line">export default class extends React.Component &#123;</span><br><span class="line">  static async getInitialProps(&#123; req &#125;) &#123;</span><br><span class="line">    const userAgent = req ? req.headers[&apos;user-agent&apos;] : navigator.userAgent</span><br><span class="line">    return &#123; userAgent &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        Hello World  &#123;this.props.userAgent&#125;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="原理"><a class="markdownIt-Anchor" href="#原理"></a> 原理</h3>
+<h4 id="应用入口"><a class="markdownIt-Anchor" href="#应用入口"></a> 应用入口</h4>
+<p>使用了 node command line，能让我们仅仅写了 page 的代码，就能让整个应用跑起来。以至于我们都找不到入口。nextjs 真的是很厉害～封装的很好</p>
+<p>可以看到，当我们使用 <code>yarn start</code> 的时候，应用执行了 next-start</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const commands: &#123; [command: string]: () =&gt; Promise&lt;cliCommand&gt; &#125; = &#123;</span><br><span class="line">  build: async () =&gt; await import(&apos;../cli/next-build&apos;).then(i =&gt; i.nextBuild),</span><br><span class="line">  start: async () =&gt; await import(&apos;../cli/next-start&apos;).then(i =&gt; i.nextStart),</span><br><span class="line">  export: async () =&gt;</span><br><span class="line">    await import(&apos;../cli/next-export&apos;).then(i =&gt; i.nextExport),</span><br><span class="line">  dev: async () =&gt; await import(&apos;../cli/next-dev&apos;).then(i =&gt; i.nextDev),</span><br><span class="line">  telemetry: async () =&gt;</span><br><span class="line">    await import(&apos;../cli/next-telemetry&apos;).then(i =&gt; i.nextTelemetry),</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>next-start 开启了一个服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">startServer(&#123; dir &#125;, port, args[&apos;--hostname&apos;])</span><br><span class="line">  .then(async app =&gt; &#123;</span><br><span class="line">    // tslint:disable-next-line</span><br><span class="line">    console.log(</span><br><span class="line">      `&gt; Ready on http://$&#123;args[&apos;--hostname&apos;] || &apos;localhost&apos;&#125;:$&#123;port&#125;`</span><br><span class="line">    )</span><br><span class="line">    await app.prepare()</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(err =&gt; &#123;</span><br><span class="line">    // tslint:disable-next-line</span><br><span class="line">    console.error(err)</span><br><span class="line">    process.exit(1)</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+<p>startServer 的实现，获取 next 实例，然后使用 http 创建服务，主要的请求逻辑的代码都在 next 的 getRequestHandler 里面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">export default async function start(</span><br><span class="line">  serverOptions: any,</span><br><span class="line">  port?: number,</span><br><span class="line">  hostname?: string</span><br><span class="line">) &#123;</span><br><span class="line">  const app = next(serverOptions)</span><br><span class="line">  const srv = http.createServer(app.getRequestHandler())</span><br><span class="line">  await new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">    // This code catches EADDRINUSE error if the port is already in use</span><br><span class="line">    srv.on(&apos;error&apos;, reject)</span><br><span class="line">    srv.on(&apos;listening&apos;, () =&gt; resolve())</span><br><span class="line">    srv.listen(port, hostname)</span><br><span class="line">  &#125;)</span><br><span class="line">  // It&apos;s up to caller to run `app.prepare()`, so it can notify that the server</span><br><span class="line">  // is listening before starting any intensive operations.</span><br><span class="line">  return app</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>handleRequest 处理请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private handleRequest(</span><br><span class="line">  req: IncomingMessage,</span><br><span class="line">  res: ServerResponse,</span><br><span class="line">  parsedUrl?: UrlWithParsedQuery</span><br><span class="line">): Promise&lt;void&gt; &#123;</span><br><span class="line">  res.statusCode = 200</span><br><span class="line">  return this.run(req, res, parsedUrl).catch(err =&gt; &#123;</span><br><span class="line">    this.logError(err)</span><br><span class="line">    res.statusCode = 500</span><br><span class="line">    res.end(&apos;Internal Server Error&apos;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>run 获取 route 实例并进行处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">protected async run(</span><br><span class="line">  req: IncomingMessage,</span><br><span class="line">  res: ServerResponse,</span><br><span class="line">  parsedUrl: UrlWithParsedQuery</span><br><span class="line">) &#123;</span><br><span class="line">  this.handleCompression(req, res)</span><br><span class="line">  try &#123;</span><br><span class="line">    const fn = this.router.match(req, res, parsedUrl)</span><br><span class="line">    if (fn) &#123;</span><br><span class="line">      await fn()</span><br><span class="line">      return</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; catch (err) &#123;</span><br><span class="line">    if (err.code === &apos;DECODE_FAILED&apos;) &#123;</span><br><span class="line">      res.statusCode = 400</span><br><span class="line">      return this.renderError(null, req, res, &apos;/_error&apos;, &#123;&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    throw err</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  await this.render404(req, res, parsedUrl)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>router 是在项目初始化的时候进行创建的，其中一个就是根据，默认都会有很多路由处理器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">protected generateRoutes(): Route[] &#123;</span><br><span class="line">  const publicRoutes = fs.existsSync(this.publicDir)</span><br><span class="line">    ? this.generatePublicRoutes()</span><br><span class="line">    : []</span><br><span class="line">  const staticFilesRoute = fs.existsSync(join(this.dir, &apos;static&apos;))</span><br><span class="line">    ? [</span><br><span class="line">        &#123;</span><br><span class="line">          match: route(&apos;/static/:path*&apos;),</span><br><span class="line">          fn: async (req, res, params, parsedUrl) =&gt; &#123;</span><br><span class="line">            const p = join(this.dir, &apos;static&apos;, ...(params.path || []))</span><br><span class="line">            await this.serveStatic(req, res, p, parsedUrl)</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125; as Route,</span><br><span class="line">      ]</span><br><span class="line">    : []</span><br><span class="line">  const routes: Route[] = [</span><br><span class="line">    &#123;</span><br><span class="line">      match: route(&apos;/_next/static/:path*&apos;),</span><br><span class="line">      fn: async (req, res, params, parsedUrl) =&gt; &#123;</span><br><span class="line">        await this.serveStatic(req, res, p, parsedUrl)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      match: route(&apos;/_next/data/:path*&apos;),</span><br><span class="line">      fn: async (req, res, params, _parsedUrl) =&gt; &#123;</span><br><span class="line">        await this.render(</span><br><span class="line">          req,</span><br><span class="line">          res,</span><br><span class="line">          pathname,</span><br><span class="line">          &#123; _nextSprData: &apos;1&apos; &#125;,</span><br><span class="line">          parsedUrl</span><br><span class="line">        )</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      match: route(&apos;/_next/:path*&apos;),</span><br><span class="line">      fn: async (req, res, _params, parsedUrl) =&gt; &#123;</span><br><span class="line">        await this.render404(req, res, parsedUrl)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">    ...publicRoutes,</span><br><span class="line">    ...staticFilesRoute,</span><br><span class="line">    &#123;</span><br><span class="line">      match: route(&apos;/api/:path*&apos;),</span><br><span class="line">      fn: async (req, res, params, parsedUrl) =&gt; &#123;</span><br><span class="line">        const &#123; pathname &#125; = parsedUrl</span><br><span class="line">        await this.handleApiRequest(</span><br><span class="line">          req as NextApiRequest,</span><br><span class="line">          res as NextApiResponse,</span><br><span class="line">          pathname!</span><br><span class="line">        )</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">  if (this.nextConfig.useFileSystemPublicRoutes) &#123;</span><br><span class="line">    this.dynamicRoutes = this.getDynamicRoutes()</span><br><span class="line">    routes.push(&#123;</span><br><span class="line">      match: route(&apos;/:path*&apos;),</span><br><span class="line">      fn: async (req, res, _params, parsedUrl) =&gt; &#123;</span><br><span class="line">        const &#123; pathname, query &#125; = parsedUrl</span><br><span class="line">        if (!pathname) &#123;</span><br><span class="line">          throw new Error(&apos;pathname is undefined&apos;)</span><br><span class="line">        &#125;</span><br><span class="line">        await this.render(req, res, pathname, query, parsedUrl)</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return routes</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>默认页面路由都是走到最后，也就是执行 render，获取渲染的 html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public async render(</span><br><span class="line">  req: IncomingMessage,</span><br><span class="line">  res: ServerResponse,</span><br><span class="line">  pathname: string,</span><br><span class="line">  query: ParsedUrlQuery = &#123;&#125;,</span><br><span class="line">  parsedUrl?: UrlWithParsedQuery</span><br><span class="line">): Promise&lt;void&gt; &#123;</span><br><span class="line">  const url: any = req.url</span><br><span class="line">  if (isInternalUrl(url)) &#123;</span><br><span class="line">    return this.handleRequest(req, res, parsedUrl)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (isBlockedPage(pathname)) &#123;</span><br><span class="line">    return this.render404(req, res, parsedUrl)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const html = await this.renderToHTML(req, res, pathname, query, &#123;</span><br><span class="line">    dataOnly:</span><br><span class="line">      (this.renderOpts.ampBindInitData &amp;&amp; Boolean(query.dataOnly)) ||</span><br><span class="line">      (req.headers &amp;&amp;</span><br><span class="line">        (req.headers.accept || &apos;&apos;).indexOf(&apos;application/amp.bind+json&apos;) !==</span><br><span class="line">          -1),</span><br><span class="line">  &#125;)</span><br><span class="line">  // Request was ended by the user</span><br><span class="line">  if (html === null) &#123;</span><br><span class="line">    return</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return this.sendHTML(req, res, html)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中 renderToHTML 实现了具体逻辑，通过 sendHTML 返回页面 HTML</p>
+<p>renderToHTML 实现，首先通过 findPageComponents 获取路由具体页面 Compenent，然后使用renderToHTMLWithComponents 进行 React 转换为 HTML</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public renderToHTML(</span><br><span class="line">    ...</span><br><span class="line">    ): Promise&lt;string | null&gt; &#123;</span><br><span class="line">    return this.findPageComponents(pathname, query)</span><br><span class="line">      .then(</span><br><span class="line">        result =&gt; &#123;</span><br><span class="line">          return this.renderToHTMLWithComponents(</span><br><span class="line">        	  ....</span><br><span class="line">            result,</span><br><span class="line">            &#123; ...this.renderOpts, amphtml, hasAmp, dataOnly &#125;</span><br><span class="line">          )</span><br><span class="line">        &#125;,</span><br><span class="line">      )</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>renderToHTML，在 renderToHTMLWithComponents 内部执行</p>
+<p>省略了很多代码，为了了解主要逻辑。</p>
+<p>首先会执行 loadGetInitialProps，也就是业务代码中的 props 获取，运行在服务端。</p>
+<p>然后使用 Document 的 getInitialProps 创建 Document，并把 component 赋值，获取最终的 html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br></pre></td><td class="code"><pre><span class="line">export async function renderToHTML(</span><br><span class="line">  req: IncomingMessage,</span><br><span class="line">  res: ServerResponse,</span><br><span class="line">  pathname: string,</span><br><span class="line">  query: ParsedUrlQuery,</span><br><span class="line">  renderOpts: RenderOpts</span><br><span class="line">): Promise&lt;string | null&gt; &#123;</span><br><span class="line">	....	</span><br><span class="line">  let props: any</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  const AppContainer = (&#123; children &#125;: any) =&gt; (</span><br><span class="line">    &lt;RouterContext.Provider value=&#123;router&#125;&gt;</span><br><span class="line">      &lt;DataManagerContext.Provider value=&#123;dataManager&#125;&gt;</span><br><span class="line">        &lt;AmpStateContext.Provider value=&#123;ampState&#125;&gt;</span><br><span class="line">          &lt;LoadableContext.Provider</span><br><span class="line">            value=&#123;moduleName =&gt; reactLoadableModules.push(moduleName)&#125;</span><br><span class="line">          &gt;</span><br><span class="line">            &#123;children&#125;</span><br><span class="line">          &lt;/LoadableContext.Provider&gt;</span><br><span class="line">        &lt;/AmpStateContext.Provider&gt;</span><br><span class="line">      &lt;/DataManagerContext.Provider&gt;</span><br><span class="line">    &lt;/RouterContext.Provider&gt;</span><br><span class="line">  )</span><br><span class="line"></span><br><span class="line">  try &#123;</span><br><span class="line">    props = await loadGetInitialProps(App, &#123;</span><br><span class="line">      AppTree: ctx.AppTree,</span><br><span class="line">      Component,</span><br><span class="line">      router,</span><br><span class="line">      ctx,</span><br><span class="line">    &#125;)</span><br><span class="line">    ......</span><br><span class="line"> 	&#125;</span><br><span class="line"> 	....</span><br><span class="line">    renderPage = (</span><br><span class="line">      options: ComponentsEnhancer = &#123;&#125;</span><br><span class="line">    ): &#123; html: string; head: any &#125; =&gt; &#123;</span><br><span class="line">      const renderError = renderPageError()</span><br><span class="line">      if (renderError) return renderError</span><br><span class="line"></span><br><span class="line">      const &#123;</span><br><span class="line">        App: EnhancedApp,</span><br><span class="line">        Component: EnhancedComponent,</span><br><span class="line">      &#125; = enhanceComponents(options, App, Component)</span><br><span class="line"></span><br><span class="line">      return render(</span><br><span class="line">        renderElementToString,</span><br><span class="line">        &lt;AppContainer&gt;</span><br><span class="line">          &lt;EnhancedApp</span><br><span class="line">            Component=&#123;EnhancedComponent&#125;</span><br><span class="line">            router=&#123;router&#125;</span><br><span class="line">            &#123;...props&#125;</span><br><span class="line">          /&gt;</span><br><span class="line">        &lt;/AppContainer&gt;,</span><br><span class="line">        ampState</span><br><span class="line">      )</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">  const documentCtx = &#123; ...ctx, renderPage &#125;</span><br><span class="line">  const docProps = await loadGetInitialProps(Document, documentCtx)</span><br><span class="line">  // the response might be finished on the getInitialProps call</span><br><span class="line">  if (isResSent(res) &amp;&amp; !isSpr) return null</span><br><span class="line"></span><br><span class="line">  let dataManagerData = &apos;[]&apos;</span><br><span class="line">  if (dataManager) &#123;</span><br><span class="line">    dataManagerData = JSON.stringify([...dataManager.getData()])</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (!docProps || typeof docProps.html !== &apos;string&apos;) &#123;</span><br><span class="line">    const message = `&quot;$&#123;getDisplayName(</span><br><span class="line">      Document</span><br><span class="line">    )&#125;.getInitialProps()&quot; should resolve to an object with a &quot;html&quot; prop set with a valid html string`</span><br><span class="line">    throw new Error(message)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (docProps.dataOnly) &#123;</span><br><span class="line">    return dataManagerData</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const dynamicImportIdsSet = new Set&lt;string&gt;()</span><br><span class="line">  const dynamicImports: ManifestItem[] = []</span><br><span class="line"></span><br><span class="line">  for (const mod of reactLoadableModules) &#123;</span><br><span class="line">    const manifestItem = reactLoadableManifest[mod]</span><br><span class="line"></span><br><span class="line">    if (manifestItem) &#123;</span><br><span class="line">      manifestItem.map(item =&gt; &#123;</span><br><span class="line">        dynamicImports.push(item)</span><br><span class="line">        dynamicImportIdsSet.add(item.id as string)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const dynamicImportsIds = [...dynamicImportIdsSet]</span><br><span class="line">  const inAmpMode = isInAmpMode(ampState)</span><br><span class="line">  const hybridAmp = ampState.hybrid</span><br><span class="line"></span><br><span class="line">  // update renderOpts so export knows current state</span><br><span class="line">  renderOpts.inAmpMode = inAmpMode</span><br><span class="line">  renderOpts.hybridAmp = hybridAmp</span><br><span class="line"></span><br><span class="line">  let html = renderDocument(Document, &#123;</span><br><span class="line">    ...renderOpts,</span><br><span class="line">    dangerousAsPath: router.asPath,</span><br><span class="line">    dataManagerData,</span><br><span class="line">    ampState,</span><br><span class="line">    props,</span><br><span class="line">    headTags: await headTags(documentCtx),</span><br><span class="line">    bodyTags: await bodyTags(documentCtx),</span><br><span class="line">    htmlProps: await htmlProps(documentCtx),</span><br><span class="line">    docProps,</span><br><span class="line">    pathname,</span><br><span class="line">    ampPath,</span><br><span class="line">    query,</span><br><span class="line">    inAmpMode,</span><br><span class="line">    hybridAmp,</span><br><span class="line">    dynamicImportsIds,</span><br><span class="line">    dynamicImports,</span><br><span class="line">    files,</span><br><span class="line">    devFiles,</span><br><span class="line">    polyfillFiles,</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  if (inAmpMode &amp;&amp; html) &#123;</span><br><span class="line">    // use replace to allow rendering directly to body in AMP mode</span><br><span class="line">    html = html.replace(</span><br><span class="line">      &apos;__NEXT_AMP_RENDER_TARGET__&apos;,</span><br><span class="line">      `&lt;!-- __NEXT_DATA__ --&gt;$&#123;docProps.html&#125;`</span><br><span class="line">    )</span><br><span class="line">    html = await optimizeAmp(html)</span><br><span class="line"></span><br><span class="line">    if (renderOpts.ampValidator) &#123;</span><br><span class="line">      await renderOpts.ampValidator(html, pathname)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (inAmpMode || hybridAmp) &#123;</span><br><span class="line">    // fix &amp;amp being escaped for amphtml rel link</span><br><span class="line">    html = html.replace(/&amp;amp;amp=1/g, &apos;&amp;amp=1&apos;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return html</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用 renderElementToString 渲染获取 html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function render(</span><br><span class="line">  renderElementToString: (element: React.ReactElement&lt;any&gt;) =&gt; string,</span><br><span class="line">  element: React.ReactElement&lt;any&gt;,</span><br><span class="line">  ampMode: any</span><br><span class="line">): &#123; html: string; head: React.ReactElement[] &#125; &#123;</span><br><span class="line">  let html</span><br><span class="line">  let head</span><br><span class="line"></span><br><span class="line">  try &#123;</span><br><span class="line">    html = renderElementToString(element)</span><br><span class="line">  &#125; finally &#123;</span><br><span class="line">    head = Head.rewind() || defaultHead(isInAmpMode(ampMode))</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return &#123; html, head &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到这里基本就结束了</p>
+<p>Nextjs 还可以有很多自定的东西，与 koa，express 结合～</p>
+<h3 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h3>
+<p><a href="https://nextjs.org/" target="_blank" rel="noopener">https://nextjs.org/</a></p>
+<h3 id="后续"><a class="markdownIt-Anchor" href="#后续"></a> 后续</h3>
+<p>博大精深啊</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wzes.github.io/2019/11/09/JavaScript/NextJS/" title="NextJS 入门指南" target="_blank" rel="external">https://wzes.github.io/2019/11/09/JavaScript/NextJS/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wzes" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wzes" target="_blank"><span class="text-dark">爨</span><small class="ml-1x">美团点评 Android 开发</small></a></h3>
+        <div>一只会 FE 的 Android 工程师～</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2019/10/26/JavaScript/IntersectionObserverAPI/" title="Intersection Obersever API 中文"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '5e22a8877cbd25268283',
+    clientSecret: 'f47449129237f1d2c9c4fa92f9a6764c029f910a',
+    repo: 'gitalk_blog',
+    owner: 'wzes',
+    admin: ['wzes'],
+    id: md5(location.pathname).toString().substr(0, 49),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

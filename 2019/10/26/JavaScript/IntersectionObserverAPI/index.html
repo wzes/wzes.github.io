@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>Intersection Obersever API 中文 | Xuantang Cun 的博客</title>
+  <meta name="description" content="摘自MDN，翻译一下吧，对检测元素可见效问题挺有用的哈哈">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Intersection Obersever API 中文">
+<meta property="og:url" content="https://wzes.github.io/2019/10/26/JavaScript/IntersectionObserverAPI/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="摘自MDN，翻译一下吧，对检测元素可见效问题挺有用的哈哈">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-26T07:16:55.511Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Intersection Obersever API 中文">
+<meta name="twitter:description" content="摘自MDN，翻译一下吧，对检测元素可见效问题挺有用的哈哈">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wzes.github.io/2019/10/26/JavaScript/IntersectionObserverAPI/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wzes" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎加入美团点评的大家庭～～内推找18001997427（微信 备注Github）</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Java/">Java</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTTP/">HTTP</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQLite/">SQLite</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Array/">Array</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Babel/">Babel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/">DOM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Koa/">Koa</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lazyload/">Lazyload</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/">Node</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/">Redux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewPager/">ViewPager</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Android/" style="font-size: 13.8px;">Android</a> <a href="/tags/Array/" style="font-size: 13px;">Array</a> <a href="/tags/Babel/" style="font-size: 13px;">Babel</a> <a href="/tags/DOM/" style="font-size: 13px;">DOM</a> <a href="/tags/HTML/" style="font-size: 13px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.2px;">HTTP</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/JavaScript/" style="font-size: 13.6px;">JavaScript</a> <a href="/tags/Koa/" style="font-size: 13.2px;">Koa</a> <a href="/tags/Lazyload/" style="font-size: 13px;">Lazyload</a> <a href="/tags/MySQL/" style="font-size: 13px;">MySQL</a> <a href="/tags/Node/" style="font-size: 13.4px;">Node</a> <a href="/tags/React/" style="font-size: 13.2px;">React</a> <a href="/tags/Redux/" style="font-size: 13px;">Redux</a> <a href="/tags/SQLite/" style="font-size: 13px;">SQLite</a> <a href="/tags/TabLayout/" style="font-size: 13px;">TabLayout</a> <a href="/tags/ViewPager/" style="font-size: 13px;">ViewPager</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/11/09/JavaScript/NextJS/" class="title">NextJS 入门指南</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-11-09T10:30:16.000Z" itemprop="datePublished">2019-11-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/26/JavaScript/IntersectionObserverAPI/" class="title">Intersection Obersever API 中文</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-26T07:30:16.000Z" itemprop="datePublished">2019-10-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/23/JavaScript/iScroll/" class="title">iScroll 源码学习</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-23T10:30:16.000Z" itemprop="datePublished">2019-10-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/10/20/JavaScript/Gulp/" class="title">Gulp 入门指南</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-20T07:30:16.000Z" itemprop="datePublished">2019-10-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/09/30/JavaScript/JavaScript Event/" class="title">JavaScript Event preventDefault和stopPropagation</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-30T07:30:16.000Z" itemprop="datePublished">2019-09-30</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-JavaScript/IntersectionObserverAPI" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Intersection Obersever API 中文
+    </h1>
+  
+
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/10/26/JavaScript/IntersectionObserverAPI/" class="article-date">
+	  <time datetime="2019-10-26T07:30:16.000Z" itemprop="datePublished">2019-10-26</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/10/26/JavaScript/IntersectionObserverAPI/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 4.8k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 18(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h2 id="intersection-observer-简介"><a class="markdownIt-Anchor" href="#intersection-observer-简介"></a> Intersection observer 简介</h2>
+<p><strong>Intersection Observer API</strong> 提供了一种异步观察目标元素与祖先元素或顶级文档的视口相交的方法。</p>
+<p>在以前，检测一个元素的可见性或两个元素相对于彼此的相对可见性一直是一项艰巨的任务，其解决方案不可靠且易于导致浏览器和用户访问的网页变慢。 随着网络的成熟，对此类功能的需求也在增长。 出于多种原因需要元素的可见性信息，例如：</p>
+<ul>
+<li>
+<p>滚动页面时延迟加载图像或其他内容。</p>
+</li>
+<li>
+<p>实现“无限滚动”的网页，在您滚动时会加载和呈现越来越多的内容，从而使用户不必翻阅页面。</p>
+</li>
+<li>
+<p>统计广告可见度，以计算广告收入。</p>
+</li>
+<li>
+<p>根据用户是否会看到结果来决定是否执行任务或动画处理。</p>
+</li>
+</ul>
+<p>过去实现交叉检测通常涉及到事件处理程序，并且循环调用 <code>Element.getBoundingClientRect（）</code>之类的方法来为每个受影响的元素建立所需的信息。 由于所有这些代码都在主线程上运行，因此即使只有一个，也可能会导致性能问题。 当网站加载了这些测试时，事情可能会变得很难看。</p>
+<p>考虑使用无限滚动的网页。它使用供应商提供的库来管理在整个页面中定期放置的广告，这些广告具有动画图形，使用自定义库绘制通知框等等。每个元素都有其自己的相交检测程序，它们均在主线程上运行。该网站的作者甚至可能没有意识到这种情况的发生，因为他们可能对所使用的两个库的内部运作了解得很少。当用户滚动页面时，这些相交检测程序在滚动处理代码期间不断触发，从而导致用户对浏览器，网站及其计算机感到崩溃。</p>
+<p><strong>Intersection Observer API</strong> 使代码可以注册一个回调函数，该回调函数将在他们希望监视的元素进入或退出另一个元素（或视口）时，或者当两个相交的量改变请求的量时执行。这样，站点不再需要在<strong>主线程</strong>上执行任何操作来监视这种元素交集，并且浏览器可以自由地优化交集的管理。</p>
+<p>Intersection Observer API不能告诉您的一件事：重叠的确切像素数或确切地说是重叠像素。但是，它涵盖了更常见的用例：“如果它们相交N％左右，我需要做点什么。”</p>
+<h2 id="intersection-observer-概念和使用"><a class="markdownIt-Anchor" href="#intersection-observer-概念和使用"></a> Intersection observer 概念和使用</h2>
+<p>Intersection Observer API允许您配置一个 callback，只要一个元素（称为目标）与设备视口或指定元素相交，就会调用该 callback。 就此API而言，这称为根元素或根。 通常，您将需要注意与元素最接近的可滚动祖先相关的相交变化，或者，如果元素不是可滚动元素的后代，则要观察视口。 要注意相对于根元素的交点，请指定null。</p>
+<p>无论您是使用视口还是其他元素作为根，API都以相同的方式工作，只要目标元素的可见性发生变化，以便与根交叉超过所需的交集量，就执行您提供的回调函数。</p>
+<p>目标元素与其根之间的相交度为相交比。 这表示目标元素的百分比，该百分比可见为0.0到1.0之间的值。</p>
+<h3 id="创建一个-intersection-observer"><a class="markdownIt-Anchor" href="#创建一个-intersection-observer"></a> 创建一个 intersection observer</h3>
+<p>通过调用交集观察器的构造函数并向其传递一个回调函数来创建交集观察者，只要在一个方向或另一个方向上超过阈值，该回调函数便会运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let options = &#123;</span><br><span class="line">  root: document.querySelector(&apos;#scrollArea&apos;),</span><br><span class="line">  rootMargin: &apos;0px&apos;,</span><br><span class="line">  threshold: 1.0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let observer = new IntersectionObserver(callback, options);</span><br></pre></td></tr></table></figure>
+<p>阈值1.0表示在root选项指定的元素中可见目标的100％时，将调用回调。</p>
+<h4 id="intersection-observer-options-参数"><a class="markdownIt-Anchor" href="#intersection-observer-options-参数"></a> Intersection observer options 参数</h4>
+<p>传递给 <code>IntersectionObserver（）</code>构造函数的 <code>options</code> 对象使您可以控制在哪些情况下调用观察者的回调。 它具有以下字段：</p>
+<ul>
+<li>
+<p><strong>root</strong></p>
+<p>用作检查目标可见性的视口的元素。 必须是目标的祖先。 如果未指定或为null，则默认为浏览器视口。</p>
+</li>
+<li>
+<p><strong>rootMargin</strong></p>
+<p>围绕根的边距。可以具有类似于CSS <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/margin" target="_blank" rel="noopener"><code>margin</code></a>属性的值，例如 <code>&quot;10px 20px 30px 40px&quot;</code>（（上，右，下，左）。这些值可以是百分比。这组值用于在计算相交之前增大或缩小根元素边界框的每一侧。默认为全零。</p>
+</li>
+<li>
+<p><strong>threshold</strong></p>
+<p>一个数字或一个数字数组，指示观察者的回调应在目标可见性的百分比上执行。如果只想检测可见性何时超过50％标记，则可以使用0.5值。如果希望每次可见性再超过25％时都运行回调，则可以指定数组[0，0.25，0.5，0.75，1]。默认值为0（意味着即使可见一个像素，回调也将运行）。值为1.0意味着直到每个像素都可见，才认为阈值已通过。</p>
+</li>
+</ul>
+<h4 id="定位要观察的元素"><a class="markdownIt-Anchor" href="#定位要观察的元素"></a> 定位要观察的元素</h4>
+<p>创建观察者后，需要给它一个目标元素以进行观察：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let target = document.querySelector(&apos;#listItem&apos;);</span><br><span class="line">observer.observe(target);</span><br></pre></td></tr></table></figure>
+<p>每当目标达到为所指定的阈值时<code>IntersectionObserver</code>，就会调用回调。回调接收<a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry" target="_blank" rel="noopener"><code>IntersectionObserverEntry</code></a>对象列表和观察者：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">let callback = (entries, observer) =&gt; &#123; </span><br><span class="line">  entries.forEach(entry =&gt; &#123;</span><br><span class="line">    // Each entry describes an intersection change for one observed</span><br><span class="line">    // target element:</span><br><span class="line">    //   entry.boundingClientRect</span><br><span class="line">    //   entry.intersectionRatio</span><br><span class="line">    //   entry.intersectionRect</span><br><span class="line">    //   entry.isIntersecting</span><br><span class="line">    //   entry.rootBounds</span><br><span class="line">    //   entry.target</span><br><span class="line">    //   entry.time</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>请注意，您的回调是在主线程上执行的。它应尽快运行；如果需要完成任何耗时的操作，请使用<a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback" target="_blank" rel="noopener"><code>Window.requestIdleCallback()</code></a>。</p>
+<p>另外，请注意，如果指定了该<code>root</code>选项，则目标必须是根元素的后代。</p>
+<h3 id="如何计算交集"><a class="markdownIt-Anchor" href="#如何计算交集"></a> 如何计算交集</h3>
+<p>Intersection Observer API考虑的所有区域都是矩形。形状不规则的元素被认为占据了包围元素所有部分的最小矩形。类似地，如果元素的可见部分不是矩形，则该元素的相交矩形被解释为包含该元素所有可见部分的最小矩形。</p>
+<p>了解一点有关提供的各种属性如何<a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry" target="_blank" rel="noopener"><code>IntersectionObserverEntry</code></a>描述相交的方法很有用。</p>
+<h4 id="交点根和根边距"><a class="markdownIt-Anchor" href="#交点根和根边距"></a> 交点根和根边距</h4>
+<p>在跟踪元素与容器的交集之前，我们需要知道该容器是什么。该容器是<strong>交集根</strong>或<strong>根元素</strong>。这可以是文档中的特定元素（是要观察的元素的祖先），也<code>null</code>可以是文档的视口作为容器。</p>
+<p><strong>根的相交矩形</strong>是用于所要检查的目标或目标的矩形。该矩形的确定如下：</p>
+<ul>
+<li>如果相交根是隐式根（即顶级<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document" target="_blank" rel="noopener"><code>Document</code></a>），则根相交矩形是视口的矩形。</li>
+<li>如果相交根具有溢出剪辑，则根相交矩形是根元素的内容区域。</li>
+<li>否则，根相交矩形是相交根的边界客户端矩形（通过调用<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect" target="_blank" rel="noopener"><code>getBoundingClientRect()</code></a>它返回）。</li>
+</ul>
+<p>创建时，可以通过设置<strong>根边缘</strong>来进一步调整根相交矩形。定义偏移量中的值添加到相交根的边界框的每一侧，以创建最终的相交根边界（在执行回调时公开）。<code>rootMargin</code><a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver" target="_blank" rel="noopener"><code>IntersectionObserver</code></a><code>rootMargin</code><a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry/rootBounds" target="_blank" rel="noopener"><code>IntersectionObserverEntry.rootBounds</code></a></p>
+<h4 id="thresholds-门槛"><a class="markdownIt-Anchor" href="#thresholds-门槛"></a> Thresholds 门槛</h4>
+<p>Intersection Observer API使用<strong>阈值</strong>，而不是报告可见的目标元素多少微小变化。创建观察者时，可以提供一个或多个数字值，这些数字值表示可见的目标元素的百分比。然后，API仅报告超过这些阈值的可见性更改。</p>
+<p>例如，如果您希望每次目标的可见性通过每个25％标记向后或向前移动时都得到通知，则在创建观察者时，可以将数组[0，0.25，0.5，0.75，1]指定为阈值列表。您可以通过在可见性更改时检查传递给回调函数的<a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry/isIntersecting" target="_blank" rel="noopener"><code>isIntersecting</code></a>属性值，来确定可见性的变化方向（即，元素变得更可见还是不可见）<a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry" target="_blank" rel="noopener"><code>IntersectionObserverEntry</code></a>。如果<code>isIntersecting</code>为<code>true</code>，则目标元素已变得至少与已通过的阈值一样可见。如果为<code>false</code>，则目标不再像给定阈值那样可见。</p>
+<p>要了解阈值的工作原理，请尝试滚动下面的框。其中的每个彩色框都会显示其在四个角上都可见的百分比，因此您可以在滚动容器时看到这些比例随时间的变化。每个框都有不同的阈值集：</p>
+<ul>
+<li>第一个框有一个针对每个可见度百分比的阈值；也就是说，<a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/thresholds" target="_blank" rel="noopener"><code>IntersectionObserver.thresholds</code></a>数组是<code>[0.00, 0.01, 0.02, ..., 0.99, 1.00]</code>。</li>
+<li>第二个框只有一个阈值，为50％。</li>
+<li>第三个框的阈值是可见性的每10％（0％，10％，20％等）。</li>
+<li>最后一个框的阈值各为25％。</li>
+</ul>
+<h4 id="裁剪和交点矩形"><a class="markdownIt-Anchor" href="#裁剪和交点矩形"></a> 裁剪和交点矩形</h4>
+<p>浏览器按以下方式计算最终的相交矩形：这一切都为您完成，但是了解这些步骤有助于更好地准确把握何时发生交叉点。</p>
+<ol>
+<li>通过调用<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect" target="_blank" rel="noopener"><code>getBoundingClientRect()</code></a>目标，可以获得目标元素的边界矩形（即，完全包围组成该元素的每个组件的边界框的最小矩形）。这是最大的相交矩形。其余步骤将删除所有不相交的部分。</li>
+<li>从目标的直接父块开始并向外移动，每个包含块的剪辑（如果有）都应用于相交矩形。根据两个块的交集和该<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/overflow" target="_blank" rel="noopener"><code>overflow</code></a>属性指定的剪切模式（如果有）来确定块的剪切。设置<code>overflow</code>为其他任何值<code>visible</code>都会导致发生裁剪。</li>
+<li>如果其中一个包含元素是嵌套浏览上下文的根（例如包含在中的文档）[<code>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe)，则交集矩形会被裁剪到包含上下文的视口，并且向上递归通过容器继续进行到容器的包含块。</code>到达的最高层，将相交矩形剪切到框架的视口，然后框架的父元素是向相交根递归的下一个块。</li>
+<li>当向上递归到达相交根时，生成的矩形将映射到相交根的坐标空间。</li>
+<li>然后，通过与<a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#root-intersection-rectangle" target="_blank" rel="noopener">根相交矩形</a>相交来更新生成的<a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#root-intersection-rectangle" target="_blank" rel="noopener">矩形</a>。</li>
+<li>最后，将此矩形映射到目标的坐标空间<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document" target="_blank" rel="noopener"><code>document</code></a>。</li>
+</ol>
+<h3 id="交叉变更callbacks"><a class="markdownIt-Anchor" href="#交叉变更callbacks"></a> 交叉变更callbacks</h3>
+<p>当在根元素中可见的目标元素的数量超过可见性阈值之一时，将<a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver" target="_blank" rel="noopener"><code>IntersectionObserver</code></a>执行对象的回调。回调接收所有<code>IntersectionObserverEntry</code>对象的数组作为输入，每个超过阈值的对象一个，以及对<code>IntersectionObserver</code>对象本身的引用。</p>
+<p>阈值列表中的每个条目都是一个<a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry" target="_blank" rel="noopener"><code>IntersectionObserverEntry</code></a>对象，它描述一个被超过的阈值。也就是说，每个条目都描述了给定元素中有多少与根元素相交，该元素是否被认为相交以及过渡发生的方向。</p>
+<p>下面的代码段显示了一个回调，该回调保留了元素从不相交根到相交至少75％过渡的次数的计数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">intersectionCallback(entries) =&gt; &#123;</span><br><span class="line">  entries.forEach(entry =&gt; &#123;</span><br><span class="line">    if (entry.isIntersecting) &#123;</span><br><span class="line">      let elem = entry.target;</span><br><span class="line"></span><br><span class="line">      if (entry.intersectionRatio &gt;= 0.75) &#123;</span><br><span class="line">        intersectionCounter++;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="接口"><a class="markdownIt-Anchor" href="#接口"></a> 接口</h2>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver" target="_blank" rel="noopener"><code>IntersectionObserver</code></a></p>
+<p>Intersection Observer API的主要接口。提供用于创建和管理观察者的方法，该观察者可以监视相同交集配置的任意数量的目标元素。每个观察者可以异步观察一个或多个目标元素和共用祖先元素之间或与它们顶层的交点变化<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document" target="_blank" rel="noopener"><code>Document</code></a>的<a href="https://developer.mozilla.org/en-US/docs/Glossary/viewport" target="_blank" rel="noopener">视口</a>。祖先或视口称为<strong>根</strong>。</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry" target="_blank" rel="noopener"><code>IntersectionObserverEntry</code></a></p>
+<p>描述在特定过渡时刻目标元素及其根容器之间的交集。只能以两种方式获得此类型的对象：作为<code>IntersectionObserver</code>回调的输入，或通过调用<a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/takeRecords" target="_blank" rel="noopener"><code>IntersectionObserver.takeRecords()</code></a>。</p>
+<h2 id="一个简单的例子"><a class="markdownIt-Anchor" href="#一个简单的例子"></a> 一个简单的例子</h2>
+<p>这个简单的示例使目标元素在变得或多或少可见时更改其颜色和透明度。在<a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API/Timing_element_visibility" target="_blank" rel="noopener">使用Intersection Observer API的“计时元素可见性”中</a>，您可以找到一个更广泛的示例，该示例显示如何计时用户可以看到一组元素（例如广告）多长时间，以及如何通过记录统计信息或更新元素来对该信息做出反应…</p>
+<h3 id="html"><a class="markdownIt-Anchor" href="#html"></a> HTML</h3>
+<p>此示例的HTML非常简短，其中有一个主要元素，即我们将要定位的框（带有creative ID <code>&quot;box&quot;</code>）和该框中的一些内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;box&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;vertical&quot;&gt;</span><br><span class="line">    Welcome to &lt;strong&gt;The Box!&lt;/strong&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="css"><a class="markdownIt-Anchor" href="#css"></a> CSS</h4>
+<p>就本示例而言，CSS并不是十分重要。它对元素进行了布局，并确定<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background-color" target="_blank" rel="noopener"><code>background-color</code></a>and <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/border" target="_blank" rel="noopener"><code>border</code></a>属性可以参与<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions" target="_blank" rel="noopener">CSS过渡</a>，当元素或多或少被遮盖时，我们将使用它来影响元素的更改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#box &#123;</span><br><span class="line">  background-color: rgba(40, 40, 190, 255);</span><br><span class="line">  border: 4px solid rgb(20, 20, 120);</span><br><span class="line">  transition: background-color 1s, border 1s;</span><br><span class="line">  width: 350px;</span><br><span class="line">  height: 350px;</span><br><span class="line">  display: flex;</span><br><span class="line">  align-items: center;</span><br><span class="line">  justify-content: center;</span><br><span class="line">  padding: 20px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.vertical &#123;</span><br><span class="line">  color: white;</span><br><span class="line">  font: 32px &quot;Arial&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.extra &#123;</span><br><span class="line">  width: 350px;</span><br><span class="line">  height: 350px;</span><br><span class="line">  margin-top: 10px;</span><br><span class="line">  border: 4px solid rgb(20, 20, 120);</span><br><span class="line">  text-align: center;</span><br><span class="line">  padding: 20px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="javascript"><a class="markdownIt-Anchor" href="#javascript"></a> JavaScript</h4>
+<p>最后，让我们看一下使用Intersection Observer API进行事情的JavaScript代码。</p>
+<h4 id="配置"><a class="markdownIt-Anchor" href="#配置"></a> 配置</h4>
+<p>首先，我们需要准备一些变量并安装观察器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">const numSteps = 20.0;</span><br><span class="line"></span><br><span class="line">let boxElement;</span><br><span class="line">let prevRatio = 0.0;</span><br><span class="line">let increasingColor = &quot;rgba(40, 40, 190, ratio)&quot;;</span><br><span class="line">let decreasingColor = &quot;rgba(190, 40, 40, ratio)&quot;;</span><br><span class="line"></span><br><span class="line">// Set things up</span><br><span class="line">window.addEventListener(&quot;load&quot;, (event) =&gt; &#123;</span><br><span class="line">  boxElement = document.querySelector(&quot;#box&quot;);</span><br><span class="line"></span><br><span class="line">  createObserver();</span><br><span class="line">&#125;, false);</span><br></pre></td></tr></table></figure>
+<p>我们在此处设置的常量和变量是：</p>
+<ul>
+<li>
+<p><code>numSteps</code></p>
+<p>一个常数，指示我们希望在0.0和1.0的可见性比率之间具有多少个阈值。</p>
+</li>
+<li>
+<p><code>prevRatio</code></p>
+<p>此变量将用于记录上次超过阈值时可见性比率。这将让我们弄清楚目标元素是否变得越来越明显。</p>
+</li>
+<li>
+<p><code>increasingColor</code></p>
+<p>定义可见性比率增加时将应用于目标元素的颜色的字符串。该字符串中的“比率”一词将替换为目标的当前可见性比率，因此该元素不仅会改变颜色，而且会变得越来越不透明，因为它变得越来越模糊。</p>
+</li>
+<li>
+<p><code>decreasingColor</code></p>
+<p>同样，这是一个字符串，定义了可见率降低时将应用的颜色。</p>
+</li>
+</ul>
+<p>我们呼吁<a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener" target="_blank" rel="noopener"><code>Window.addEventListener()</code></a>开始收听<code>load</code>事件。一旦页面加载完成后，我们得到的元素的引用与ID <code>&quot;box&quot;</code>使用<a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector" target="_blank" rel="noopener"><code>querySelector()</code></a>，然后调用<code>createObserver()</code>我们将在稍后创建来处理建筑方法和安装的交叉点观测。</p>
+<h4 id="创建相交观察器"><a class="markdownIt-Anchor" href="#创建相交观察器"></a> 创建相交观察器</h4>
+<p><code>createObserver()</code>一旦页面加载完成，便会调用该方法以处理实际创建新对象<a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver" target="_blank" rel="noopener"><code>IntersectionObserver</code></a>并开始观察目标元素的过程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function createObserver() &#123;</span><br><span class="line">  let observer;</span><br><span class="line"></span><br><span class="line">  let options = &#123;</span><br><span class="line">    root: null,</span><br><span class="line">    rootMargin: &quot;0px&quot;,</span><br><span class="line">    threshold: buildThresholdList()</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  observer = new IntersectionObserver(handleIntersect, options);</span><br><span class="line">  observer.observe(boxElement);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先从设置一个<code>options</code>包含观察者设置的对象开始。我们要留意的目标元素相对于文档的视口的可见性的变化，所以<code>root</code>是<code>null</code>。我们不需要边距，因此边距偏移量<code>rootMargin</code>指定为“ 0px”。这使观察者可以观察目标元素的边界与视口边界之间的交集处的变化，而无需增加（或减去）任何空间。</p>
+<p>可见度阈值列表<code>threshold</code>由函数构造<code>buildThresholdList()</code>。在此示例中，以编程方式构建阈值列表，因为存在许多阈值列表，并且该数量旨在调整。</p>
+<p>一旦<code>options</code>准备好了，我们创建了新的观察员，调用<a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver" target="_blank" rel="noopener"><code>IntersectionObserver()</code></a>构造函数，指定一个函数被调用时，路口穿越我们的其中一个阈值，<code>handleIntersect()</code>和我们一组选项。然后<a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/observe" target="_blank" rel="noopener"><code>observe()</code></a>，我们调用返回的观察者，将所需的目标元素传递给它。</p>
+<p>如果我们愿意的话，我们可以选择通过监视<code>observer.observe()</code>每个元素来监视多个元素是否相对于视口相交。</p>
+<h4 id="建立阈值比率数组"><a class="markdownIt-Anchor" href="#建立阈值比率数组"></a> 建立阈值比率数组</h4>
+<p><code>buildThresholdList()</code>构建阈值列表的函数如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function buildThresholdList() &#123;</span><br><span class="line">  let thresholds = [];</span><br><span class="line">  let numSteps = 20;</span><br><span class="line"></span><br><span class="line">  for (let i=1.0; i&lt;=numSteps; i++) &#123;</span><br><span class="line">    let ratio = i/numSteps;</span><br><span class="line">    thresholds.push(ratio);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  thresholds.push(0);</span><br><span class="line">  return thresholds;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这将构建阈值数组-通过将值介于1和之间的每个整数推<code>i/numSteps</code>入<code>thresholds</code>数组，每个阈值之间的比率为0.0和1.0 <code>i</code>之间<code>numSteps</code>。它还推0以包括该值。给定默认值<code>numSteps</code>（20），结果是以下阈值列表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">＃</th>
+<th style="text-align:left">Ratio</th>
+<th style="text-align:left">＃</th>
+<th style="text-align:left">Ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1个</td>
+<td style="text-align:left">0.05</td>
+<td style="text-align:left">11</td>
+<td style="text-align:left">0.55</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:left">0.1</td>
+<td style="text-align:left">12</td>
+<td style="text-align:left">0.6</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:left">0.15</td>
+<td style="text-align:left">13</td>
+<td style="text-align:left">0.65</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:left">0.2</td>
+<td style="text-align:left">14</td>
+<td style="text-align:left">0.7</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left">0.25</td>
+<td style="text-align:left">15</td>
+<td style="text-align:left">0.75</td>
+</tr>
+<tr>
+<td style="text-align:left">6</td>
+<td style="text-align:left">0.3</td>
+<td style="text-align:left">16</td>
+<td style="text-align:left">0.8</td>
+</tr>
+<tr>
+<td style="text-align:left">7</td>
+<td style="text-align:left">0.35</td>
+<td style="text-align:left">17</td>
+<td style="text-align:left">0.85</td>
+</tr>
+<tr>
+<td style="text-align:left">8</td>
+<td style="text-align:left">0.4</td>
+<td style="text-align:left">18</td>
+<td style="text-align:left">0.9</td>
+</tr>
+<tr>
+<td style="text-align:left">9</td>
+<td style="text-align:left">0.45</td>
+<td style="text-align:left">19</td>
+<td style="text-align:left">0.95</td>
+</tr>
+<tr>
+<td style="text-align:left">10</td>
+<td style="text-align:left">0.5</td>
+<td style="text-align:left">20</td>
+<td style="text-align:left">1.0</td>
+</tr>
+</tbody>
+</table>
+<p>当然，我们可以将阈值数组硬编码到我们的代码中，而这通常是您最终要做的。但是，此示例为添加配置控件以调整粒度提供了空间。</p>
+<h4 id="处理交集变更"><a class="markdownIt-Anchor" href="#处理交集变更"></a> 处理交集变更</h4>
+<p>当浏览器检测到目标元素（在我们的示例中为ID的元素<code>&quot;box&quot;</code>）已经被公开或模糊，以致其可见性比率超过列表中的阈值之一时，它将调用处理程序函数<code>handleIntersect()</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleIntersect</span>(<span class="params">entries, observer</span>) </span>&#123;</span><br><span class="line">  entries.forEach(<span class="function">(<span class="params">entry</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (entry.intersectionRatio &gt; prevRatio) &#123;</span><br><span class="line">      entry.target.style.backgroundColor = increasingColor.replace(<span class="string">"ratio"</span>, entry.intersectionRatio);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      entry.target.style.backgroundColor = decreasingColor.replace(<span class="string">"ratio"</span>, entry.intersectionRatio);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    prevRatio = entry.intersectionRatio;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于<a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry" target="_blank" rel="noopener"><code>IntersectionObserverEntry</code></a>列表中的每个<code>entries</code>条目，我们查看条目<a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry/intersectionRatio" target="_blank" rel="noopener"><code>intersectionRatio</code></a>是否在上升；如果是，我们将目标的设置<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/background-color" target="_blank" rel="noopener"><code>background-color</code></a>为中的字符串<code>increasingColor</code>（请记住，它是<code>&quot;rgba(40, 40, 190, ratio)&quot;</code>），将单词“ ratio”替换为条目的<code>intersectionRatio</code>。结果：不仅颜色改变了，目标元素的透明度也改变了；当交叉比例降低时，背景色的Alpha值随之降低，从而使元素更透明。</p>
+<p>同样，如果<code>intersectionRatio</code>下降，则使用字符串，<code>decreasingColor</code>并<code>intersectionRatio</code>在设置目标元素的之前将其中的“比率”一词替换为<code>background-color</code>。</p>
+<p>最后，为了跟踪交叉比率是上升还是下降，我们记住变量中的当前比率<code>prevRatio</code>。</p>
+<h2 id="浏览器兼容性"><a class="markdownIt-Anchor" href="#浏览器兼容性"></a> 浏览器兼容性</h2>
+<p><a href="https://github.com/mdn/browser-compat-data" target="_blank" rel="noopener">Update compatibility data on GitHub</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:center">Desktop</th>
+<th style="text-align:center">Mobile</th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:center">Chrome</td>
+<td style="text-align:center">Edge</td>
+<td style="text-align:center">Firefox</td>
+<td style="text-align:center">Internet Explorer</td>
+<td style="text-align:center">Opera</td>
+<td style="text-align:center">Safari</td>
+<td style="text-align:center">Android webview</td>
+<td style="text-align:center">Chrome for Android</td>
+<td style="text-align:center">Firefox for Android</td>
+<td style="text-align:center">Opera for Android</td>
+<td style="text-align:center">Safari on iOS</td>
+<td>Samsung Internet</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver" target="_blank" rel="noopener"><code>IntersectionObserver</code></a>Experimental</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support15</td>
+<td style="text-align:center">Full support55Open</td>
+<td style="text-align:center">No supportNo</td>
+<td style="text-align:center">Full supportYes</td>
+<td style="text-align:center">Full support12.1</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">Full support12.2</td>
+<td>Full support5.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/IntersectionObserver" target="_blank" rel="noopener"><code>IntersectionObserver()</code> constructor</a>Experimental</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support15</td>
+<td style="text-align:center">Full support55Open</td>
+<td style="text-align:center">No supportNo</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">Full support12.1</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">Full support12.2</td>
+<td>Full support5.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/disconnect" target="_blank" rel="noopener"><code>disconnect</code></a>Experimental</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support15NotesOpen</td>
+<td style="text-align:center">Full support55Open</td>
+<td style="text-align:center">No supportNo</td>
+<td style="text-align:center">Full supportYes</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">?</td>
+<td>Full support5.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/observe" target="_blank" rel="noopener"><code>observe</code></a>Experimental</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support15</td>
+<td style="text-align:center">Full support55Open</td>
+<td style="text-align:center">No supportNo</td>
+<td style="text-align:center">Full supportYes</td>
+<td style="text-align:center">Full support12.1</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">Full support12.2</td>
+<td>Full support5.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/root" target="_blank" rel="noopener"><code>root</code></a>Experimental</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support15</td>
+<td style="text-align:center">Full support55Open</td>
+<td style="text-align:center">No supportNo</td>
+<td style="text-align:center">Full supportYes</td>
+<td style="text-align:center">Full support12.1</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">Full support12.2</td>
+<td>Full support5.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/rootMargin" target="_blank" rel="noopener"><code>rootMargin</code></a>Experimental</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support15</td>
+<td style="text-align:center">Full support55Open</td>
+<td style="text-align:center">No supportNo</td>
+<td style="text-align:center">Full supportYes</td>
+<td style="text-align:center">Full support12.1NotesOpen</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">Full support12.2NotesOpen</td>
+<td>Full support5.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/takeRecords" target="_blank" rel="noopener"><code>takeRecords</code></a>Experimental</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support15NotesOpen</td>
+<td style="text-align:center">Full support55Open</td>
+<td style="text-align:center">No supportNo</td>
+<td style="text-align:center">Full supportYes</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">?</td>
+<td>Full support5.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/thresholds" target="_blank" rel="noopener"><code>thresholds</code></a>Experimental</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support15</td>
+<td style="text-align:center">Full support55Open</td>
+<td style="text-align:center">No supportNo</td>
+<td style="text-align:center">Full supportYes</td>
+<td style="text-align:center">Full support12.1</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">Full support12.2</td>
+<td>Full support5.0</td>
+</tr>
+<tr>
+<td style="text-align:left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/unobserve" target="_blank" rel="noopener"><code>unobserve</code></a>Experimental</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support15NotesOpen</td>
+<td style="text-align:center">Full support55Open</td>
+<td style="text-align:center">No supportNo</td>
+<td style="text-align:center">Full supportYes</td>
+<td style="text-align:center">Full support12.1</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">Full support51</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">?</td>
+<td style="text-align:center">Full support12.2</td>
+<td>Full support5.0</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wzes.github.io/2019/10/26/JavaScript/IntersectionObserverAPI/" title="Intersection Obersever API 中文" target="_blank" rel="external">https://wzes.github.io/2019/10/26/JavaScript/IntersectionObserverAPI/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wzes" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wzes" target="_blank"><span class="text-dark">爨</span><small class="ml-1x">美团点评 Android 开发</small></a></h3>
+        <div>一只会 FE 的 Android 工程师～</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/09/JavaScript/NextJS/" title="NextJS 入门指南"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/10/23/JavaScript/iScroll/" title="iScroll 源码学习"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '5e22a8877cbd25268283',
+    clientSecret: 'f47449129237f1d2c9c4fa92f9a6764c029f910a',
+    repo: 'gitalk_blog',
+    owner: 'wzes',
+    admin: ['wzes'],
+    id: md5(location.pathname).toString().substr(0, 49),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>

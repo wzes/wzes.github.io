@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://wzes.github.io/2019/11/09/JavaScript/NextJS/</loc>
+    
+    <lastmod>2019-11-10T07:50:48.873Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://wzes.github.io/2019/10/26/JavaScript/IntersectionObserverAPI/</loc>
+    
+    <lastmod>2019-10-26T07:16:55.511Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://wzes.github.io/2019/10/23/JavaScript/iScroll/</loc>
     
     <lastmod>2019-10-24T06:15:03.500Z</lastmod>
