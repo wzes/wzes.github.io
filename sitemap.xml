@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://wzes.github.io/2019/11/17/JavaScript/koa-ejs/</loc>
+    
+    <lastmod>2019-11-17T13:00:00.951Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://wzes.github.io/2019/11/09/JavaScript/NextJS/</loc>
     
     <lastmod>2019-11-10T07:50:48.873Z</lastmod>
