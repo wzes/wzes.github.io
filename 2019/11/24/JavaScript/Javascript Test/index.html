@@ -17,23 +17,23 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>Java8-ThreadLocal-源码解析 | Xuantang Cun 的博客</title>
-  <meta name="description" content="关于最佳线程数的设置，总是那么模糊，不知道该如何设置，偶然间在 `Java 并发编程实践` 里看到了对他的定义：要使处理器达到期望的使用率">
-<meta name="keywords" content="Java">
+  <title>Javascript 单元测试 | Xuantang Cun 的博客</title>
+  <meta name="description" content="又是一周过去了，前两天去了 TP，还是挺累的，但文章不能停，虽然有点水，但还是要继续的。这周就学习一下前端的单元测试框架吧">
+<meta name="keywords" content="JavaScript,Test">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java8-ThreadLocal-源码解析">
-<meta property="og:url" content="https://wzes.github.io/2018/08/20/Java/Java8 关于最佳线程数/index.html">
+<meta property="og:title" content="Javascript 单元测试">
+<meta property="og:url" content="https://wzes.github.io/2019/11/24/JavaScript/Javascript Test/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="关于最佳线程数的设置，总是那么模糊，不知道该如何设置，偶然间在 `Java 并发编程实践` 里看到了对他的定义：要使处理器达到期望的使用率">
+<meta property="og:description" content="又是一周过去了，前两天去了 TP，还是挺累的，但文章不能停，虽然有点水，但还是要继续的。这周就学习一下前端的单元测试框架吧">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/7117641-26a9b427f0aecb3d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-09-02T12:21:30.398Z">
+<meta property="og:image" content="https://jestjs.io/img/content/failedSnapshotTest.png">
+<meta property="og:updated_time" content="2019-11-24T11:25:21.040Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java8-ThreadLocal-源码解析">
-<meta name="twitter:description" content="关于最佳线程数的设置，总是那么模糊，不知道该如何设置，偶然间在 `Java 并发编程实践` 里看到了对他的定义：要使处理器达到期望的使用率">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/7117641-26a9b427f0aecb3d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="Javascript 单元测试">
+<meta name="twitter:description" content="又是一周过去了，前两天去了 TP，还是挺累的，但文章不能停，虽然有点水，但还是要继续的。这周就学习一下前端的单元测试框架吧">
+<meta name="twitter:image" content="https://jestjs.io/img/content/failedSnapshotTest.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://wzes.github.io/2018/08/20/Java/Java8 关于最佳线程数/index.html">
+  <link rel="canonical" href="https://wzes.github.io/2019/11/24/JavaScript/Javascript Test/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -346,14 +346,14 @@
   
 <main class="main" role="main">
   <div class="content">
-  <article id="post-Java/Java8 关于最佳线程数" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-JavaScript/Javascript Test" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      Java8-ThreadLocal-源码解析
+      Javascript 单元测试
     </h1>
   
 
@@ -362,50 +362,86 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2018/08/20/Java/Java8 关于最佳线程数/" class="article-date">
-	  <time datetime="2018-08-20T15:16:00.000Z" itemprop="datePublished">2018-08-20</time>
+	<a href="/2019/11/24/JavaScript/Javascript Test/" class="article-date">
+	  <time datetime="2019-11-24T11:09:16.000Z" itemprop="datePublished">2019-11-24</time>
 	</a>
 </span>
         
   <span class="article-category">
     <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/Java/">Java</a>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
   </span>
 
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/Java/">Java</a>
+	<a class="article-tag-link" href="/tags/JavaScript/">JavaScript</a>, <a class="article-tag-link" href="/tags/Test/">Test</a>
   </span>
 
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/08/20/Java/Java8 关于最佳线程数/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/24/JavaScript/Javascript Test/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 231(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 909(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 4(分)</span>
 	
 
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h3 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h3>
-<p>关于最佳线程数的设置，总是那么模糊，不知道该如何设置，偶然间在 <code>Java 并发编程实践</code> 里看到了对他的定义：</p>
-<p>要使处理器达到期望的使用率，线程池的最佳大小等于：<br>
-<img src="https://upload-images.jianshu.io/upload_images/7117641-26a9b427f0aecb3d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1695055395.jpg"></p>
-<p>需要注意的是，我们需要制定一个 CPU 的利用率，如果是 100%，那么线程数就取决于Wait Time / Compute Time</p>
+        <h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2>
+<p>又是一周过去了，前两天去了 TP，还是挺累的，但文章不能停，虽然有点水，但还是要继续的。这周就学习一下前端的单元测试框架吧，尤其是 UI 测试</p>
+<h2 id="测试框架"><a class="markdownIt-Anchor" href="#测试框架"></a> 测试框架</h2>
 <ul>
-<li>如果我们的任务是计算型任务，那么等待时间为零，那么线程数设置为 CPU + 1</li>
-<li>如果我们的任务是 IO 密集型，那么等待时间不为零，需要加大线程数</li>
+<li>Jest</li>
+<li>Mocha</li>
+<li>Jasmine</li>
 </ul>
-<h3 id="java-中获取可用的-cpu-数"><a class="markdownIt-Anchor" href="#java-中获取可用的-cpu-数"></a> Java 中获取可用的 CPU 数</h3>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Int NUM_CPU = Runtime.getRuntime().availableProcessors();</span><br></pre></td></tr></table></figure>
-<p>我们可以在很多类库里边看到它的身影，很多需要线程池的类库，凡是不那么抢系统资源的都会通过这个值设置线程池的大小</p>
+<h3 id="jest"><a class="markdownIt-Anchor" href="#jest"></a> Jest</h3>
+<p>Jest 是 Facebook 出品的测试框架，是非常优秀的～其提供了 快照测试，对于 UI 测试是很有帮助的</p>
+<h4 id="基本使用"><a class="markdownIt-Anchor" href="#基本使用"></a> 基本使用</h4>
+<p>使用 npm 安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev jest</span><br></pre></td></tr></table></figure>
+<p>让我们开始为一个假设函数编写测试，该函数将两个数字相加。 首先，创建一个 <code>sum.js</code> 文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = sum;</span><br></pre></td></tr></table></figure>
+<p>然后，创建一个名为 <code>sum.test.js</code> 的文件。 这将包含我们的实际测试：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sum = <span class="built_in">require</span>(<span class="string">'../src/lib/sum'</span>);</span><br><span class="line"></span><br><span class="line">test(<span class="string">'adds 1 + 2 to equal 3'</span>, () =&gt; &#123;</span><br><span class="line">  expect(sum(<span class="number">1</span>, <span class="number">2</span>)).toBe(<span class="number">3</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>将下面的配置部分添加到你的 <code>package.json</code> 里面：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"test"</span>: <span class="string">"jest test"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，运行 <code>yarn test</code> 或 <code>npm run test</code> ，Jest 将打印下面这个消息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PASS  ./sum.test.js</span><br><span class="line">✓ adds 1 + 2 to equal 3 (5ms)</span><br></pre></td></tr></table></figure>
+<p>也可以使用hook钩子，使用 describe，完成一个测试套件，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">const sum = require(&apos;../src/lib/sum&apos;);</span><br><span class="line"></span><br><span class="line">describe(&apos;sum&apos;, () =&gt; &#123;</span><br><span class="line">  beforeAll(() =&gt; &#123;</span><br><span class="line">    //</span><br><span class="line">    console.log(&quot;before all&quot;)</span><br><span class="line">  &#125;)</span><br><span class="line">  test(&apos;adds 1 + 2 to equal 3&apos;, () =&gt; &#123;</span><br><span class="line">    console.log(&quot;exec test&quot;)</span><br><span class="line">    expect(sum(1, 2)).toBe(3)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  afterAll(() =&gt; &#123;</span><br><span class="line">    //</span><br><span class="line">    console.log(&quot;after all&quot;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> PASS  test/sum.test.js</span><br><span class="line">  sum</span><br><span class="line">    ✓ adds 1 + 2 to equal 3 (3ms)</span><br><span class="line"></span><br><span class="line">  console.log test/sum.test.js:6</span><br><span class="line">    before all</span><br><span class="line"></span><br><span class="line">  console.log test/sum.test.js:9</span><br><span class="line">    exec test</span><br><span class="line"></span><br><span class="line">  console.log test/sum.test.js:15</span><br><span class="line">    after all</span><br><span class="line"></span><br><span class="line">Test Suites: 1 passed, 1 total</span><br><span class="line">Tests:       1 passed, 1 total</span><br><span class="line">Snapshots:   0 total</span><br><span class="line">Time:        0.819s, estimated 1s</span><br><span class="line">Ran all test suites matching /test/i.</span><br></pre></td></tr></table></figure>
+<h4 id="快照测试"><a class="markdownIt-Anchor" href="#快照测试"></a> 快照测试</h4>
+<p>每当你想要确保你的UI不会有意外的改变，快照测试是非常有用的工具。</p>
+<p>安装 <code>react-test-renderer</code> 库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;;</span><br><span class="line">import Link from &apos;../Link.react&apos;;</span><br><span class="line">import renderer from &apos;react-test-renderer&apos;;</span><br><span class="line"></span><br><span class="line">it(&apos;renders correctly&apos;, () =&gt; &#123;</span><br><span class="line">  const tree = renderer</span><br><span class="line">    .create(&lt;Link page=&quot;http://www.facebook.com&quot;&gt;Facebook&lt;/Link&gt;)</span><br><span class="line">    .toJSON();</span><br><span class="line">  expect(tree).toMatchSnapshot();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>运行以后会生成 snapshot 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">exports[`renders correctly 1`] = `</span><br><span class="line">&lt;a</span><br><span class="line">  className=&quot;normal&quot;</span><br><span class="line">  href=&quot;http://www.facebook.com&quot;</span><br><span class="line">  onMouseEnter=&#123;[Function]&#125;</span><br><span class="line">  onMouseLeave=&#123;[Function]&#125;</span><br><span class="line">&gt;</span><br><span class="line">  Facebook</span><br><span class="line">&lt;/a&gt;</span><br><span class="line">`;</span><br></pre></td></tr></table></figure>
+<p>更新后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// Updated test case with a Link to a different address</span><br><span class="line">it(&apos;renders correctly&apos;, () =&gt; &#123;</span><br><span class="line">  const tree = renderer</span><br><span class="line">    .create(&lt;Link page=&quot;http://www.instagram.com&quot;&gt;Instagram&lt;/Link&gt;)</span><br><span class="line">    .toJSON();</span><br><span class="line">  expect(tree).toMatchSnapshot();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>再次运行，会出现不一致的报错</p>
+<p><img src="https://jestjs.io/img/content/failedSnapshotTest.png" alt="failedSnapshotTest"></p>
+<p>可以使用以下命令更新快照文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jest --updateSnapshot</span><br></pre></td></tr></table></figure>
+<h4 id="enzyme-ui测试"><a class="markdownIt-Anchor" href="#enzyme-ui测试"></a> Enzyme UI测试</h4>
+<p>Enzyme是Airbnb开源的React测试工具库</p>
+<h4 id="三种渲染方法"><a class="markdownIt-Anchor" href="#三种渲染方法"></a> 三种渲染方法</h4>
+<ol>
+<li>shallow：浅渲染，是对官方的Shallow Renderer的封装。将组件渲染成虚拟DOM对象，只会渲染第一层，子组件将不会被渲染出来，使得效率非常高。不需要DOM环境， 并可以使用jQuery的方式访问组件的信息</li>
+<li>render：静态渲染，它将React组件渲染成静态的HTML字符串，然后使用Cheerio这个库解析这段字符串，并返回一个Cheerio的实例对象，可以用来分析组件的html结构</li>
+<li>mount：完全渲染，它将组件渲染加载成一个真实的DOM节点，用来测试DOM API的交互和组件的生命周期。用到了jsdom来模拟浏览器环境</li>
+</ol>
+<p>三种方法中，shallow和mount因为返回的是DOM对象，可以用simulate进行交互模拟，而render方法不可以。一般shallow方法就可以满足需求，如果需要对子组件进行判断，需要使用render，如果需要测试组件的生命周期，需要使用mount方法。</p>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>Jest 博大精深，功能非常完善</p>
 
       
     </div>
@@ -415,7 +451,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="https://wzes.github.io/2018/08/20/Java/Java8 关于最佳线程数/" title="Java8-ThreadLocal-源码解析" target="_blank" rel="external">https://wzes.github.io/2018/08/20/Java/Java8 关于最佳线程数/</a>
+      <a href="https://wzes.github.io/2019/11/24/JavaScript/Javascript Test/" title="Javascript 单元测试" target="_blank" rel="external">https://wzes.github.io/2019/11/24/JavaScript/Javascript Test/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -461,13 +497,9 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/2018/08/20/Java/Java8 ThreadLocal 源码解析/" title="Java8 ThreadLocal 源码解析"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/2018/08/19/Android/EventBus/" title="Android EventBus 源码解析"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2019/11/17/JavaScript/koa-ejs/" title="Koa-ejs 入门"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
     
