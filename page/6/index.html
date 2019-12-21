@@ -17,16 +17,16 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>标签: TabLayout | Xuantang Cun 的博客</title>
+  <title>Xuantang Cun 的博客</title>
   <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="https://wzes.github.io/tags/TabLayout/index.html">
+<meta property="og:url" content="https://wzes.github.io/page/6/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
   <!-- Canonical links -->
-  <link rel="canonical" href="https://wzes.github.io/tags/TabLayout/index.html">
+  <link rel="canonical" href="https://wzes.github.io/page/6/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -337,89 +337,133 @@
 
   
   <main class="main" role="main">
-  <article class="content article article-tags post-type-list" itemscope="">
-    <header class="article-header">
-      <h1 itemprop="name" class="hidden-xs">标签: TabLayout</h1>
-      <p class="text-muted hidden-xs">共 1 篇文章</p>
-      <nav role="navigation" id="nav-main" class="okayNav">
-        <ul>
-          <li><a href="/tags">All</a></li>
-          
-          <li><a href="/tags/Android/">Android</a></li>
-          
-          <li><a href="/tags/Java/">Java</a></li>
-          
-          <li><a href="/tags/TabLayout/">TabLayout</a></li>
-          
-          <li><a href="/tags/ViewPager/">ViewPager</a></li>
-          
-          <li><a href="/tags/JavaScript/">JavaScript</a></li>
-          
-          <li><a href="/tags/Babel/">Babel</a></li>
-          
-          <li><a href="/tags/Node/">Node</a></li>
-          
-          <li><a href="/tags/Array/">Array</a></li>
-          
-          <li><a href="/tags/Test/">Test</a></li>
-          
-          <li><a href="/tags/React/">React</a></li>
-          
-          <li><a href="/tags/Lazyload/">Lazyload</a></li>
-          
-          <li><a href="/tags/Redux/">Redux</a></li>
-          
-          <li><a href="/tags/HTML/">HTML</a></li>
-          
-          <li><a href="/tags/DOM/">DOM</a></li>
-          
-          <li><a href="/tags/Webpack/">Webpack</a></li>
-          
-          <li><a href="/tags/Koa/">Koa</a></li>
-          
-          <li><a href="/tags/MySQL/">MySQL</a></li>
-          
-          <li><a href="/tags/HTTP/">HTTP</a></li>
-          
-          <li><a href="/tags/SQLite/">SQLite</a></li>
-          
-        </ul>
-      </nav>
-    </header>
-    <!-- /header -->
-    <div class="article-body">
-      <div class="row">
-        
-<div class="col-md-6">
+  
+  
+    <div class="content">
+  <article id="post-MySQL/MySQL 导入大文本数据历险记" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
-<article class="panel panel-default hover-shadow hover-grow" itemscope itemtype="http://schema.org/BlogPosting">
-  <div class="panel-body">
-     <div class="article-meta">
-       <time datetime="2019-02-21T07:36:00.000Z" itemprop="datePublished">2019-02-21</time>
-     </div>
-     <h3 class="article-title" itemprop="name">
-       <a class="article-link" href="/2019/02/21/Android/TabLayout/">Android TabLayout 源码解析</a>
-     </h3>
-   </div>
-   
-   <div class="panel-footer">
-     
-      <a href="/tags/Android/" class="label label-default mb">Android</a>
-     
-      <a href="/tags/TabLayout/" class="label label-default mb">TabLayout</a>
-     
-     
-   </div>
-   
-</article>
+    <div class="article-header">
+      
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/10/MySQL/MySQL 导入大文本数据历险记/">MySQL 导入大文本数据历险记</a>
+    </h1>
+  
 
 
-</div>
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/06/10/MySQL/MySQL 导入大文本数据历险记/" class="article-date">
+	  <time datetime="2018-06-10T12:57:00.000Z" itemprop="datePublished">2018-06-10</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/MySQL/">MySQL</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/06/10/MySQL/MySQL 导入大文本数据历险记/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 809(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 3(分)</span>
+	
 
       </div>
     </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h4 id="背景"><a class="markdownIt-Anchor" href="#背景"></a> 背景</h4>
+<p>今天接到一个任务，往一张 mysql 数据库表里导入一点文本数据，压缩文件在百度云上，一看 2 G 大小，百度云还各种限速，直接不想下载了，项目小姐姐问遇到啥问题？我更她说，下载困难，估计当时她哭笑不得，没办，最终还是得开工，直接拿 u盘 copy 的。</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/06/10/MySQL/MySQL 导入大文本数据历险记/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wzes.github.io/2018/06/10/MySQL/MySQL 导入大文本数据历险记/" title="MySQL 导入大文本数据历险记" target="_blank" rel="external">https://wzes.github.io/2018/06/10/MySQL/MySQL 导入大文本数据历险记/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wzes" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wzes" target="_blank"><span class="text-dark">爨</span><small class="ml-1x">美团点评 Android 开发</small></a></h3>
+        <div>一只会 FE 的 Android 工程师～</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
   </article>
-   
+  
+</div>
+
+  
+
+  
+    
+    <nav class="bar bar-footer clearfix" data-stick-bottom>
+        <div class="bar-inner">
+        <ul class="pager pull-left">
+            
+            <li class="prev">
+                <a href="/page/5/">
+                    <i class="icon icon-angle-left"></i>
+                    上一页
+                </a>
+            </li>
+            
+            
+            <li class="next disabled">
+                <a href="javascript:;">
+                    下一页
+                    <i class="icon icon-angle-right"></i>                    
+                </a>
+            </li>
+            
+        </ul>
+        <div class="total-article bar-right">Page 6 of 6</div>
+        </div>
+    </nav>
+    
+ 
 </main>
 
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
@@ -468,6 +512,10 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 <script src="/js/insight.js"></script>
 
 
+
+
+
+   
 
 
 
