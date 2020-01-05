@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://wzes.github.io/2020/01/05/JavaScript/Chrome%20Extension/</loc>
+    <lastmod>2020-01-05</lastmod>
+  </url>  <url>
     <loc>https://wzes.github.io/2019/11/09/JavaScript/Less/</loc>
-    <lastmod>2019-12-21</lastmod>
+    <lastmod>2020-01-05</lastmod>
   </url>  <url>
     <loc>https://wzes.github.io/2019/11/24/JavaScript/Javascript%20Test/</loc>
     <lastmod>2019-12-21</lastmod>

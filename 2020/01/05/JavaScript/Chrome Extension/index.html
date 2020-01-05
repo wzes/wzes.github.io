@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>Chrome Extension 入门 | Xuantang Cun 的博客</title>
+  <meta name="description" content="2020年了，新年第一篇小文章！祝大家新年快乐～一直觉得浏览器是个很神秘的东西，天天在用，自以为很熟悉，也在用一些插件，有些还挺好用。所以自己也想写一个小小的插件，满足一下自己的好奇心！暂且翻译一下Chrome的插件开发的官网文档吧">
+<meta name="keywords" content="JavaSccript,Chrome">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chrome Extension 入门">
+<meta property="og:url" content="https://wzes.github.io/2020/01/05/JavaScript/Chrome Extension/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="2020年了，新年第一篇小文章！祝大家新年快乐～一直觉得浏览器是个很神秘的东西，天天在用，自以为很熟悉，也在用一些插件，有些还挺好用。所以自己也想写一个小小的插件，满足一下自己的好奇心！暂且翻译一下Chrome的插件开发的官网文档吧">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://developer.chrome.com/static/images/get_started/load_extension.png">
+<meta property="og:image" content="https://developer.chrome.com/static/images/get_started/view_background.png">
+<meta property="og:image" content="https://developer.chrome.com/static/images/get_started/click_details.png">
+<meta property="og:image" content="https://developer.chrome.com/static/images/get_started/options.png">
+<meta property="og:updated_time" content="2020-01-05T10:00:03.733Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chrome Extension 入门">
+<meta name="twitter:description" content="2020年了，新年第一篇小文章！祝大家新年快乐～一直觉得浏览器是个很神秘的东西，天天在用，自以为很熟悉，也在用一些插件，有些还挺好用。所以自己也想写一个小小的插件，满足一下自己的好奇心！暂且翻译一下Chrome的插件开发的官网文档吧">
+<meta name="twitter:image" content="https://developer.chrome.com/static/images/get_started/load_extension.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://wzes.github.io/2020/01/05/JavaScript/Chrome Extension/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/wzes" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.png" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">爨</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">美团点评 Android 开发</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 上海, 中国</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎加入美团点评的大家庭～～内推找18001997427（微信 备注Github）</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">15</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/Java/">Java</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/HTTP/">HTTP</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaSccript/">JavaSccript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SQLite/">SQLite</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">15</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Array/">Array</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Babel/">Babel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Chrome/">Chrome</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/">DOM</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/">HTML</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/">HTTP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">19</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaSccript/">JavaSccript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">17</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Koa/">Koa</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lazyload/">Lazyload</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MySQL/">MySQL</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node/">Node</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redux/">Redux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SQLite/">SQLite</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TabLayout/">TabLayout</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Test/">Test</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ViewPager/">ViewPager</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Webpack/">Webpack</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Android/" style="font-size: 13.6px;">Android</a> <a href="/tags/Array/" style="font-size: 13px;">Array</a> <a href="/tags/Babel/" style="font-size: 13px;">Babel</a> <a href="/tags/Chrome/" style="font-size: 13px;">Chrome</a> <a href="/tags/DOM/" style="font-size: 13px;">DOM</a> <a href="/tags/HTML/" style="font-size: 13px;">HTML</a> <a href="/tags/HTTP/" style="font-size: 13.2px;">HTTP</a> <a href="/tags/Java/" style="font-size: 14px;">Java</a> <a href="/tags/JavaSccript/" style="font-size: 13px;">JavaSccript</a> <a href="/tags/JavaScript/" style="font-size: 13.8px;">JavaScript</a> <a href="/tags/Koa/" style="font-size: 13.4px;">Koa</a> <a href="/tags/Lazyload/" style="font-size: 13px;">Lazyload</a> <a href="/tags/MySQL/" style="font-size: 13px;">MySQL</a> <a href="/tags/Node/" style="font-size: 13.4px;">Node</a> <a href="/tags/React/" style="font-size: 13.2px;">React</a> <a href="/tags/Redux/" style="font-size: 13px;">Redux</a> <a href="/tags/SQLite/" style="font-size: 13px;">SQLite</a> <a href="/tags/TabLayout/" style="font-size: 13px;">TabLayout</a> <a href="/tags/Test/" style="font-size: 13px;">Test</a> <a href="/tags/ViewPager/" style="font-size: 13px;">ViewPager</a> <a href="/tags/Webpack/" style="font-size: 13px;">Webpack</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">十月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">六月 2018</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaSccript/">JavaSccript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/01/05/JavaScript/Chrome Extension/" class="title">Chrome Extension 入门</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-01-05T08:59:16.000Z" itemprop="datePublished">2020-01-05</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/11/24/JavaScript/Javascript Test/" class="title">Javascript 单元测试</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-11-24T11:09:16.000Z" itemprop="datePublished">2019-11-24</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/11/17/JavaScript/koa-ejs/" class="title">Koa-ejs 入门</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-11-17T04:56:00.000Z" itemprop="datePublished">2019-11-17</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/11/09/JavaScript/Less/" class="title">(no title)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-11-09T10:30:16.000Z" itemprop="datePublished">2019-11-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/JavaScript/">JavaScript</a>
+              </p>
+              <p class="item-title">
+                <a href="/2019/11/09/JavaScript/NextJS/" class="title">NextJS 入门指南</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-11-09T10:30:16.000Z" itemprop="datePublished">2019-11-09</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-JavaScript/Chrome Extension" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Chrome Extension 入门
+    </h1>
+  
+
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/01/05/JavaScript/Chrome Extension/" class="article-date">
+	  <time datetime="2020-01-05T08:59:16.000Z" itemprop="datePublished">2020-01-05</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/JavaSccript/">JavaSccript</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/Chrome/">Chrome</a>, <a class="article-tag-link" href="/tags/JavaSccript/">JavaSccript</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/01/05/JavaScript/Chrome Extension/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.8k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 12(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h3>
+<p>2020年了，新年第一篇小文章！祝大家新年快乐～一直觉得浏览器是个很神秘的东西，天天在用，自以为很熟悉，也在用一些插件，有些还挺好用。所以自己也想写一个小小的插件，满足一下自己的好奇心！暂且翻译一下Chrome的插件开发的官网文档吧</p>
+<p><a href="https://developer.chrome.com/extensions/getstarted" target="_blank" rel="noopener">原文链接</a></p>
+<h3 id="开始"><a class="markdownIt-Anchor" href="#开始"></a> 开始</h3>
+<p>扩展(Extension)由不同的但相互联系的组件构成。 组件可以包括后台脚本，内容脚本，选项页，UI元素和各种逻辑文件。 扩展组件是使用Web开发技术创建的：HTML，CSS和JavaScript。 扩展的组件将取决于其功能，并且可能不需要所有选项。</p>
+<p>本教程将构建一个扩展，允许用户更改 <a href="http://developer.chrome.com" target="_blank" rel="noopener">developer.chrome.com</a> 网页上任何页面的背景颜色。 我们将使用许多核心组件来介绍它们之间的关系。</p>
+<p>首先，创建一个新目录来保存扩展文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir colorchange_extension &amp;&amp; cd colorchange_extension</span><br></pre></td></tr></table></figure>
+<p>完整的扩展程序可以在<a href="https://developer.chrome.com/extensions/examples/tutorials/get_started_complete.zip" target="_blank" rel="noopener">此处</a>下载。</p>
+<h4 id="创建-manifest-文件"><a class="markdownIt-Anchor" href="#创建-manifest-文件"></a> 创建 manifest 文件</h4>
+<p>扩展从清单文件开始。 创建一个名为 manifest.json 的文件并包含以下代码，或在<a href="https://developer.chrome.com/extensions/examples/tutorials/get_started/manifest.json" target="_blank" rel="noopener">此处</a>下载该文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;Getting Started Example&quot;,</span><br><span class="line">    &quot;version&quot;: &quot;1.0&quot;,</span><br><span class="line">    &quot;description&quot;: &quot;Build an Extension!&quot;,</span><br><span class="line">    &quot;manifest_version&quot;: 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在当前状态下在开发人员模式将包含清单文件的目录添加到Chrome扩展程序中。</p>
+<ol>
+<li>Chrome浏览器地址中输入 chrome://extensions，打开“扩展管理”页面。
+<ul>
+<li>也可以通过单击Chrome菜单，将鼠标悬停在“更多工具”上，然后选择“扩展程序”来打开“扩展程序管理”页面。</li>
+</ul>
+</li>
+<li>通过单击开发人员模式旁边的切换开关启用开发人员模式。</li>
+<li>单击LOAD UNPACKED按钮，然后选择扩展目录。</li>
+</ol>
+<p><img src="https://developer.chrome.com/static/images/get_started/load_extension.png" alt></p>
+<p>哇😯！Amazing！该扩展程序已成功安装。 由于清单中未包含任何图标，因此将为扩展程序创建通用工具栏图标。</p>
+<h4 id="添加说明"><a class="markdownIt-Anchor" href="#添加说明"></a> 添加说明</h4>
+<p>尽管已安装扩展程序，但没有说明。 通过创建名为background.js的文件或在<a href="https://developer.chrome.com/extensions/examples/tutorials/get_started/background.js" target="_blank" rel="noopener">此处</a>下载该文件并将其放置在扩展目录中，来引入背景脚本。</p>
+<p>后台脚本和许多其他重要组件必须在清单中注册。 在清单中注册后台脚本会告诉扩展名要引用哪个文件，以及该文件的行为。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;name&quot;: &quot;Getting Started Example&quot;,</span><br><span class="line">   &quot;version&quot;: &quot;1.0&quot;,</span><br><span class="line">   &quot;description&quot;: &quot;Build an Extension!&quot;,</span><br><span class="line">   &quot;background&quot;: &#123;                     // new</span><br><span class="line">     &quot;scripts&quot;: [&quot;background.js&quot;],     // new</span><br><span class="line">     &quot;persistent&quot;: false               // new</span><br><span class="line">   &#125;,</span><br><span class="line">   &quot;manifest_version&quot;: 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在，该扩展程序知道它包含一个非持久性后台脚本，并将扫描已注册文件中需要侦听的重要事件。</p>
+<p>此扩展在安装后将需要来自持久变量的信息。首先在后台脚本中包含一个 <code>runtime.onInstalled</code> 的侦听事件。 在 <code>onInstalled</code> 侦听器内部，扩展将使用 <code>storage</code> API 设置一个值。 这将允许多个扩展组件访问该值并进行更新。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">chrome.runtime.onInstalled.addListener(function() &#123;</span><br><span class="line">   chrome.storage.sync.set(&#123;color: &apos;#3aa757&apos;&#125;, function() &#123;</span><br><span class="line">     console.log(&quot;The color is green.&quot;);</span><br><span class="line">   &#125;);</span><br><span class="line"> &#125;);</span><br></pre></td></tr></table></figure>
+<p>大多数API（包括 <code>storage</code> API）都必须在清单的 <code>&quot;permissions&quot;</code> 字段下注册，扩展才能有权限使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;Getting Started Example&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;Build an Extension!&quot;,</span><br><span class="line">  &quot;permissions&quot;: [&quot;storage&quot;],</span><br><span class="line">  &quot;background&quot;: &#123;</span><br><span class="line">    &quot;scripts&quot;: [&quot;background.js&quot;],</span><br><span class="line">    &quot;persistent&quot;: false</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;manifest_version&quot;: 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>浏览回到扩展管理页面，然后单击<code>重新加载</code>按钮。 带有蓝色链接（背景页面）的新字段“检查视图”可用。</p>
+<p><img src="https://developer.chrome.com/static/images/get_started/view_background.png" alt></p>
+<p>单击链接以查看背景脚本控制台日志，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The color is green.</span><br></pre></td></tr></table></figure>
+<h4 id="介绍用户界面"><a class="markdownIt-Anchor" href="#介绍用户界面"></a> 介绍用户界面</h4>
+<p>扩展可以具有多种形式的用户界面，但是这种形式将使用弹出窗口。 创建一个名为 <code>popup.html</code> 的文件并将其添加到该目录，或在此处下载。 此扩展程序使用按钮来更改背景颜色。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">      button &#123;</span><br><span class="line">        height: 30px;</span><br><span class="line">        width: 30px;</span><br><span class="line">        outline: none;</span><br><span class="line">      &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;button id=&quot;changeColor&quot;&gt;&lt;/button&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>与后台脚本一样，需要在 <code>page_action</code> 下的清单中将此文件指定为弹出窗口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;name&quot;: &quot;Getting Started Example&quot;,</span><br><span class="line">   &quot;version&quot;: &quot;1.0&quot;,</span><br><span class="line">   &quot;description&quot;: &quot;Build an Extension!&quot;,</span><br><span class="line">   &quot;permissions&quot;: [&quot;storage&quot;],</span><br><span class="line">   &quot;background&quot;: &#123;</span><br><span class="line">     &quot;scripts&quot;: [&quot;background.js&quot;],</span><br><span class="line">     &quot;persistent&quot;: false</span><br><span class="line">   &#125;,</span><br><span class="line">   &quot;page_action&quot;: &#123;</span><br><span class="line">     &quot;default_popup&quot;: &quot;popup.html&quot;</span><br><span class="line">   &#125;,</span><br><span class="line">   &quot;manifest_version&quot;: 2</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>工具栏图标的名称也包含在 default_icons 字段的 page_action 下。 在<a href="https://developer.chrome.com/extensions/examples/tutorials/get_started/images.zip" target="_blank" rel="noopener">此处</a>下载 images 文件夹，将其解压缩，并将其放置在扩展程序的目录中。更新清单文件，以便扩展程序知道如何使用图像。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;Getting Started Example&quot;,</span><br><span class="line">    &quot;version&quot;: &quot;1.0&quot;,</span><br><span class="line">    &quot;description&quot;: &quot;Build an Extension!&quot;,</span><br><span class="line">    &quot;permissions&quot;: [&quot;storage&quot;],</span><br><span class="line">    &quot;background&quot;: &#123;</span><br><span class="line">      &quot;scripts&quot;: [&quot;background.js&quot;],</span><br><span class="line">      &quot;persistent&quot;: false</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;page_action&quot;: &#123;</span><br><span class="line">      &quot;default_popup&quot;: &quot;popup.html&quot;,</span><br><span class="line">      &quot;default_icon&quot;: &#123;</span><br><span class="line">        &quot;16&quot;: &quot;images/get_started16.png&quot;,</span><br><span class="line">        &quot;32&quot;: &quot;images/get_started32.png&quot;,</span><br><span class="line">        &quot;48&quot;: &quot;images/get_started48.png&quot;,</span><br><span class="line">        &quot;128&quot;: &quot;images/get_started128.png&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;manifest_version&quot;: 2</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>扩展程序还会在扩展程序管理页面上显示图像，权限警告和网站图标。 这些图像在清单中的图标下方指定。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;Getting Started Example&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;Build an Extension!&quot;,</span><br><span class="line">  &quot;permissions&quot;: [&quot;storage&quot;],</span><br><span class="line">  &quot;background&quot;: &#123;</span><br><span class="line">    &quot;scripts&quot;: [&quot;background.js&quot;],</span><br><span class="line">    &quot;persistent&quot;: false</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;page_action&quot;: &#123;</span><br><span class="line">    &quot;default_popup&quot;: &quot;popup.html&quot;,</span><br><span class="line">    &quot;default_icon&quot;: &#123;</span><br><span class="line">      &quot;16&quot;: &quot;images/get_started16.png&quot;,</span><br><span class="line">      &quot;32&quot;: &quot;images/get_started32.png&quot;,</span><br><span class="line">      &quot;48&quot;: &quot;images/get_started48.png&quot;,</span><br><span class="line">      &quot;128&quot;: &quot;images/get_started128.png&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;icons&quot;: &#123;</span><br><span class="line">    &quot;16&quot;: &quot;images/get_started16.png&quot;,</span><br><span class="line">    &quot;32&quot;: &quot;images/get_started32.png&quot;,</span><br><span class="line">    &quot;48&quot;: &quot;images/get_started48.png&quot;,</span><br><span class="line">    &quot;128&quot;: &quot;images/get_started128.png&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;manifest_version&quot;: 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果在此阶段重新加载扩展，它将包含一个灰度图标，但不会包含任何功能差异。 由于 page_action 是在清单中声明的，因此由扩展程序决定是否告诉浏览器用户何时可以与 popup.html 进行交互。</p>
+<p>在 <code>runtime.onInstalled</code> 侦听器事件中，使用 <code>declarativeContent API</code>将声明的规则添加到后台脚本中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">chrome.runtime.onInstalled.addListener(function() &#123;</span><br><span class="line">  chrome.storage.sync.set(&#123;color: &apos;#3aa757&apos;&#125;, function() &#123;</span><br><span class="line">    console.log(&apos;The color is green.&apos;);</span><br><span class="line">  &#125;);</span><br><span class="line">  chrome.declarativeContent.onPageChanged.removeRules(undefined, function() &#123;</span><br><span class="line">    chrome.declarativeContent.onPageChanged.addRules([&#123;</span><br><span class="line">      conditions: [new chrome.declarativeContent.PageStateMatcher(&#123;</span><br><span class="line">        pageUrl: &#123;hostEquals: &apos;developer.chrome.com&apos;&#125;,</span><br><span class="line">      &#125;)</span><br><span class="line">      ],</span><br><span class="line">          actions: [new chrome.declarativeContent.ShowPageAction()]</span><br><span class="line">    &#125;]);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>该扩展将需要权限才能访问其清单中的 <code>declarativeContent API</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;name&quot;: &quot;Getting Started Example&quot;,</span><br><span class="line"> ...</span><br><span class="line">   &quot;permissions&quot;: [&quot;declarativeContent&quot;, &quot;storage&quot;],</span><br><span class="line"> ...</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>现在，当用户导航到包含“ <a href="http://developer.chrome.com" target="_blank" rel="noopener">developer.chrome.com</a>”的URL时，浏览器将在浏览器工具栏中显示一个全彩页面操作图标。 图标为全色时，用户可以单击它以查看popup.html。</p>
+<p>弹出式UI的最后一步是为按钮添加颜色。 使用以下代码创建一个名为popup.js的文件并将其添加到扩展目录，或在<a href="https://developer.chrome.com/extensions/examples/tutorials/get_started/popup.js" target="_blank" rel="noopener">此处</a>下载。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let changeColor = document.getElementById(&apos;changeColor&apos;);</span><br><span class="line"></span><br><span class="line">chrome.storage.sync.get(&apos;color&apos;, function(data) &#123;</span><br><span class="line">  changeColor.style.backgroundColor = data.color;</span><br><span class="line">  changeColor.setAttribute(&apos;value&apos;, data.color);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>此代码从 popup.html 获取按钮，并从存储中请求颜色值。 然后，它将颜色用作按钮的背景。 在popup.html 中将脚本标记包含到 <code>popup.js</code> 中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">...</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">    &lt;button id=&quot;changeColor&quot;&gt;&lt;/button&gt;</span><br><span class="line">    &lt;script src=&quot;popup.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>重新加载扩展以查看绿色按钮。</p>
+<h4 id="层逻辑"><a class="markdownIt-Anchor" href="#层逻辑"></a> 层逻辑</h4>
+<p>现在，该扩展程序知道在 <a href="http://developer.chrome.com" target="_blank" rel="noopener">developer.chrome.com</a> 上用户应该可以使用该弹出窗口，并显示一个彩色按钮，但是需要逻辑来进行进一步的用户交互。 更新popup.js以包含以下代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">let changeColor = document.getElementById(&apos;changeColor&apos;);</span><br><span class="line">...</span><br><span class="line">changeColor.onclick = function(element) &#123;</span><br><span class="line">  let color = element.target.value;</span><br><span class="line">  chrome.tabs.query(&#123;active: true, currentWindow: true&#125;, function(tabs) &#123;</span><br><span class="line">    chrome.tabs.executeScript(</span><br><span class="line">        tabs[0].id,</span><br><span class="line">        &#123;code: &apos;document.body.style.backgroundColor = &quot;&apos; + color + &apos;&quot;;&apos;&#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>更新的代码在按钮上添加了onclick事件，该事件触发以编程方式插入的内容脚本。 这会将页面的背景色变成与按钮相同的颜色。 使用程序注入可以允许用户调用内容脚本，而不是将不需要的代码自动插入到网页中。</p>
+<p>清单将需要activeTab权限，以允许扩展程序临时访问tabs API。 这使扩展程序可以调用tabs.executeScript。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   &quot;name&quot;: &quot;Getting Started Example&quot;,</span><br><span class="line"> ...</span><br><span class="line">   &quot;permissions&quot;: [&quot;activeTab&quot;, &quot;declarativeContent&quot;, &quot;storage&quot;],</span><br><span class="line"> ...</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>该扩展程序现在可以正常使用了！ 重新加载扩展程序，刷新此页面，打开弹出窗口，然后单击按钮将其变为绿色！ 但是，某些用户可能希望将背景更改为其他颜色。</p>
+<h4 id="用户选项"><a class="markdownIt-Anchor" href="#用户选项"></a> 用户选项</h4>
+<p>该扩展程序当前仅允许用户将背景更改为绿色。 包括一个选项页面使用户可以更好地控制扩展功能，从而进一步自定义其浏览体验。</p>
+<p>首先在目录中创建一个名为options.html的文件，并包含以下代码，或在<a href="https://developer.chrome.com/extensions/examples/tutorials/get_started/options.html" target="_blank" rel="noopener">此处</a>下载。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">  &lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">      &lt;style&gt;</span><br><span class="line">        button &#123;</span><br><span class="line">          height: 30px;</span><br><span class="line">          width: 30px;</span><br><span class="line">          outline: none;</span><br><span class="line">          margin: 10px;</span><br><span class="line">        &#125;</span><br><span class="line">      &lt;/style&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">      &lt;div id=&quot;buttonDiv&quot;&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;p&gt;Choose a different background color!&lt;/p&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">    &lt;script src=&quot;options.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">  &lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>然后在清单中注册选项页面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;Getting Started Example&quot;,</span><br><span class="line">    ...</span><br><span class="line">    &quot;options_page&quot;: &quot;options.html&quot;,</span><br><span class="line">    ...</span><br><span class="line">    &quot;manifest_version&quot;: 2</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>重新加载扩展，然后单击详细信息。</p>
+<p><img src="https://developer.chrome.com/static/images/get_started/click_details.png" alt></p>
+<p>向下滚动详细信息页面，然后选择扩展选项以查看选项页面，尽管该页面当前将显示为空白。</p>
+<p><img src="https://developer.chrome.com/static/images/get_started/options.png" alt></p>
+<p>提供了四个颜色选项，然后使用 <code>onclick</code> 事件侦听器将它们生成为选项页面上的按钮。 用户单击按钮时，它将更新扩展程序全局存储中的颜色值。 由于所有扩展文件都从全局存储中提取颜色信息，因此无需更新其他值。</p>
+<h4 id="下一步"><a class="markdownIt-Anchor" href="#下一步"></a> 下一步</h4>
+<p>恭喜你！ 该目录现在包含一个功能齐全的Chrome扩展程序，尽管它很简单。</p>
+<p>下一步是什么？</p>
+<ul>
+<li>
+<p>“ Chrome扩展程序概述”进行了一些备份，并在总体上填写了有关扩展程序架构的许多详细信息，以及开发人员希望熟悉的一些特定概念。</p>
+</li>
+<li>
+<p>在调试教程中了解可用于调试扩展的选项。</p>
+</li>
+<li>
+<p>Chrome扩展程序可以访问功能强大的API，而这些API均超出开放网络所提供的范围。 chrome。* API文档将介绍每个API。</p>
+</li>
+<li>
+<p>开发人员指南还有许多其他链接，这些链接指向与高级扩展创建相关的文档。</p>
+</li>
+</ul>
+<p>根据CC-By 3.0许可提供的内容</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://wzes.github.io/2020/01/05/JavaScript/Chrome Extension/" title="Chrome Extension 入门" target="_blank" rel="external">https://wzes.github.io/2020/01/05/JavaScript/Chrome Extension/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/wzes" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.png" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/wzes" target="_blank"><span class="text-dark">爨</span><small class="ml-1x">美团点评 Android 开发</small></a></h3>
+        <div>一只会 FE 的 Android 工程师～</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2019/11/24/JavaScript/Javascript Test/" title="Javascript 单元测试"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/wzes" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="https://weibo.com/u/5589559954" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+        <li><a href="https://twitter.com/Xuantang4" target="_blank" title="Twitter" data-toggle=tooltip data-placement=top><i class="icon icon-twitter"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '5e22a8877cbd25268283',
+    clientSecret: 'f47449129237f1d2c9c4fa92f9a6764c029f910a',
+    repo: 'gitalk_blog',
+    owner: 'wzes',
+    admin: ['wzes'],
+    id: md5(location.pathname).toString().substr(0, 49),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>
